@@ -301,7 +301,7 @@ function App() {
                   WhatsApp
                 </a>
                 <div className="instagram-follow">
-                  <strong>SIGA-NOS NO INSTAGRAM</strong>
+                  <strong>Siga-nos no Instagram</strong>
                   <a className="button button-secondary" href={instagramUrl} target="_blank" rel="noreferrer">
                     <InstagramIcon />
                     @tocadoleaojj

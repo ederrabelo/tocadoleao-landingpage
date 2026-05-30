@@ -452,25 +452,25 @@
 }
 
 .instagram-follow {
-  display: grid;
-  gap: 9px;
-  align-items: start;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   padding-top: 18px;
   border-top: 1px solid var(--section-line);
 }
 
-.instagram-follow span {
-  color: var(--text-muted);
-  font-weight: 700;
-}
-
 .instagram-follow strong {
   color: var(--section-text);
-  font-size: 1.08rem;
+  font-size: 0.84rem;
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  text-transform: uppercase;
 }
 
 .instagram-follow .button {
-  justify-self: start;
+  flex: 0 0 auto;
+  min-height: 42px;
 }
 
 .map-frame {
@@ -651,6 +651,12 @@
   .program-content,
   .contact-copy {
     padding: 24px;
+  }
+
+  .instagram-follow {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .program-content h2,

@@ -172,15 +172,6 @@ function App() {
         </nav>
 
         <div className="header-actions">
-          <a
-            className="icon-button"
-            href={instagramUrl}
-            aria-label="Instagram"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <InstagramIcon />
-          </a>
           <a className="button button-small" href={scheduleWhatsappUrl} target="_blank" rel="noreferrer">
             Agendar aula grátis
           </a>

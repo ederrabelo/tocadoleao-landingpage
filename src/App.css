@@ -37,9 +37,9 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 22px;
-  min-height: 96px;
-  padding: 10px max(24px, calc((100vw - 1180px) / 2));
+  gap: 28px;
+  min-height: 116px;
+  padding: 12px max(24px, calc((100vw - 1180px) / 2));
   border-bottom: 1px solid rgba(248, 244, 234, 0.1);
   background: var(--bg);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
@@ -48,8 +48,8 @@
 .logo-link {
   display: inline-flex;
   align-items: center;
-  width: 178px;
-  height: 76px;
+  width: 218px;
+  height: 92px;
 }
 
 .logo-link img {
@@ -62,7 +62,7 @@
 .main-nav {
   display: flex;
   justify-content: center;
-  gap: 28px;
+  gap: 32px;
 }
 
 .main-nav a,
@@ -71,39 +71,15 @@
 }
 
 .main-nav a {
-  position: relative;
   padding: 10px 0;
-  color: var(--text-muted);
-  font-size: 0.94rem;
-  font-weight: 700;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 800;
   text-decoration: none;
-  transition:
-    color 180ms ease,
-    opacity 180ms ease;
 }
 
 .main-nav a:hover {
-  color: var(--text);
-}
-
-.main-nav a::after {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 3px;
-  height: 2px;
-  background: var(--gold);
-  content: '';
-  opacity: 0;
-  transform: scaleX(0.2);
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.main-nav a:hover::after {
-  opacity: 1;
-  transform: scaleX(1);
+  color: var(--gold);
 }
 
 .header-actions {
@@ -113,38 +89,23 @@
   gap: 10px;
 }
 
-.button,
-.icon-button {
+.button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   min-height: 46px;
+  padding: 0 18px;
   border: 1px solid transparent;
   border-radius: 6px;
-  font-weight: 800;
-  text-decoration: none;
-  transition:
-    border-color 180ms ease,
-    background 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-}
-
-.button:hover,
-.icon-button:hover {
-  transform: translateY(-1px);
-}
-
-.button {
-  gap: 10px;
-  padding: 0 18px;
   background: var(--surface-light);
   color: var(--text);
   font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: none;
 }
 
-.button svg,
-.icon-button svg {
+.button svg {
   width: 19px;
   height: 19px;
   flex: 0 0 auto;
@@ -162,7 +123,6 @@
   padding: 0 22px;
   background: var(--gold);
   color: #151007;
-  box-shadow: 0 14px 38px rgba(239, 196, 90, 0.18);
 }
 
 .button-primary:hover,
@@ -173,7 +133,6 @@
 .button-whatsapp {
   background: #25d366;
   color: #082b16;
-  box-shadow: 0 14px 38px rgba(37, 211, 102, 0.2);
 }
 
 .button-whatsapp:hover {
@@ -187,21 +146,8 @@
 }
 
 .button-secondary:hover {
-  border-color: rgba(239, 196, 90, 0.5);
-  background: rgba(239, 196, 90, 0.1);
-}
-
-.icon-button {
-  width: 42px;
-  height: 42px;
-  color: var(--text);
   border-color: rgba(248, 244, 234, 0.18);
-  background: rgba(248, 244, 234, 0.06);
-}
-
-.icon-button:hover {
-  border-color: rgba(239, 196, 90, 0.55);
-  color: var(--gold-strong);
+  background: rgba(248, 244, 234, 0.1);
 }
 
 .hero-section {
@@ -261,7 +207,7 @@
   --section-line: var(--line);
   --section-shadow: var(--shadow);
 
-  scroll-margin-top: 104px;
+  scroll-margin-top: 124px;
   padding: 96px 24px;
   background: var(--section-bg);
   color: var(--section-text);
@@ -596,9 +542,9 @@
 
 .section-white .button-secondary:hover,
 .section-light .button-secondary:hover {
-  border-color: var(--gold-dark);
-  background: #000000;
-  color: var(--gold-strong);
+  border-color: #4a4a4a;
+  background: #353535;
+  color: #ffffff;
 }
 
 @media (max-width: 980px) {
@@ -606,7 +552,7 @@
     grid-template-columns: auto auto;
     justify-content: space-between;
     gap: 14px;
-    min-height: 112px;
+    min-height: 136px;
   }
 
   .main-nav {
@@ -616,6 +562,10 @@
     gap: 18px;
     overflow-x: auto;
     padding-bottom: 2px;
+  }
+
+  .section {
+    scroll-margin-top: 182px;
   }
 
   .hero-section {
@@ -649,8 +599,8 @@
   }
 
   .logo-link {
-    width: 138px;
-    height: 64px;
+    width: 158px;
+    height: 72px;
   }
 
   .button-small {
@@ -766,8 +716,8 @@
   }
 
   .logo-link {
-    width: 118px;
-    height: 58px;
+    width: 142px;
+    height: 66px;
   }
 
   .section-kicker {

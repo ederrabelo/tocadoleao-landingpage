@@ -170,6 +170,16 @@
   background: var(--gold-strong);
 }
 
+.button-whatsapp {
+  background: #25d366;
+  color: #082b16;
+  box-shadow: 0 14px 38px rgba(37, 211, 102, 0.2);
+}
+
+.button-whatsapp:hover {
+  background: #1fbd5a;
+}
+
 .button-secondary {
   border-color: rgba(248, 244, 234, 0.18);
   background: rgba(248, 244, 234, 0.06);

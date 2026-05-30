@@ -298,7 +298,12 @@ function App() {
               </div>
 
               <div className="contact-actions">
-                <a className="button button-primary" href={contactWhatsappUrl} target="_blank" rel="noreferrer">
+                <a
+                  className="button button-primary button-whatsapp"
+                  href={contactWhatsappUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <WhatsAppIcon />
                   WhatsApp
                 </a>

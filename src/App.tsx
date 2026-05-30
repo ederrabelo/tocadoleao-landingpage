@@ -1,5 +1,7 @@
 import './App.css'
 
+import { useEffect, useState } from 'react'
+
 import heroImage from './assets/hero.png'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
 import mosaicOne from './assets/foto-mosaico-1.jpg'
@@ -153,8 +155,61 @@ function WhatsAppIcon() {
   )
 }
 
+function MenuIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function CloseIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  )
+}
+
 function App() {
   const currentYear = new Date().getFullYear()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return
+    }
+
+    const previousOverflow = document.body.style.overflow
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isMobileMenuOpen])
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 760px)')
+    const closeMenuOnLargerScreen = () => {
+      if (!mobileQuery.matches) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    mobileQuery.addEventListener('change', closeMenuOnLargerScreen)
+
+    return () => {
+      mobileQuery.removeEventListener('change', closeMenuOnLargerScreen)
+    }
+  }, [])
 
   return (
     <div className="site-shell">
@@ -173,9 +228,33 @@ function App() {
 
         <div className="header-actions">
           <a className="button button-small" href={scheduleWhatsappUrl} target="_blank" rel="noreferrer">
-            Agendar aula grátis
+            <span className="button-label-desktop">Agendar aula grátis</span>
+            <span className="button-label-mobile">Agendar aula grátis</span>
           </a>
+          <button
+            className="mobile-menu-toggle"
+            type="button"
+            aria-controls="mobile-menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+          </button>
         </div>
+
+        {isMobileMenuOpen && (
+          <div className="mobile-menu" id="mobile-menu">
+            <nav className="mobile-menu-nav" aria-label="Menu principal mobile">
+              {navLinks.map((link) => (
+                <a key={link.href} href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+                  <span>{link.label}</span>
+                  <span aria-hidden="true">&gt;</span>
+                </a>
+              ))}
+            </nav>
+          </div>
+        )}
       </header>
 
       <main>

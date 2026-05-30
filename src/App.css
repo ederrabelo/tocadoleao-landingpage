@@ -379,6 +379,7 @@
   overflow: hidden;
   border: 1px solid var(--section-line);
   border-radius: 8px;
+  background: var(--section-surface);
   transition:
     border-color 220ms ease,
     transform 220ms ease;

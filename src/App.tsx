@@ -232,7 +232,7 @@ function App() {
           </div>
         </section>
 
-        <section id="programas" className="section section-white">
+        <section id="programas" className="section section-light">
           <div className="section-inner">
             <div className="section-heading">
               <h2 className="section-kicker">Programas</h2>

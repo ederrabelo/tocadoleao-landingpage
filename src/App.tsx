@@ -55,7 +55,7 @@ const programs = [
     ],
   },
   {
-    title: 'Jiu-Jitsu Adulto',
+    title: 'Jiu-Jitsu Adultos',
     image: adultProgram,
     paragraphs: [
       'Pensado para receber tanto quem nunca treinou quanto quem já tem experiência na arte suave.',
@@ -232,7 +232,7 @@ function App() {
           </div>
         </section>
 
-        <section id="programas" className="section section-light">
+        <section id="programas" className="section section-white">
           <div className="section-inner">
             <div className="section-heading">
               <h2 className="section-kicker">Programas</h2>
@@ -245,7 +245,9 @@ function App() {
             <div className="program-grid">
               {programs.map((program) => (
                 <article className="program-card" key={program.title}>
-                  <img src={program.image} alt={program.title} loading="lazy" />
+                  <div className="program-media">
+                    <img src={program.image} alt={program.title} loading="lazy" />
+                  </div>
                   <div className="program-content">
                     <h2>{program.title}</h2>
                     <div className="text-stack">

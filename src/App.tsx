@@ -4,20 +4,20 @@ import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
 import heroImage from './assets/hero.png'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
-import mosaicOne from './assets/foto-mosaico-1.jpg'
-import mosaicTwo from './assets/foto-mosaico-2.jpg'
-import mosaicThree from './assets/foto-mosaico-3.jpg'
-import mosaicFour from './assets/foto-mosaico-4.jpg'
-import mosaicFive from './assets/foto-mosaico-5.jpg'
-import mosaicSix from './assets/foto-mosaico-6.jpg'
-import mosaicSeven from './assets/foto-mosaico-7.jpg'
-import mosaicEight from './assets/foto-mosaico-8.jpg'
-import lukasLeadership from './assets/lideranca-lukas.jpg'
-import yannLeadership from './assets/lideranca-yann.jpg'
-import adultProgram from './assets/programa-adultos.png'
-import kidsProgram from './assets/programa-kids.jpg'
-import womenProgram from './assets/programa-mulheres.jpg'
-import nogiProgram from './assets/programa-nogi.jpg'
+import mosaicOne from './assets/foto-mosaico-1.webp'
+import mosaicTwo from './assets/foto-mosaico-2.webp'
+import mosaicThree from './assets/foto-mosaico-3.webp'
+import mosaicFour from './assets/foto-mosaico-4.webp'
+import mosaicFive from './assets/foto-mosaico-5.webp'
+import mosaicSix from './assets/foto-mosaico-6.webp'
+import mosaicSeven from './assets/foto-mosaico-7.webp'
+import mosaicEight from './assets/foto-mosaico-8.webp'
+import lukasLeadership from './assets/lideranca-lukas.webp'
+import yannLeadership from './assets/lideranca-yann.webp'
+import adultProgram from './assets/programa-adultos.webp'
+import kidsProgram from './assets/programa-kids.webp'
+import womenProgram from './assets/programa-mulheres.webp'
+import nogiProgram from './assets/programa-nogi.webp'
 import storeVideo from './assets/loja.mp4'
 
 declare global {
@@ -75,15 +75,35 @@ const quickFacts = [
   },
 ]
 
-const mosaicImages = [
-  mosaicOne,
-  mosaicTwo,
-  mosaicThree,
-  mosaicFour,
-  mosaicFive,
-  mosaicSix,
-  mosaicSeven,
-  mosaicEight,
+const galleryImages = [
+  {
+    image: mosaicOne,
+    alt: 'Treino de Jiu-Jitsu com kimono na Toca do Leão',
+  },
+  {
+    image: mosaicTwo,
+    alt: 'Praticantes durante treino de Jiu-Jitsu feminino',
+  },
+  {
+    image: mosaicThree,
+    alt: 'Criança com kimono da Toca do Leão',
+  },
+  {
+    image: mosaicFour,
+    alt: 'Alunas durante treino feminino de Jiu-Jitsu',
+  },
+  {
+    image: mosaicSix,
+    alt: 'Praticantes treinando Jiu-Jitsu com kimono',
+  },
+  {
+    image: mosaicSeven,
+    alt: 'Detalhe do kimono da Toca do Leão',
+  },
+  {
+    image: mosaicEight,
+    alt: 'Praticantes durante treino de No-gi',
+  },
 ]
 
 const programs = [
@@ -488,8 +508,21 @@ function CloseIcon() {
 }
 
 function LazyStoreVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
   const videoWrapRef = useRef<HTMLDivElement>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
+
+  useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const updateMotionPreference = () => setPrefersReducedMotion(motionQuery.matches)
+
+    motionQuery.addEventListener('change', updateMotionPreference)
+
+    return () => motionQuery.removeEventListener('change', updateMotionPreference)
+  }, [])
 
   useEffect(() => {
     const videoWrap = videoWrapRef.current
@@ -518,13 +551,24 @@ function LazyStoreVideo() {
     return () => observer.disconnect()
   }, [shouldLoad])
 
+  useEffect(() => {
+    const video = videoRef.current
+
+    if (!video || !prefersReducedMotion) {
+      return
+    }
+
+    video.pause()
+  }, [prefersReducedMotion])
+
   return (
     <div className="store-video-wrap" ref={videoWrapRef}>
       <video
+        ref={videoRef}
         src={shouldLoad ? storeVideo : undefined}
-        autoPlay
+        autoPlay={!prefersReducedMotion}
         muted
-        loop
+        loop={!prefersReducedMotion}
         playsInline
         preload="none"
         aria-hidden="true"
@@ -535,6 +579,7 @@ function LazyStoreVideo() {
 
 function App() {
   const currentYear = new Date().getFullYear()
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -545,20 +590,53 @@ function App() {
     }
 
     const previousOverflow = document.body.style.overflow
-    const closeOnEscape = (event: KeyboardEvent) => {
+    const handleModalKeyboard = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsMobileMenuOpen(false)
         menuToggleRef.current?.focus()
+        return
+      }
+
+      if (event.key !== 'Tab') {
+        return
+      }
+
+      const menuLinks = Array.from(
+        mobileMenuRef.current?.querySelectorAll<HTMLElement>('a[href]') ?? [],
+      )
+      const focusableElements = [menuToggleRef.current, ...menuLinks].filter(
+        (element): element is HTMLElement => element !== null,
+      )
+      const firstElement = focusableElements[0]
+      const lastElement = focusableElements.at(-1)
+
+      if (!firstElement || !lastElement) {
+        return
+      }
+
+      if (!focusableElements.includes(document.activeElement as HTMLElement)) {
+        event.preventDefault()
+        const nextElement = event.shiftKey ? lastElement : firstElement
+        nextElement.focus()
+        return
+      }
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
       }
     }
 
     document.body.style.overflow = 'hidden'
-    window.addEventListener('keydown', closeOnEscape)
+    window.addEventListener('keydown', handleModalKeyboard)
     firstMobileLinkRef.current?.focus()
 
     return () => {
       document.body.style.overflow = previousOverflow
-      window.removeEventListener('keydown', closeOnEscape)
+      window.removeEventListener('keydown', handleModalKeyboard)
     }
   }, [isMobileMenuOpen])
 
@@ -641,6 +719,7 @@ function App() {
 
         {isMobileMenuOpen && (
           <div
+            ref={mobileMenuRef}
             className="mobile-menu"
             id="mobile-menu"
             role="dialog"
@@ -809,11 +888,11 @@ function App() {
           </div>
         </section>
 
-        <div className="photo-mosaic-wrap" aria-label="Fotos dos treinos na Toca do Leão">
+        <div className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
           <div className="section-inner">
-            <div className="photo-mosaic">
-              {mosaicImages.map((image) => (
-                <img key={image} src={image} alt="" loading="lazy" decoding="async" />
+            <div className="photo-gallery">
+              {galleryImages.map(({ alt, image }) => (
+                <img key={image} src={image} alt={alt} loading="lazy" decoding="async" />
               ))}
             </div>
           </div>
@@ -865,6 +944,10 @@ function App() {
               <p className="store-intro">
                 Produtos oficiais para treinos, graduações e uso no dia a dia — tudo disponível na própria academia.
               </p>
+
+              <div className="store-product-photo">
+                <img src={mosaicFive} alt="Boné da Toca Jiu-Jitsu" loading="lazy" decoding="async" />
+              </div>
 
               <div className="store-categories">
                 {storeCategories.map((category) => (

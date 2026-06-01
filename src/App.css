@@ -488,25 +488,33 @@
   text-transform: uppercase;
 }
 
-.photo-mosaic-wrap {
-  padding: 7px 24px;
+.photo-gallery-wrap {
+  padding: 28px 24px;
   background: #050505;
 }
 
-.photo-mosaic {
+.photo-gallery {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
-  gap: 6px;
+  grid-auto-rows: clamp(150px, 15vw, 210px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
 }
 
-.photo-mosaic img {
+.photo-gallery img {
   display: block;
   width: 100%;
-  aspect-ratio: 1;
-  border-radius: 3px;
-  filter: saturate(0.62) contrast(0.88) brightness(0.82);
+  height: 100%;
+  border-radius: 6px;
   object-fit: cover;
-  opacity: 0.72;
+}
+
+.photo-gallery img:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.photo-gallery img:nth-child(n + 6) {
+  grid-column: span 2;
 }
 
 .quick-facts {
@@ -821,6 +829,22 @@
   display: grid;
   margin-top: 34px;
   border-top: 1px solid var(--section-line);
+}
+
+.store-product-photo {
+  overflow: hidden;
+  margin-top: 28px;
+  border: 1px solid var(--section-line);
+  border-radius: 8px;
+  aspect-ratio: 16 / 7;
+}
+
+.store-product-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
 }
 
 .store-category {
@@ -1187,7 +1211,7 @@
     width: 100%;
     min-height: 52px;
     padding: 0 16px;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     text-align: center;
   }
 
@@ -1257,13 +1281,22 @@
     padding: 18px;
   }
 
-  .photo-mosaic-wrap {
-    padding: 5px;
+  .photo-gallery-wrap {
+    padding: 12px 5px;
   }
 
-  .photo-mosaic {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  .photo-gallery {
+    grid-auto-rows: 148px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 4px;
+  }
+
+  .photo-gallery img:nth-child(n + 6) {
+    grid-column: auto;
+  }
+
+  .store-product-photo {
+    aspect-ratio: 4 / 3;
   }
 
   .program-content,
@@ -1332,7 +1365,7 @@
   }
 
   .button-primary {
-    font-size: 0.72rem;
+    font-size: 0.8rem;
   }
 
   .quick-fact strong {

@@ -756,19 +756,41 @@
 }
 
 .faq-layout {
+  display: block;
+}
+
+.faq-heading {
   display: grid;
-  grid-template-columns: minmax(0, 0.68fr) minmax(460px, 1fr);
+  grid-template-columns: minmax(0, 0.78fr) minmax(440px, 1fr);
   gap: 54px;
-  align-items: start;
+  align-items: end;
+  margin-bottom: 26px;
+}
+
+.faq-heading .section-kicker {
+  margin-bottom: 0;
 }
 
 .faq-intro {
-  margin: 0 0 26px;
+  max-width: 680px;
+  margin: 0;
   color: var(--section-muted);
-  line-height: 1.7;
+  font-size: 1.08rem;
+  line-height: 1.65;
 }
 
 .faq-list {
+  display: grid;
+  padding: 18px;
+  border: 1px solid var(--section-line);
+  border-radius: 10px;
+  background: #f7f6f3;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.faq-column {
   display: grid;
   gap: 10px;
 }
@@ -776,7 +798,12 @@
 .faq-list details {
   border: 1px solid var(--section-line);
   border-radius: 8px;
-  background: var(--section-card);
+  background: #ffffff;
+}
+
+.faq-list details[open] {
+  border-color: rgba(154, 106, 0, 0.36);
+  box-shadow: 0 8px 22px rgba(21, 21, 21, 0.07);
 }
 
 .faq-list summary {
@@ -795,11 +822,19 @@
 
 .faq-list summary::after {
   position: absolute;
-  top: 18px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(239, 196, 90, 0.16);
   color: var(--gold-dark);
   content: '+';
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -1084,6 +1119,10 @@
     gap: 34px;
   }
 
+  .faq-heading {
+    gap: 34px;
+  }
+
   .program-grid {
     grid-template-columns: 1fr;
   }
@@ -1279,6 +1318,25 @@
 
   .intro-benefits article {
     padding: 18px;
+  }
+
+  .faq-heading,
+  .faq-list {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-heading {
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .faq-intro {
+    margin-top: 16px;
+    font-size: 1rem;
+  }
+
+  .faq-list {
+    padding: 8px;
   }
 
   .photo-gallery-wrap {

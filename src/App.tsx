@@ -190,36 +190,39 @@ const storeCategories = [
 
 const faqs = [
   {
-    question: 'Nunca treinei Jiu-Jitsu. Posso começar?',
-    answer:
-      'Sim. Quem está começando pode fazer uma aula introdutória individualizada, com orientação próxima para conhecer a dinâmica do tatame e os fundamentos com segurança.',
-  },
-  {
-    question: 'Já treino Jiu-Jitsu. Posso conhecer a academia?',
-    answer:
-      'Sim. Praticantes com experiência e visitantes de passagem por Cuiabá são bem-vindos para conhecer a estrutura e treinar com a nossa equipe.',
-  },
-  {
-    question: 'A academia oferece aulas para crianças?',
-    answer:
-      'Sim. O programa Kids respeita a idade, o ritmo e o nível de concentração de cada criança, com uma evolução gradual dentro do Jiu-Jitsu.',
-  },
-  {
-    question: 'Há uma turma exclusiva para mulheres?',
-    answer:
-      'Sim. A turma feminina é conduzida por uma professora e oferece um ambiente seguro, técnico e acolhedor para iniciantes ou praticantes com experiência.',
-  },
-  {
-    question: 'Preciso de kimono na primeira aula?',
-    answer:
-      'Não. Para começar, basta usar uma roupa confortável de treino e trazer uma garrafinha de água para se manter bem hidratado.',
-  },
-  {
     question: 'Como consultar horários e valores?',
     answer:
       'Chame a nossa equipe no WhatsApp. Assim conseguimos indicar a turma adequada para o seu perfil e informar os horários disponíveis.',
   },
+  {
+    question: 'Preciso de kimono na primeira aula?',
+    answer:
+      'Não. Iniciantes podem fazer a primeira aula com ou sem kimono. Use uma roupa confortável, sem zíper ou detalhes que possam machucar, mantenha as unhas cortadas e traga uma garrafinha de água.',
+  },
+  {
+    question: 'Preciso estar em forma para começar?',
+    answer:
+      'Não. A aula introdutória permite conhecer os fundamentos no seu ritmo. O condicionamento evolui gradualmente com a prática.',
+  },
+  {
+    question: 'Tenho uma lesão ou restrição física. Posso treinar?',
+    answer:
+      'Depende da condição. Avise nossa equipe antes da aula e informe o professor. Em alguns casos, a orientação médica é recomendada antes de iniciar.',
+  },
+  {
+    question: 'Os responsáveis podem acompanhar a aula Kids?',
+    answer:
+      'Sim. Os responsáveis podem acompanhar a aula dos filhos à beira do tatame.',
+  },
+  {
+    question: 'Preciso competir para treinar Jiu-Jitsu?',
+    answer:
+      'Não. Você pode treinar para melhorar o condicionamento, aprender defesa pessoal e praticar uma atividade física. A competição é uma possibilidade, não uma obrigação.',
+  },
 ]
+
+const faqColumnBreak = Math.ceil(faqs.length / 2)
+const faqColumns = [faqs.slice(0, faqColumnBreak), faqs.slice(faqColumnBreak)]
 
 function trackEvent(event: string, source: string) {
   window.dataLayer = window.dataLayer ?? []
@@ -977,27 +980,33 @@ function App() {
 
         <section id="duvidas" className="section section-white faq-section">
           <div className="section-inner faq-layout">
-            <div>
-              <p className="eyebrow">Informações úteis</p>
-              <h2 className="section-kicker">Dúvidas frequentes</h2>
+            <div className="faq-heading">
+              <div>
+                <p className="eyebrow">Informações úteis</p>
+                <h2 className="section-kicker">Dúvidas frequentes</h2>
+              </div>
               <p className="faq-intro">
-                Respostas rápidas sobre aulas, turmas e a rotina da academia.
+                Reunimos aqui as principais informações para ajudar você a se preparar e aproveitar melhor sua experiência na academia.
               </p>
             </div>
 
             <div className="faq-list">
-              {faqs.map((faq) => (
-                <details
-                  key={faq.question}
-                  onToggle={(event) => {
-                    if (event.currentTarget.open) {
-                      trackEvent('faq_open', faq.question)
-                    }
-                  }}
-                >
-                  <summary>{faq.question}</summary>
-                  <p>{faq.answer}</p>
-                </details>
+              {faqColumns.map((column, index) => (
+                <div className="faq-column" key={`faq-column-${index}`}>
+                  {column.map((faq) => (
+                    <details
+                      key={faq.question}
+                      onToggle={(event) => {
+                        if (event.currentTarget.open) {
+                          trackEvent('faq_open', faq.question)
+                        }
+                      }}
+                    >
+                      <summary>{faq.question}</summary>
+                      <p>{faq.answer}</p>
+                    </details>
+                  ))}
+                </div>
               ))}
             </div>
           </div>

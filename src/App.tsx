@@ -75,35 +75,53 @@ const quickFacts = [
   },
 ]
 
-const galleryImages = [
-  {
+const galleryImages = {
+  training: {
     image: mosaicOne,
     alt: 'Treino de Jiu-Jitsu com kimono na Toca do Leão',
+    ratio: 1080 / 1440,
   },
-  {
+  womenTraining: {
     image: mosaicTwo,
     alt: 'Praticantes durante treino de Jiu-Jitsu feminino',
+    ratio: 1080 / 1440,
   },
-  {
+  kids: {
     image: mosaicThree,
     alt: 'Criança com kimono da Toca do Leão',
+    ratio: 1080 / 1913,
   },
-  {
+  women: {
     image: mosaicFour,
     alt: 'Alunas durante treino feminino de Jiu-Jitsu',
+    ratio: 1080 / 1246,
   },
-  {
+  giTraining: {
     image: mosaicSix,
     alt: 'Praticantes treinando Jiu-Jitsu com kimono',
+    ratio: 1,
   },
-  {
+  kimono: {
     image: mosaicSeven,
     alt: 'Detalhe do kimono da Toca do Leão',
+    ratio: 1080 / 1440,
   },
-  {
+  nogi: {
     image: mosaicEight,
     alt: 'Praticantes durante treino de No-gi',
+    ratio: 1080 / 1350,
   },
+}
+
+const desktopGalleryRows = [
+  [galleryImages.training, galleryImages.kimono, galleryImages.nogi],
+  [galleryImages.womenTraining, galleryImages.kids, galleryImages.women, galleryImages.giTraining],
+]
+
+const mobileGalleryRows = [
+  [galleryImages.training, galleryImages.kimono],
+  [galleryImages.nogi, galleryImages.giTraining],
+  [galleryImages.womenTraining, galleryImages.kids, galleryImages.women],
 ]
 
 const programs = [
@@ -288,6 +306,33 @@ function TrackedLink({
     >
       {children}
     </a>
+  )
+}
+
+function PhotoGallery({
+  className,
+  rows,
+}: {
+  className: string
+  rows: Array<Array<(typeof galleryImages)[keyof typeof galleryImages]>>
+}) {
+  return (
+    <div className={`photo-gallery ${className}`}>
+      {rows.map((row, index) => (
+        <div className="photo-gallery-row" key={`gallery-row-${index}`}>
+          {row.map(({ alt, image, ratio }) => (
+            <img
+              key={image}
+              src={image}
+              alt={alt}
+              loading="lazy"
+              decoding="async"
+              style={{ flexGrow: ratio }}
+            />
+          ))}
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -893,11 +938,8 @@ function App() {
 
         <div className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
           <div className="section-inner">
-            <div className="photo-gallery">
-              {galleryImages.map(({ alt, image }) => (
-                <img key={image} src={image} alt={alt} loading="lazy" decoding="async" />
-              ))}
-            </div>
+            <PhotoGallery className="photo-gallery-desktop" rows={desktopGalleryRows} />
+            <PhotoGallery className="photo-gallery-mobile" rows={mobileGalleryRows} />
           </div>
         </div>
 

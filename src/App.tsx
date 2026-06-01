@@ -1,6 +1,6 @@
 import './App.css'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
 import heroImage from './assets/hero.png'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
@@ -12,26 +12,67 @@ import mosaicFive from './assets/foto-mosaico-5.jpg'
 import mosaicSix from './assets/foto-mosaico-6.jpg'
 import mosaicSeven from './assets/foto-mosaico-7.jpg'
 import mosaicEight from './assets/foto-mosaico-8.jpg'
+import lukasLeadership from './assets/lideranca-lukas.jpg'
+import yannLeadership from './assets/lideranca-yann.jpg'
 import adultProgram from './assets/programa-adultos.png'
 import kidsProgram from './assets/programa-kids.jpg'
 import womenProgram from './assets/programa-mulheres.jpg'
 import nogiProgram from './assets/programa-nogi.jpg'
 import storeVideo from './assets/loja.mp4'
 
+declare global {
+  interface Window {
+    dataLayer?: Array<Record<string, unknown>>
+  }
+}
+
 const instagramUrl = 'https://www.instagram.com/tocadoleaojj/'
+const youtubeUrl = 'https://www.youtube.com/@Tocabjjschool'
 const whatsappNumber = '556592799166'
-const scheduleWhatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-  'Olá, gostaria de agendar uma aula experimental.',
-)}`
-const contactWhatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-  'Olá, gostaria de mais informações.',
-)}`
+const fullAddress = 'R. Padre Gerônimo Botelho, 392 - Dom Aquino, Cuiabá - MT, 78015-115'
+const mapsRouteUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress)}&travelmode=driving`
+
+const createWhatsappUrl = (message: string) =>
+  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
+
+const whatsappUrls = {
+  schedule: createWhatsappUrl(
+    'Olá, vim pelo site e gostaria de agendar uma aula experimental grátis.',
+  ),
+  introduction: createWhatsappUrl(
+    'Olá, vim pelo site e gostaria de saber mais sobre a aula introdutória individualizada para iniciantes.',
+  ),
+  visit: createWhatsappUrl(
+    'Olá, vim pelo site, já treino Jiu-Jitsu e gostaria de conhecer a Toca do Leão.',
+  ),
+  contact: createWhatsappUrl('Olá, vim pelo site e gostaria de mais informações.'),
+  store: createWhatsappUrl('Olá, vim pelo site e gostaria de consultar os produtos da Toca Store.'),
+}
 
 const navLinks = [
   { label: 'Sobre', href: '#sobre' },
   { label: 'Programas', href: '#programas' },
   { label: 'Loja', href: '#loja' },
+  { label: 'Dúvidas', href: '#duvidas' },
   { label: 'Contato', href: '#contato' },
+]
+
+const quickFacts = [
+  {
+    icon: <LevelsIcon />,
+    title: 'Do iniciante ao graduado',
+    text: 'Orientação para começar ou evoluir.',
+  },
+  {
+    icon: <ProgramsIcon />,
+    title: 'Programas para cada fase',
+    text: 'Crianças, adultos, mulheres e No-gi.',
+  },
+  {
+    icon: <LocationIcon />,
+    title: 'Estamos em Cuiabá',
+    text: 'Treine em um ambiente acolhedor.',
+  },
 ]
 
 const mosaicImages = [
@@ -47,69 +88,203 @@ const mosaicImages = [
 
 const programs = [
   {
-    title: 'Jiu-Jitsu Kids',
+    title: 'Kids',
     image: kidsProgram,
-    paragraphs: [
-      'Aulas conduzidas respeitando a idade, o ritmo e o nível de concentração de cada criança.',
-      'Para os alunos mais novos, o aprendizado acontece de forma mais lúdica, com atividades que desenvolvem coordenação motora, disciplina, atenção, respeito e autoconfiança sem perder o aspecto leve e divertido da infância.',
-      'Conforme a criança cresce e amadurece, o nível de exigência aumenta gradualmente. As aulas passam a trabalhar mais técnica, responsabilidade, postura no tatame, noção de defesa e evolução dentro do Jiu-Jitsu.',
-      'O objetivo é formar crianças mais confiantes, disciplinadas e preparadas — dentro e fora do tatame.',
-    ],
+    description:
+      'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu com leveza.',
+    highlights: ['Coordenação motora', 'Convivência e respeito'],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu Kids.',
+    ),
+    ctaLabel: 'Quero agendar uma aula Kids',
+    source: 'programa_kids',
   },
   {
-    title: 'Jiu-Jitsu Adultos',
+    title: 'Adultos',
     image: adultProgram,
-    paragraphs: [
-      'Pensado para receber tanto quem nunca treinou quanto quem já tem experiência na arte suave.',
-      'Para quem está começando, a academia oferece uma aula introdutória, com orientação adequada para o primeiro contato com o Jiu-Jitsu. O aluno aprende os fundamentos com segurança, sem pressão e com acompanhamento técnico desde o início.',
-      'Além disso, os treinos são organizados entre turmas de iniciantes e avançados, permitindo que cada aluno evolua no ritmo certo. Quem está começando constrói uma base sólida; quem já é graduado encontra treinos mais técnicos, intensos e refinados.',
-      'As aulas são mistas, abertas para homens e mulheres, em um ambiente de respeito, disciplina e evolução constante.',
-    ],
+    description:
+      'Turmas separadas para iniciantes e avançados, com orientação adequada ao momento de cada aluno.',
+    highlights: ['Evolução técnica', 'Treino consistente'],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu para adultos.',
+    ),
+    ctaLabel: 'Quero treinar com a equipe',
+    source: 'programa_adultos',
   },
   {
     title: 'No-gi',
     image: nogiProgram,
-    paragraphs: [
-      'Treino de Jiu-Jitsu sem kimono, com uma dinâmica mais rápida e direta.',
-      'As aulas trabalham movimentação, controle corporal, transições, quedas, domínio de posições e finalizações usando pegadas adaptadas ao corpo e à roupa de treino.',
-      'É uma modalidade importante para desenvolver velocidade, resistência, explosão, leitura de movimento e adaptação em situações onde não há pegadas no kimono.',
-      'Ideal para quem busca complementar o treino com kimono, melhorar o condicionamento e ampliar o repertório técnico no grappling.',
-    ],
+    description:
+      'Explore uma leitura diferente do Jiu-Jitsu em treinos dinâmicos sem kimono.',
+    highlights: ['Mobilidade', 'Controle corporal'],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de No-gi.',
+    ),
+    ctaLabel: 'Quero treinar No-gi',
+    source: 'programa_nogi',
   },
   {
-    title: 'Jiu-Jitsu para Mulheres',
+    title: 'Mulheres',
     image: womenProgram,
-    paragraphs: [
-      'Criada especialmente para mulheres, nossa turma feminina oferece um ambiente seguro, técnico e acolhedor para aprender Jiu-Jitsu com confiança, respeito e acompanhamento adequado.',
-      'Mais do que uma atividade física, o Jiu-Jitsu é uma ferramenta poderosa de defesa pessoal, proteção e fortalecimento. A prática desenvolve autoconfiança, consciência corporal, controle emocional e o poder de se defender em situações reais, ajudando a mulher a se sentir mais segura, preparada e independente.',
-      'A academia já conta com várias mulheres treinando, formando uma turma consolidada, receptiva e preparada para receber desde quem nunca pisou no tatame até quem já tem experiência.',
-      'Aqui, cada mulher encontra espaço para aprender, evoluir, se proteger, se fortalecer e fazer parte de uma comunidade que respeita seu ritmo, sua jornada e seus objetivos.',
-    ],
+    description:
+      'Uma turma exclusiva para mulheres aprenderem Jiu-Jitsu com confiança, técnica e tranquilidade.',
+    highlights: ['Turma 100% feminina', 'Defesa pessoal'],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu para mulheres.',
+    ),
+    ctaLabel: 'Quero conhecer a turma feminina',
+    source: 'programa_mulheres',
   },
 ]
 
-const storeItems = [
+const leaders = [
   {
-    title: 'Kimonos',
-    text: 'Modelos para treino e competição.',
+    name: 'Lukas David',
+    image: lukasLeadership,
+    role: 'Faixa-preta de Jiu-Jitsu',
   },
   {
-    title: 'Rashguards',
-    text: 'Tecidos respiráveis para No-Gi.',
-  },
-  {
-    title: 'Shorts & Calças de Compressão',
-    text: 'Conforto e mobilidade no tatame.',
-  },
-  {
-    title: 'Faixas',
-    text: 'Todas as graduações.',
-  },
-  {
-    title: 'Acessórios',
-    text: 'Bonés e mais.',
+    name: 'Yann Cathalat',
+    image: yannLeadership,
+    role: 'Faixa-preta de Jiu-Jitsu',
   },
 ]
+
+const storeCategories = [
+  {
+    icon: <BeltIcon />,
+    title: 'Kimonos e faixas',
+    text: 'Itens essenciais para os treinos e graduações.',
+  },
+  {
+    icon: <ShirtIcon />,
+    title: 'Rashguards e compressão',
+    text: 'Rashguards, shorts e calças para conforto e mobilidade.',
+  },
+  {
+    icon: <CapIcon />,
+    title: 'Lifestyle',
+    text: 'Bonés e outros itens da academia.',
+  },
+]
+
+const faqs = [
+  {
+    question: 'Nunca treinei Jiu-Jitsu. Posso começar?',
+    answer:
+      'Sim. Quem está começando pode fazer uma aula introdutória individualizada, com orientação próxima para conhecer a dinâmica do tatame e os fundamentos com segurança.',
+  },
+  {
+    question: 'Já treino Jiu-Jitsu. Posso conhecer a academia?',
+    answer:
+      'Sim. Praticantes com experiência e visitantes de passagem por Cuiabá são bem-vindos para conhecer a estrutura e treinar com a nossa equipe.',
+  },
+  {
+    question: 'A academia oferece aulas para crianças?',
+    answer:
+      'Sim. O programa Kids respeita a idade, o ritmo e o nível de concentração de cada criança, com uma evolução gradual dentro do Jiu-Jitsu.',
+  },
+  {
+    question: 'Há uma turma exclusiva para mulheres?',
+    answer:
+      'Sim. A turma feminina é conduzida por uma professora e oferece um ambiente seguro, técnico e acolhedor para iniciantes ou praticantes com experiência.',
+  },
+  {
+    question: 'Preciso de kimono na primeira aula?',
+    answer:
+      'Não. Para começar, basta usar uma roupa confortável de treino e trazer uma garrafinha de água para se manter bem hidratado.',
+  },
+  {
+    question: 'Como consultar horários e valores?',
+    answer:
+      'Chame a nossa equipe no WhatsApp. Assim conseguimos indicar a turma adequada para o seu perfil e informar os horários disponíveis.',
+  },
+]
+
+function trackEvent(event: string, source: string) {
+  window.dataLayer = window.dataLayer ?? []
+  window.dataLayer.push({ event, source })
+}
+
+function WhatsappLink({
+  children,
+  className,
+  href,
+  source,
+}: {
+  children: ReactNode
+  className: string
+  href: string
+  source: string
+}) {
+  return (
+    <a
+      className={className}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      data-cta-source={source}
+      onClick={() => trackEvent('whatsapp_click', source)}
+    >
+      {children}
+    </a>
+  )
+}
+
+function TrackedLink({
+  children,
+  className,
+  event,
+  href,
+  innerRef,
+  newTab = false,
+  onClick,
+  source,
+}: {
+  children: ReactNode
+  className?: string
+  event: string
+  href: string
+  innerRef?: Ref<HTMLAnchorElement>
+  newTab?: boolean
+  onClick?: () => void
+  source: string
+}) {
+  return (
+    <a
+      ref={innerRef}
+      className={className}
+      href={href}
+      target={newTab ? '_blank' : undefined}
+      rel={newTab ? 'noreferrer' : undefined}
+      data-cta-source={source}
+      onClick={() => {
+        trackEvent(event, source)
+        onClick?.()
+      }}
+    >
+      {children}
+    </a>
+  )
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M4.3 20.4L5.5 16A8 8 0 1 1 12 20a8 8 0 0 1-3.8-1z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <path
+        d="M9.1 8.8c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c-.1.2-.2.3 0 .6.4.7 1 1.4 1.7 1.8.3.2.5.2.6 0l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.2.4.3.4.5 0 .5-.3 1.2-.7 1.5-.4.3-1.3.5-2.9-.2-2.4-1-4.1-3.1-4.7-4.7-.5-1.2-.2-1.9.1-2.2z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
 
 function InstagramIcon() {
   return (
@@ -137,19 +312,160 @@ function InstagramIcon() {
   )
 }
 
-function WhatsAppIcon() {
+function YouTubeIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
       <path
-        d="M4.3 20.4L5.5 16A8 8 0 1 1 12 20a8 8 0 0 1-3.8-1z"
+        d="M21 12c0 2.2-.3 4.2-.7 4.8-.5.6-1 .8-1.8.9-1.5.2-4.2.3-6.5.3s-5-.1-6.5-.3c-.8-.1-1.3-.3-1.8-.9C3.3 16.2 3 14.2 3 12s.3-4.2.7-4.8c.5-.6 1-.8 1.8-.9C7 6.1 9.7 6 12 6s5 .1 6.5.3c.8.1 1.3.3 1.8.9.4.6.7 2.6.7 4.8z"
         fill="none"
         stroke="currentColor"
         strokeLinejoin="round"
         strokeWidth="1.8"
       />
+      <path d="m10 9 5 3-5 3z" fill="currentColor" />
+    </svg>
+  )
+}
+
+function LocationIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
       <path
-        d="M9.1 8.8c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4l.7 1.6c.1.3.1.5-.1.7l-.4.5c-.1.2-.2.3 0 .6.4.7 1 1.4 1.7 1.8.3.2.5.2.6 0l.6-.7c.2-.2.4-.2.7-.1l1.6.8c.3.2.4.3.4.5 0 .5-.3 1.2-.7 1.5-.4.3-1.3.5-2.9-.2-2.4-1-4.1-3.1-4.7-4.7-.5-1.2-.2-1.9.1-2.2z"
-        fill="currentColor"
+        d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <circle cx="12" cy="10" r="2.1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  )
+}
+
+function LevelsIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M5 18V11M12 18V7M19 18V4M3 18h18"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function ProgramsIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="14" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  )
+}
+
+function PersonalizedIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M5.5 20c.5-3.2 2.7-5 6.5-5s6 1.8 6.5 5M19 4v4M17 6h4"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function GuidanceIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="m14.7 9.3-1.6 3.8-3.8 1.6 1.6-3.8z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function GroupIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <circle cx="9" cy="8" r="3" fill="none" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M3.5 19c.4-3.1 2.2-4.8 5.5-4.8s5.1 1.7 5.5 4.8M15.5 5.5a2.6 2.6 0 0 1 0 5.1M16.5 14.4c2.4.3 3.7 1.8 4 4.3"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function BeltIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M3 8h18v5H3zM9.5 8v5m5-5v5M10 13l-2.5 6M14 13l2.5 6M9.5 13h5"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function ShirtIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="m8.5 4 3.5 2 3.5-2L21 7l-2.4 4-2.1-1V20h-9V10l-2.1 1L3 7z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function CapIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M4 15c.2-4.1 3.1-6.7 7.4-6.7 3.8 0 6.4 2.4 6.6 6.7H4zm14 0h4M11.4 8.3V15M7.2 9.6 9 15"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+function ShopIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M5 8h14l1 12H4zm4 0V6a3 3 0 0 1 6 0v2"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
       />
     </svg>
   )
@@ -171,8 +487,56 @@ function CloseIcon() {
   )
 }
 
+function LazyStoreVideo() {
+  const videoWrapRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
+
+  useEffect(() => {
+    const videoWrap = videoWrapRef.current
+
+    if (!videoWrap || shouldLoad) {
+      return
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      const timeoutId = globalThis.setTimeout(() => setShouldLoad(true), 0)
+      return () => globalThis.clearTimeout(timeoutId)
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoad(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '240px' },
+    )
+
+    observer.observe(videoWrap)
+
+    return () => observer.disconnect()
+  }, [shouldLoad])
+
+  return (
+    <div className="store-video-wrap" ref={videoWrapRef}>
+      <video
+        src={shouldLoad ? storeVideo : undefined}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="none"
+        aria-hidden="true"
+      />
+    </div>
+  )
+}
+
 function App() {
   const currentYear = new Date().getFullYear()
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
+  const firstMobileLinkRef = useRef<HTMLAnchorElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
@@ -184,11 +548,13 @@ function App() {
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsMobileMenuOpen(false)
+        menuToggleRef.current?.focus()
       }
     }
 
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', closeOnEscape)
+    firstMobileLinkRef.current?.focus()
 
     return () => {
       document.body.style.overflow = previousOverflow
@@ -214,43 +580,86 @@ function App() {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="logo-link" href="#inicio" aria-label="Logo da Toca do Leão">
-          <img src={logoImage} alt="Logo da Toca do Leão" />
-        </a>
+        <TrackedLink
+          className="logo-link"
+          href="#inicio"
+          event="navigation_click"
+          source="logo_cabecalho"
+        >
+          <img src={logoImage} alt="Toca do Leão" />
+        </TrackedLink>
 
         <nav className="main-nav" aria-label="Menu principal">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href}>
+            <TrackedLink
+              key={link.href}
+              href={link.href}
+              event="navigation_click"
+              source={`nav_desktop_${link.href.slice(1)}`}
+            >
               {link.label}
-            </a>
+            </TrackedLink>
           ))}
         </nav>
 
         <div className="header-actions">
-          <a className="button button-small" href={scheduleWhatsappUrl} target="_blank" rel="noreferrer">
-            <span className="button-label-desktop">Agendar aula grátis</span>
-            <span className="button-label-mobile">Agendar aula grátis</span>
-          </a>
+          <TrackedLink
+            className="header-social-link"
+            href={instagramUrl}
+            event="instagram_click"
+            newTab
+            source="instagram_cabecalho"
+          >
+            <InstagramIcon />
+            <span className="sr-only">Instagram da Toca do Leão</span>
+          </TrackedLink>
+          <TrackedLink
+            className="header-social-link"
+            href={youtubeUrl}
+            event="youtube_click"
+            newTab
+            source="youtube_cabecalho"
+          >
+            <YouTubeIcon />
+            <span className="sr-only">YouTube da Toca do Leão</span>
+          </TrackedLink>
           <button
+            ref={menuToggleRef}
             className="mobile-menu-toggle"
             type="button"
             aria-controls="mobile-menu"
             aria-expanded={isMobileMenuOpen}
             aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
-            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+            onClick={() => {
+              trackEvent('menu_toggle', isMobileMenuOpen ? 'fechar_menu' : 'abrir_menu')
+              setIsMobileMenuOpen((isOpen) => !isOpen)
+            }}
           >
             {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
         </div>
 
         {isMobileMenuOpen && (
-          <div className="mobile-menu" id="mobile-menu">
+          <div
+            className="mobile-menu"
+            id="mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu de navegação"
+          >
             <nav className="mobile-menu-nav" aria-label="Menu principal mobile">
-              {navLinks.map((link) => (
-                <a key={link.href} href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+              {navLinks.map((link, index) => (
+                <TrackedLink
+                  innerRef={index === 0 ? firstMobileLinkRef : undefined}
+                  key={link.href}
+                  href={link.href}
+                  event="navigation_click"
+                  source={`nav_mobile_${link.href.slice(1)}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
                   <span>{link.label}</span>
                   <span aria-hidden="true">&gt;</span>
-                </a>
+                </TrackedLink>
               ))}
             </nav>
           </div>
@@ -263,52 +672,161 @@ function App() {
           <div className="hero-overlay" />
           <div className="hero-content">
             <h1>Jiu-Jitsu como estilo de vida.</h1>
-            <a className="button button-primary" href={scheduleWhatsappUrl} target="_blank" rel="noreferrer">
-              AGENDE UMA AULA EXPERIMENTAL GRÁTIS
-            </a>
+            <WhatsappLink
+              className="button button-primary"
+              href={whatsappUrls.schedule}
+              source="hero"
+            >
+              Agendar aula experimental grátis
+            </WhatsappLink>
+            <div className="quick-facts" aria-label="Diferenciais da Toca do Leão">
+              <div className="quick-facts-inner">
+                {quickFacts.map((fact) => (
+                  <article className="quick-fact" key={fact.title}>
+                    <div className="quick-fact-icon">{fact.icon}</div>
+                    <div>
+                      <strong>{fact.title}</strong>
+                      <p>{fact.text}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        <section id="sobre" className="section section-white">
-          <div className="section-inner">
-            <div className="section-copy">
-              <h2 className="section-kicker">Sobre nós</h2>
+        <section id="sobre" className="section section-white about-section">
+          <div className="section-inner about-layout">
+            <div className="about-copy">
+              <p className="eyebrow">Sobre nós</p>
+              <h2 className="section-kicker">Nossa academia</h2>
+              <p className="about-lead">
+                A Toca do Leão é uma escola de Jiu-Jitsu e defesa pessoal em Cuiabá, preparada para
+                receber diferentes idades e níveis de experiência.
+              </p>
+              <div className="text-stack">
+                <p>
+                  Crianças, adultos, iniciantes e graduados encontram orientação técnica, respeito
+                  e uma comunidade presente dentro e fora do tatame.
+                </p>
+                <p>
+                  Praticantes e visitantes de passagem pela cidade também são bem-vindos para
+                  treinar com a equipe.
+                </p>
+              </div>
+
+            </div>
+
+            <div className="leadership-feature" aria-label="Liderança da academia">
+              <div className="leadership-note">
+                <p className="eyebrow">Liderança de campeões</p>
+                <p>
+                  À frente da academia, Lukas David e Yann Cathalat conduzem um trabalho baseado em
+                  técnica, respeito e consistência.
+                </p>
+              </div>
+
+              <div className="leadership-grid">
+                {leaders.map((leader) => (
+                  <article className="leadership-card" key={leader.name}>
+                    <img src={leader.image} alt={leader.name} loading="lazy" decoding="async" />
+                    <div>
+                      <p>{leader.role}</p>
+                      <h3>{leader.name}</h3>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-dark intro-section">
+          <div className="section-inner intro-layout">
+            <div>
+              <p className="eyebrow">Primeiros passos</p>
+              <h2 className="section-kicker">Comece no seu ritmo</h2>
               <div className="text-stack text-stack-large">
                 <p>
-                  A Toca do Leão é uma escola especializada em artes marciais e defesa pessoal,
-                  dedicada ao Jiu-Jitsu como estilo de vida.
+                  Nunca treinou? Comece com uma aula introdutória individualizada, pensada para
+                  apresentar o tatame com segurança e atenção exclusiva.
                 </p>
+              </div>
+              <WhatsappLink
+                className="button button-primary"
+                href={whatsappUrls.introduction}
+                source="aula_introdutoria"
+              >
+                Quero conhecer a aula introdutória
+              </WhatsappLink>
+              <div className="experienced-callout">
+                <p className="eyebrow">Já pratica Jiu-Jitsu?</p>
+                <h3>Venha fazer um treino com a equipe</h3>
                 <p>
-                  Da criança até o adulto, acolhemos quem está começando, refinamos a técnica de
-                  quem já treina e damos estrutura para quem quer competir.
+                  Se você já treina ou está de passagem por Cuiabá, a Toca também está aberta para
+                  receber você.
                 </p>
-                <p>
-                  Treinamos corpo e mente, construímos faixas e, acima de tudo, cultivamos uma
-                  comunidade que se respeita dentro e fora do tatame.
-                </p>
+                <WhatsappLink
+                  className="button button-secondary experienced-button"
+                  href={whatsappUrls.visit}
+                  source="visitante_experiente"
+                >
+                  <WhatsAppIcon />
+                  Agendar um treino com a equipe
+                </WhatsappLink>
               </div>
             </div>
 
-            <div className="photo-mosaic" aria-label="Mosaico de fotos da Toca do Leão">
-              {mosaicImages.map((image, index) => (
-                <img
-                  key={image}
-                  src={image}
-                  alt={`Foto ${index + 1} da Toca do Leão`}
-                  loading={index > 1 ? 'lazy' : 'eager'}
-                />
-              ))}
+            <div className="intro-benefits" aria-label="Benefícios da aula introdutória">
+              <article>
+                <div className="intro-benefit-icon">
+                  <PersonalizedIcon />
+                </div>
+                <div>
+                  <h3>Aula introdutória individualizada</h3>
+                  <p>Um primeiro contato com atenção exclusiva para começar com calma.</p>
+                </div>
+              </article>
+              <article>
+                <div className="intro-benefit-icon">
+                  <GuidanceIcon />
+                </div>
+                <div>
+                  <h3>Orientação passo a passo</h3>
+                  <p>Conheça os fundamentos e a dinâmica do tatame com acompanhamento próximo.</p>
+                </div>
+              </article>
+              <article>
+                <div className="intro-benefit-icon">
+                  <GroupIcon />
+                </div>
+                <div>
+                  <h3>A turma certa para você</h3>
+                  <p>Depois da introdução, indicamos o grupo mais adequado ao seu momento.</p>
+                </div>
+              </article>
             </div>
           </div>
         </section>
+
+        <div className="photo-mosaic-wrap" aria-label="Fotos dos treinos na Toca do Leão">
+          <div className="section-inner">
+            <div className="photo-mosaic">
+              {mosaicImages.map((image) => (
+                <img key={image} src={image} alt="" loading="lazy" decoding="async" />
+              ))}
+            </div>
+          </div>
+        </div>
 
         <section id="programas" className="section section-light">
           <div className="section-inner">
             <div className="section-heading">
+              <p className="eyebrow">Encontre a turma ideal</p>
               <h2 className="section-kicker">Programas</h2>
               <p>
-                Metodologia de ensino específica para todos os níveis, com orientação técnica, boa
-                estrutura e atenção ao desenvolvimento de cada aluno.
+                Escolha o programa que combina com seu momento e converse diretamente com a nossa
+                equipe.
               </p>
             </div>
 
@@ -316,15 +834,23 @@ function App() {
               {programs.map((program) => (
                 <article className="program-card" key={program.title}>
                   <div className="program-media">
-                    <img src={program.image} alt={program.title} loading="lazy" />
+                    <img src={program.image} alt={program.title} loading="lazy" decoding="async" />
                   </div>
                   <div className="program-content">
-                    <h2>{program.title}</h2>
-                    <div className="text-stack">
-                      {program.paragraphs.map((paragraph) => (
-                        <p key={paragraph}>{paragraph}</p>
+                    <h3>{program.title}</h3>
+                    <p>{program.description}</p>
+                    <ul>
+                      {program.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
                       ))}
-                    </div>
+                    </ul>
+                    <WhatsappLink
+                      className="button button-card"
+                      href={program.href}
+                      source={program.source}
+                    >
+                      {program.ctaLabel}
+                    </WhatsappLink>
                   </div>
                 </article>
               ))}
@@ -332,59 +858,125 @@ function App() {
           </div>
         </section>
 
-        <section id="loja" className="section section-dark">
+        <section id="loja" className="section section-dark store-section">
           <div className="section-inner store-layout">
             <div className="store-copy">
               <h2 className="section-kicker">Toca Store</h2>
               <p className="store-intro">
-                Produtos selecionados para acompanhar sua rotina dentro e fora do tatame, unindo
-                conforto, durabilidade e identidade para quem faz do Jiu-Jitsu parte do dia a dia.
+                Produtos oficiais para treinos, graduações e uso no dia a dia — tudo disponível na própria academia.
               </p>
 
-              <div className="store-list">
-                {storeItems.map((item) => (
-                  <article className="store-item" key={item.title}>
-                    <h2>{item.title}</h2>
-                    <p>{item.text}</p>
+              <div className="store-categories">
+                {storeCategories.map((category) => (
+                  <article className="store-category" key={category.title}>
+                    <div className="store-category-icon">{category.icon}</div>
+                    <div>
+                      <h3>{category.title}</h3>
+                      <small>{category.text}</small>
+                    </div>
                   </article>
                 ))}
               </div>
+
+              <WhatsappLink
+                className="button button-primary store-button"
+                href={whatsappUrls.store}
+                source="toca_store"
+              >
+                <ShopIcon />
+                Consultar produtos no WhatsApp
+              </WhatsappLink>
             </div>
 
-            <div className="store-video-wrap">
-              <video src={storeVideo} autoPlay muted loop playsInline aria-hidden="true" />
+            <LazyStoreVideo />
+          </div>
+        </section>
+
+        <section id="duvidas" className="section section-white faq-section">
+          <div className="section-inner faq-layout">
+            <div>
+              <p className="eyebrow">Informações úteis</p>
+              <h2 className="section-kicker">Dúvidas frequentes</h2>
+              <p className="faq-intro">
+                Respostas rápidas sobre aulas, turmas e a rotina da academia.
+              </p>
+            </div>
+
+            <div className="faq-list">
+              {faqs.map((faq) => (
+                <details
+                  key={faq.question}
+                  onToggle={(event) => {
+                    if (event.currentTarget.open) {
+                      trackEvent('faq_open', faq.question)
+                    }
+                  }}
+                >
+                  <summary>{faq.question}</summary>
+                  <p>{faq.answer}</p>
+                </details>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="contato" className="section section-white contact-section">
+        <section id="contato" className="section section-light contact-section">
           <div className="section-inner contact-layout">
             <div className="contact-copy">
-              <h2 className="section-kicker">Contato</h2>
+              <p className="eyebrow">Visite a academia</p>
+              <h2 className="section-kicker">Entre em contato</h2>
               <div className="text-stack text-stack-large">
                 <p>
-                  Estamos em Cuiabá-MT. Venha fazer parte da nossa família, conhecer de perto a
-                  estrutura, os professores e o ambiente.
+                  Quer conhecer melhor a Toca ou tirar uma dúvida? Chame a nossa recepção no
+                  WhatsApp ou venha nos visitar. Estamos em Cuiabá e será um prazer receber você.
                 </p>
-                <p>Ficou com alguma dúvida? Chame o nosso time no WhatsApp</p>
+                <address>{fullAddress}</address>
               </div>
 
               <div className="contact-actions">
-                <a
+                <WhatsappLink
                   className="button button-primary button-whatsapp"
-                  href={contactWhatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
+                  href={whatsappUrls.contact}
+                  source="contato_whatsapp"
                 >
                   <WhatsAppIcon />
-                  WhatsApp
-                </a>
-                <div className="instagram-follow">
-                  <strong>Siga-nos no Instagram</strong>
-                  <a className="button button-secondary" href={instagramUrl} target="_blank" rel="noreferrer">
+                  Falar com a recepção no WhatsApp
+                </WhatsappLink>
+                <TrackedLink
+                  className="button button-outline-dark"
+                  href={mapsRouteUrl}
+                  event="route_click"
+                  newTab
+                  source="contato_como_chegar"
+                >
+                  <LocationIcon />
+                  Como chegar
+                </TrackedLink>
+              </div>
+
+              <div className="contact-socials">
+                <strong>Acompanhe nas redes sociais</strong>
+                <div className="contact-social-links">
+                  <TrackedLink
+                    className="header-social-link contact-social-link"
+                    href={instagramUrl}
+                    event="instagram_click"
+                    newTab
+                    source="instagram_contato"
+                  >
                     <InstagramIcon />
-                    @tocadoleaojj
-                  </a>
+                    <span className="sr-only">Siga a Toca no Instagram</span>
+                  </TrackedLink>
+                  <TrackedLink
+                    className="header-social-link contact-social-link"
+                    href={youtubeUrl}
+                    event="youtube_click"
+                    newTab
+                    source="youtube_contato"
+                  >
+                    <YouTubeIcon />
+                    <span className="sr-only">Inscreva-se no canal da Toca no YouTube</span>
+                  </TrackedLink>
                 </div>
               </div>
             </div>
@@ -403,10 +995,14 @@ function App() {
             </div>
           </div>
         </section>
+
       </main>
 
       <footer className="site-footer">
-        <p>© {currentYear} — Todos os direitos reservados · Toca do Leão | Lifestyle Jiu-Jitsu - Desenvolvido por Éder Rabelo</p>
+        <p>
+          © {currentYear} - Todos os direitos reservados · Toca do Leão Lifestyle Jiu-Jitsu -
+          Desenvolvido por Éder Rabelo
+        </p>
       </footer>
     </div>
   )

@@ -1253,7 +1253,7 @@ function App() {
           />
           <div className="footer-copy">
             <p>© {currentYear}. Todos os direitos reservados.</p>
-            <p>Desenvolvido por Éder Rabelo.</p>
+            <p>Desenvolvido por Éder Rabelo</p>
           </div>
         </div>
       </footer>

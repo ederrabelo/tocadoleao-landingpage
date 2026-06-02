@@ -3,6 +3,9 @@ import './App.css'
 import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
 import heroImage from './assets/hero.png'
+import heroDesktopVideo from './assets/Hero_desktop.mp4'
+import heroMobileVideo from './assets/Hero_mobile.mp4'
+import heroTabletVideo from './assets/Hero_tablet.mp4'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
@@ -795,7 +798,20 @@ function App() {
 
       <main>
         <section id="inicio" className="hero-section" aria-label="Banner principal">
-          <img className="hero-media" src={heroImage} alt="" fetchPriority="high" />
+          <video
+            className="hero-media"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={heroImage}
+            preload="metadata"
+            aria-hidden="true"
+          >
+            <source src={heroMobileVideo} type="video/mp4" media="(max-width: 760px)" />
+            <source src={heroTabletVideo} type="video/mp4" media="(max-width: 980px)" />
+            <source src={heroDesktopVideo} type="video/mp4" />
+          </video>
           <div className="hero-overlay" />
           <div className="hero-content">
             <h1>Jiu-Jitsu como estilo de vida.</h1>

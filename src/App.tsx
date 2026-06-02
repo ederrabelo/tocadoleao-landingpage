@@ -125,7 +125,7 @@ const programs = [
     title: 'Kids',
     image: kidsProgram,
     description:
-      'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu com leveza.',
+      'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu.',
     highlights: ['Coordenação motora', 'Convivência e respeito'],
     href: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu Kids.',
@@ -1068,8 +1068,7 @@ function App() {
               <p className="eyebrow">Encontre a turma ideal</p>
               <h2 className="section-kicker">Programas</h2>
               <p>
-                Escolha o programa que combina com seu momento e converse diretamente com a nossa
-                equipe.
+                Escolha o programa ideal de acordo com a sua necessidade.
               </p>
             </div>
 

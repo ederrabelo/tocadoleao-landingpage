@@ -2,10 +2,12 @@ import './App.css'
 
 import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
-import heroImage from './assets/hero.png'
-import heroDesktopVideo from './assets/Hero_desktop.mp4'
-import heroMobileVideo from './assets/Hero_mobile.mp4'
-import heroTabletVideo from './assets/Hero_tablet.mp4'
+import heroDesktopPoster from './assets/Hero-desktop-frameinicial.webp'
+import heroMobilePoster from './assets/Hero-mobile-frameinicial.webp'
+import heroTabletPoster from './assets/Hero-tablet-frameinicial.webp'
+import heroDesktopVideo from './assets/Hero_desktop.webm'
+import heroMobileVideo from './assets/Hero_mobile.webm'
+import heroTabletVideo from './assets/Hero_tablet.webm'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
@@ -21,7 +23,8 @@ import adultProgram from './assets/programa-adultos.webp'
 import kidsProgram from './assets/programa-kids.webp'
 import womenProgram from './assets/programa-mulheres.webp'
 import nogiProgram from './assets/programa-nogi.webp'
-import storeVideo from './assets/loja.mp4'
+import storeVideoPoster from './assets/loja-frameinicial.webp'
+import storeVideo from './assets/loja.webm'
 
 declare global {
   interface Window {
@@ -58,24 +61,6 @@ const navLinks = [
   { label: 'Loja', href: '#loja' },
   { label: 'Dúvidas', href: '#duvidas' },
   { label: 'Contato', href: '#contato' },
-]
-
-const quickFacts = [
-  {
-    icon: <LevelsIcon />,
-    title: 'Do iniciante ao graduado',
-    text: 'Orientação para começar ou evoluir.',
-  },
-  {
-    icon: <ProgramsIcon />,
-    title: 'Programas para cada fase',
-    text: 'Crianças, adultos, mulheres e No-gi.',
-  },
-  {
-    icon: <LocationIcon />,
-    title: 'Estamos em Cuiabá',
-    text: 'Treine em um ambiente acolhedor.',
-  },
 ]
 
 const galleryImages = {
@@ -413,32 +398,6 @@ function LocationIcon() {
   )
 }
 
-function LevelsIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-      <path
-        d="M5 18V11M12 18V7M19 18V4M3 18h18"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
-      />
-    </svg>
-  )
-}
-
-function ProgramsIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-      <rect x="4" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <rect x="14" y="4" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <rect x="4" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
-      <rect x="14" y="14" width="6" height="6" rx="1" fill="none" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
-  )
-}
-
 function PersonalizedIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
@@ -558,10 +517,31 @@ function CloseIcon() {
   )
 }
 
-function LazyStoreVideo() {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const videoWrapRef = useRef<HTMLDivElement>(null)
-  const [shouldLoad, setShouldLoad] = useState(false)
+function PauseIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path d="M8 6v12M16 6v12" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2.2" />
+    </svg>
+  )
+}
+
+function PlayIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path d="m9 6 9 6-9 6z" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="2.2" />
+    </svg>
+  )
+}
+
+function ChevronDownIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
@@ -574,6 +554,98 @@ function LazyStoreVideo() {
 
     return () => motionQuery.removeEventListener('change', updateMotionPreference)
   }, [])
+
+  return prefersReducedMotion
+}
+
+function VideoToggleButton({
+  className,
+  isPaused,
+  onClick,
+}: {
+  className: string
+  isPaused: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      className={`video-toggle ${className}`}
+      type="button"
+      aria-label={isPaused ? 'Reproduzir vídeo' : 'Pausar vídeo'}
+      onClick={onClick}
+    >
+      {isPaused ? <PlayIcon /> : <PauseIcon />}
+    </button>
+  )
+}
+
+function HeroMedia() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const [isPaused, setIsPaused] = useState(false)
+  const [isVideoReady, setIsVideoReady] = useState(false)
+
+  const togglePlayback = () => {
+    const video = videoRef.current
+
+    if (!video) {
+      return
+    }
+
+    if (video.paused) {
+      void video.play().catch(() => setIsPaused(true))
+    } else {
+      video.pause()
+    }
+  }
+
+  return (
+    <>
+      <picture className="hero-poster" aria-hidden="true">
+        <source srcSet={heroMobilePoster} media="(max-width: 760px)" />
+        <source srcSet={heroTabletPoster} media="(max-width: 980px)" />
+        <img src={heroDesktopPoster} alt="" fetchPriority="high" />
+      </picture>
+
+      {!prefersReducedMotion && (
+        <>
+          <video
+            ref={videoRef}
+            className={`hero-media${isVideoReady ? ' is-ready' : ''}`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            onLoadedData={() => {
+              setIsVideoReady(true)
+              setIsPaused(videoRef.current?.paused ?? false)
+            }}
+            onPause={() => setIsPaused(true)}
+            onPlay={() => setIsPaused(false)}
+          >
+            <source src={heroMobileVideo} type="video/webm" media="(max-width: 760px)" />
+            <source src={heroTabletVideo} type="video/webm" media="(max-width: 980px)" />
+            <source src={heroDesktopVideo} type="video/webm" />
+          </video>
+          <VideoToggleButton
+            className="hero-video-toggle"
+            isPaused={isPaused}
+            onClick={togglePlayback}
+          />
+        </>
+      )}
+    </>
+  )
+}
+
+function LazyStoreVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const videoWrapRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
+  const prefersReducedMotion = usePrefersReducedMotion()
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
     const videoWrap = videoWrapRef.current
@@ -612,18 +684,43 @@ function LazyStoreVideo() {
     video.pause()
   }, [prefersReducedMotion])
 
+  const togglePlayback = () => {
+    const video = videoRef.current
+
+    if (!video) {
+      return
+    }
+
+    if (video.paused) {
+      void video.play().catch(() => setIsPaused(true))
+    } else {
+      video.pause()
+    }
+  }
+
   return (
     <div className="store-video-wrap" ref={videoWrapRef}>
       <video
         ref={videoRef}
-        src={shouldLoad ? storeVideo : undefined}
+        src={shouldLoad && !prefersReducedMotion ? storeVideo : undefined}
+        poster={storeVideoPoster}
         autoPlay={!prefersReducedMotion}
         muted
         loop={!prefersReducedMotion}
         playsInline
         preload="none"
         aria-hidden="true"
+        onLoadedData={() => setIsPaused(videoRef.current?.paused ?? false)}
+        onPause={() => setIsPaused(true)}
+        onPlay={() => setIsPaused(false)}
       />
+      {shouldLoad && !prefersReducedMotion && (
+        <VideoToggleButton
+          className="store-video-toggle"
+          isPaused={isPaused}
+          onClick={togglePlayback}
+        />
+      )}
     </div>
   )
 }
@@ -798,44 +895,23 @@ function App() {
 
       <main>
         <section id="inicio" className="hero-section" aria-label="Banner principal">
-          <video
-            className="hero-media"
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster={heroImage}
-            preload="metadata"
-            aria-hidden="true"
-          >
-            <source src={heroMobileVideo} type="video/mp4" media="(max-width: 760px)" />
-            <source src={heroTabletVideo} type="video/mp4" media="(max-width: 980px)" />
-            <source src={heroDesktopVideo} type="video/mp4" />
-          </video>
+          <HeroMedia />
           <div className="hero-overlay" />
           <div className="hero-content">
             <h1>Jiu-Jitsu como estilo de vida.</h1>
+            <p>Aulas para iniciantes, crianças e adultos em Cuiabá.</p>
             <WhatsappLink
               className="button button-primary"
               href={whatsappUrls.schedule}
               source="hero"
             >
-              Agendar aula experimental grátis
+              Agendar aula grátis pelo WhatsApp
             </WhatsappLink>
-            <div className="quick-facts" aria-label="Diferenciais da Toca do Leão">
-              <div className="quick-facts-inner">
-                {quickFacts.map((fact) => (
-                  <article className="quick-fact" key={fact.title}>
-                    <div className="quick-fact-icon">{fact.icon}</div>
-                    <div>
-                      <strong>{fact.title}</strong>
-                      <p>{fact.text}</p>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
           </div>
+          <a className="hero-scroll-indicator" href="#sobre">
+            <span>Conheça a Toca</span>
+            <ChevronDownIcon />
+          </a>
         </section>
 
         <section id="sobre" className="section section-white about-section">

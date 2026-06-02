@@ -2,18 +2,18 @@ import './App.css'
 
 import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
-import heroDesktopPoster from './assets/Hero-desktop-frameinicial.webp'
-import heroMobilePoster from './assets/Hero-mobile-frameinicial.webp'
-import heroTabletPoster from './assets/Hero-tablet-frameinicial.webp'
-import heroDesktopVideo from './assets/Hero_desktop.webm'
-import heroMobileVideo from './assets/Hero_mobile.webm'
-import heroTabletVideo from './assets/Hero_tablet.webm'
+import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
+import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
+import heroTabletPoster from './assets/hero-tablet-frameinicial.webp'
+import heroDesktopVideo from './assets/hero-desktop.webm'
+import heroMobileVideo from './assets/hero-mobile.webm'
+import heroTabletVideo from './assets/hero-tablet.webm'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
 import mosaicThree from './assets/foto-mosaico-3.webp'
 import mosaicFour from './assets/foto-mosaico-4.webp'
-import mosaicFive from './assets/foto-mosaico-5.webp'
+import storePhoto from './assets/foto-loja.webp'
 import mosaicSix from './assets/foto-mosaico-6.webp'
 import mosaicSeven from './assets/foto-mosaico-7.webp'
 import mosaicEight from './assets/foto-mosaico-8.webp'
@@ -52,7 +52,7 @@ const whatsappUrls = {
     'Olá, vim pelo site, já treino Jiu-Jitsu e gostaria de conhecer a Toca do Leão.',
   ),
   contact: createWhatsappUrl('Olá, vim pelo site e gostaria de mais informações.'),
-  store: createWhatsappUrl('Olá, vim pelo site e gostaria de consultar os produtos da Toca Store.'),
+  store: createWhatsappUrl('Olá, vim pelo site e gostaria de saber mais sobre os produtos da Toca Store.'),
 }
 
 const navLinks = [
@@ -645,7 +645,7 @@ function LazyStoreVideo() {
   const videoWrapRef = useRef<HTMLDivElement>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
   const prefersReducedMotion = usePrefersReducedMotion()
-  const [isPaused, setIsPaused] = useState(false)
+  const [isPaused, setIsPaused] = useState(true)
 
   useEffect(() => {
     const videoWrap = videoWrapRef.current
@@ -684,10 +684,25 @@ function LazyStoreVideo() {
     video.pause()
   }, [prefersReducedMotion])
 
+  useEffect(() => {
+    const video = videoRef.current
+
+    if (!video || !shouldLoad || prefersReducedMotion) {
+      return
+    }
+
+    void video.play().catch(() => setIsPaused(true))
+  }, [prefersReducedMotion, shouldLoad])
+
   const togglePlayback = () => {
     const video = videoRef.current
 
     if (!video) {
+      return
+    }
+
+    if (!shouldLoad) {
+      setShouldLoad(true)
       return
     }
 
@@ -699,28 +714,30 @@ function LazyStoreVideo() {
   }
 
   return (
-    <div className="store-video-wrap" ref={videoWrapRef}>
-      <video
-        ref={videoRef}
-        src={shouldLoad && !prefersReducedMotion ? storeVideo : undefined}
-        poster={storeVideoPoster}
-        autoPlay={!prefersReducedMotion}
-        muted
-        loop={!prefersReducedMotion}
-        playsInline
-        preload="none"
-        aria-hidden="true"
-        onLoadedData={() => setIsPaused(videoRef.current?.paused ?? false)}
-        onPause={() => setIsPaused(true)}
-        onPlay={() => setIsPaused(false)}
-      />
-      {shouldLoad && !prefersReducedMotion && (
-        <VideoToggleButton
-          className="store-video-toggle"
-          isPaused={isPaused}
-          onClick={togglePlayback}
+    <div className="store-video-column">
+      <div className="store-video-wrap" ref={videoWrapRef}>
+        <video
+          ref={videoRef}
+          src={shouldLoad && !prefersReducedMotion ? storeVideo : undefined}
+          poster={storeVideoPoster}
+          autoPlay={!prefersReducedMotion}
+          muted
+          loop={!prefersReducedMotion}
+          playsInline
+          preload="none"
+          aria-hidden="true"
+          onLoadedData={() => setIsPaused(videoRef.current?.paused ?? false)}
+          onPause={() => setIsPaused(true)}
+          onPlay={() => setIsPaused(false)}
         />
-      )}
+        {!prefersReducedMotion && (
+          <VideoToggleButton
+            className="store-video-toggle"
+            isPaused={isPaused}
+            onClick={togglePlayback}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -789,7 +806,7 @@ function App() {
   }, [isMobileMenuOpen])
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia('(max-width: 760px)')
+    const mobileQuery = window.matchMedia('(max-width: 980px)')
     const closeMenuOnLargerScreen = () => {
       if (!mobileQuery.matches) {
         setIsMobileMenuOpen(false)
@@ -905,7 +922,7 @@ function App() {
               href={whatsappUrls.schedule}
               source="hero"
             >
-              Agendar aula grátis pelo WhatsApp
+              Agendar aula experimental grátis
             </WhatsappLink>
           </div>
           <a className="hero-scroll-indicator" href="#sobre">
@@ -1083,7 +1100,7 @@ function App() {
               </p>
 
               <div className="store-product-photo">
-                <img src={mosaicFive} alt="Boné da Toca Jiu-Jitsu" loading="lazy" decoding="async" />
+                <img src={storePhoto} alt="Boné da Toca Jiu-Jitsu" loading="lazy" decoding="async" />
               </div>
 
               <div className="store-categories">

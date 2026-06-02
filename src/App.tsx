@@ -9,6 +9,7 @@ import heroDesktopVideo from './assets/hero-desktop.webm'
 import heroMobileVideo from './assets/hero-mobile.webm'
 import heroTabletVideo from './assets/hero-tablet.webm'
 import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
+import footerLogoImage from './assets/logo-amarela-fundotransparente.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
 import mosaicThree from './assets/foto-mosaico-3.webp'
@@ -1242,10 +1243,19 @@ function App() {
       </main>
 
       <footer className="site-footer">
-        <p>
-          © {currentYear} - Todos os direitos reservados · Toca do Leão Lifestyle Jiu-Jitsu -
-          Desenvolvido por Éder Rabelo
-        </p>
+        <div className="footer-inner">
+          <img
+            className="footer-logo"
+            src={footerLogoImage}
+            alt="Toca do Leão Lifestyle Jiu-Jitsu"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="footer-copy">
+            <p>© {currentYear}. Todos os direitos reservados.</p>
+            <p>Desenvolvido por Éder Rabelo.</p>
+          </div>
+        </div>
       </footer>
     </div>
   )

@@ -68,37 +68,44 @@ const galleryImages = {
   training: {
     image: mosaicOne,
     alt: 'Treino de Jiu-Jitsu com kimono na Toca do Leão',
-    ratio: 1080 / 1440,
+    width: 1080,
+    height: 1440,
   },
   womenTraining: {
     image: mosaicTwo,
     alt: 'Praticantes durante treino de Jiu-Jitsu feminino',
-    ratio: 1080 / 1440,
+    width: 1080,
+    height: 1440,
   },
   kids: {
     image: mosaicThree,
     alt: 'Criança com kimono da Toca do Leão',
-    ratio: 1080 / 1913,
+    width: 1080,
+    height: 1913,
   },
   women: {
     image: mosaicFour,
     alt: 'Alunas durante treino feminino de Jiu-Jitsu',
-    ratio: 1080 / 1246,
+    width: 1080,
+    height: 1246,
   },
   giTraining: {
     image: mosaicSix,
     alt: 'Praticantes treinando Jiu-Jitsu com kimono',
-    ratio: 1,
+    width: 1080,
+    height: 1080,
   },
   kimono: {
     image: mosaicSeven,
     alt: 'Detalhe do kimono da Toca do Leão',
-    ratio: 1080 / 1440,
+    width: 1080,
+    height: 1440,
   },
   nogi: {
     image: mosaicEight,
     alt: 'Praticantes durante treino de No-gi',
-    ratio: 1080 / 1350,
+    width: 1080,
+    height: 1350,
   },
 }
 
@@ -309,14 +316,16 @@ function PhotoGallery({
     <div className={`photo-gallery ${className}`}>
       {rows.map((row, index) => (
         <div className="photo-gallery-row" key={`gallery-row-${index}`}>
-          {row.map(({ alt, image, ratio }) => (
+          {row.map(({ alt, height, image, width }) => (
             <img
               key={image}
               src={image}
               alt={alt}
+              width={width}
+              height={height}
               loading="lazy"
               decoding="async"
-              style={{ flexGrow: ratio }}
+              style={{ aspectRatio: `${width} / ${height}`, flexGrow: width / height }}
             />
           ))}
         </div>
@@ -954,7 +963,7 @@ function App() {
 
             </div>
 
-            <div className="leadership-feature" aria-label="Liderança da academia">
+            <section className="leadership-feature" aria-label="Liderança da academia">
               <div className="leadership-note">
                 <p className="eyebrow">Liderança de campeões</p>
                 <p>
@@ -974,7 +983,7 @@ function App() {
                   </article>
                 ))}
               </div>
-            </div>
+            </section>
           </div>
         </section>
 
@@ -1014,7 +1023,7 @@ function App() {
               </div>
             </div>
 
-            <div className="intro-benefits" aria-label="Benefícios da aula introdutória">
+            <section className="intro-benefits" aria-label="Benefícios da aula introdutória">
               <article>
                 <div className="intro-benefit-icon">
                   <PersonalizedIcon />
@@ -1042,16 +1051,16 @@ function App() {
                   <p>Depois da introdução, indicamos o grupo mais adequado ao seu momento.</p>
                 </div>
               </article>
-            </div>
+            </section>
           </div>
         </section>
 
-        <div className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
+        <section className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
           <div className="section-inner">
             <PhotoGallery className="photo-gallery-desktop" rows={desktopGalleryRows} />
             <PhotoGallery className="photo-gallery-mobile" rows={mobileGalleryRows} />
           </div>
-        </div>
+        </section>
 
         <section id="programas" className="section section-light">
           <div className="section-inner">

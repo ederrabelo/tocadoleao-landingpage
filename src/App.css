@@ -11,8 +11,6 @@
   --gold: #efc45a;
   --gold-strong: #ffd66d;
   --gold-dark: #9a6a00;
-  --clay: #a44532;
-  --green: #556448;
   --shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
   --shadow-light: 0 18px 46px rgba(0, 0, 0, 0.12);
 }
@@ -72,8 +70,7 @@
   gap: 32px;
 }
 
-.main-nav a,
-.site-footer a {
+.main-nav a {
   color: inherit;
 }
 
@@ -187,14 +184,12 @@
   background: rgba(248, 244, 234, 0.1);
 }
 
-.button-card,
-.button-dark {
+.button-card {
   background: var(--ink);
   color: #ffffff;
 }
 
-.button-card:hover,
-.button-dark:hover {
+.button-card:hover {
   background: #353535;
 }
 
@@ -209,15 +204,7 @@
   background: rgba(21, 21, 21, 0.06);
 }
 
-.text-link {
-  color: inherit;
-  font-weight: 800;
-  line-height: 1.5;
-  text-underline-offset: 4px;
-}
-
 .button:focus-visible,
-.text-link:focus-visible,
 .main-nav a:focus-visible,
 .logo-link:focus-visible,
 .header-social-link:focus-visible,

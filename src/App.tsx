@@ -109,7 +109,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
-    scheduleLabel: 'Agendar aula Kids',
+    scheduleLabel: 'Agendar aula kids',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Kids.',
     ),
@@ -139,7 +139,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula de No-gi.',
     ),
-    scheduleLabel: 'Agendar No-gi',
+    scheduleLabel: 'Agendar No-Gi',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa No-gi.',
     ),

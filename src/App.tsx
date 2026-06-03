@@ -987,7 +987,7 @@ function App() {
             </div>
 
             <section className="leadership-feature" aria-label="Professores da academia">
-              <h3 className="leadership-subtitle">Liderança de referências no tatame</h3>
+              <h3 className="leadership-subtitle">Liderança de campeões</h3>
               <p className="leadership-description">
                 Conheça quem conduz o dia a dia dos treinos na nossa academia.
               </p>

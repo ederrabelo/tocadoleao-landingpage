@@ -567,9 +567,21 @@
 }
 
 .leadership-photo {
+  position: relative;
   overflow: hidden;
   aspect-ratio: 4 / 5;
   background: var(--bg);
+}
+
+.leadership-photo::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 46%;
+  background: linear-gradient(180deg, rgba(17, 17, 17, 0), rgba(17, 17, 17, 0.82));
+  content: '';
+  pointer-events: none;
 }
 
 .leadership-photo img {
@@ -579,15 +591,21 @@
   object-fit: cover;
 }
 
-.leadership-card-body {
+.leadership-caption {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: grid;
-  padding: 18px;
-  gap: 7px;
+  gap: 6px;
+  padding: 22px 18px 18px;
+  color: #ffffff;
 }
 
-.leadership-role {
+.leadership-caption p {
   margin: 0;
-  color: var(--ink-muted);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0;
@@ -595,9 +613,9 @@
   text-transform: uppercase;
 }
 
-.leadership-card h3 {
+.leadership-caption h3 {
   margin: 0;
-  color: var(--section-text);
+  color: #ffffff;
   font-family: var(--font-display);
   font-size: 1.45rem;
   font-weight: 900;
@@ -1429,15 +1447,15 @@
     font-size: 1.08rem;
   }
 
-  .leadership-card-body {
-    padding: 15px;
+  .leadership-caption {
+    padding: 22px 15px 15px;
   }
 
-  .leadership-role {
+  .leadership-caption p {
     font-size: 0.62rem;
   }
 
-  .leadership-card h3 {
+  .leadership-caption h3 {
     font-size: 1.08rem;
   }
 

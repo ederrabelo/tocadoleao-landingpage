@@ -996,10 +996,10 @@ function App() {
                   <article className="leadership-card" key={leader.name}>
                     <div className="leadership-photo">
                       <img src={leader.image} alt={leader.name} loading="lazy" decoding="async" />
-                    </div>
-                    <div className="leadership-card-body">
-                      <p className="leadership-role">{leader.role}</p>
-                      <h3>{leader.name}</h3>
+                      <div className="leadership-caption">
+                        <h3>{leader.name}</h3>
+                        <p>{leader.role}</p>
+                      </div>
                     </div>
                   </article>
                 ))}

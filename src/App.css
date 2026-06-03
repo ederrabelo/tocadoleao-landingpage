@@ -54,16 +54,15 @@
   box-shadow: none;
 }
 
-.logo-link {
+.logo-mark {
   display: inline-flex;
   align-items: center;
   justify-self: start;
   width: 128px;
   height: 150px;
-  transition: opacity 180ms ease, transform 220ms var(--ease-out);
 }
 
-.logo-link img {
+.logo-mark img {
   display: block;
   width: 100%;
   height: 100%;
@@ -85,8 +84,8 @@
   position: relative;
   padding: 10px 0;
   color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: 0.88rem;
+  font-weight: var(--font-weight-medium);
   letter-spacing: 0;
   text-decoration: none;
   text-transform: uppercase;
@@ -182,7 +181,7 @@
   background: var(--button-bg);
   color: var(--button-text);
   font-size: 0.88rem;
-  font-weight: 800;
+  font-weight: var(--font-weight-medium);
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
@@ -249,7 +248,6 @@
 
 .button:focus-visible,
 .main-nav a:focus-visible,
-.logo-link:focus-visible,
 .header-social-link:focus-visible,
 .mobile-menu-toggle:focus-visible,
 .mobile-menu-nav a:focus-visible,
@@ -319,9 +317,9 @@
   margin: 0 auto 16px;
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: 4.85rem;
-  font-weight: 900;
-  line-height: 1.02;
+  font-size: 4.6rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.04;
   letter-spacing: 0;
   text-shadow: 0 12px 36px rgba(0, 0, 0, 0.64);
   text-transform: uppercase;
@@ -331,9 +329,9 @@
   max-width: 680px;
   margin: 0 auto 26px;
   color: rgba(255, 255, 255, 0.92);
-  font-size: 1.12rem;
-  font-weight: 700;
-  line-height: 1.55;
+  font-size: 1.08rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.6;
   text-shadow: 0 6px 18px rgba(0, 0, 0, 0.58);
 }
 
@@ -377,8 +375,8 @@
   align-items: center;
   gap: 7px;
   color: rgba(255, 255, 255, 0.86);
-  font-size: 0.74rem;
-  font-weight: 800;
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-medium);
   letter-spacing: 0;
   line-height: 1;
   text-decoration: none;
@@ -470,9 +468,9 @@
   margin: 0 0 22px;
   color: var(--section-text);
   font-family: var(--font-display);
-  font-size: 2.45rem;
-  font-weight: 900;
-  line-height: 1.08;
+  font-size: 2.38rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
   letter-spacing: 0;
   text-transform: uppercase;
   text-wrap: balance;
@@ -483,8 +481,9 @@
 .store-intro {
   margin: 0;
   color: var(--section-text);
-  font-size: 1.45rem;
-  line-height: 1.45;
+  font-size: 1.28rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.55;
 }
 
 .text-stack {
@@ -495,14 +494,15 @@
 .text-stack p {
   margin: 0;
   color: var(--section-muted);
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: 1.02rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.7;
 }
 
 .text-stack-large p {
   color: var(--section-text);
-  font-size: 1.35rem;
-  line-height: 1.55;
+  font-size: 1.18rem;
+  line-height: 1.6;
 }
 
 .who-we-are-text {
@@ -513,14 +513,15 @@
 .who-we-are-text p {
   margin: 0;
   color: var(--section-muted);
-  font-size: 1rem;
-  line-height: 1.72;
+  font-size: 1.02rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.7;
 }
 
 .who-we-are-lead {
   color: var(--section-text);
-  font-size: 1.28rem;
-  line-height: 1.55;
+  font-size: 1.16rem;
+  line-height: 1.62;
 }
 
 .who-we-are-button {
@@ -536,8 +537,8 @@
   margin: 0 0 6px;
   color: var(--section-text);
   font-family: var(--font-display);
-  font-size: 1.18rem;
-  font-weight: 900;
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0;
   line-height: 1.15;
   text-transform: uppercase;
@@ -547,7 +548,8 @@
   max-width: 420px;
   margin: 0 0 16px;
   color: var(--section-muted);
-  font-size: 0.96rem;
+  font-size: 0.98rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.6;
 }
 
@@ -606,8 +608,8 @@
 .leadership-caption p {
   margin: 0;
   color: rgba(255, 255, 255, 0.78);
-  font-size: 0.75rem;
-  font-weight: 800;
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-medium);
   letter-spacing: 0;
   line-height: 1.4;
   text-transform: uppercase;
@@ -617,8 +619,8 @@
   margin: 0;
   color: #ffffff;
   font-family: var(--font-display);
-  font-size: 1.45rem;
-  font-weight: 900;
+  font-size: 1.32rem;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0;
   line-height: 1.05;
   text-transform: uppercase;
@@ -708,13 +710,15 @@
 
 .intro-benefits h3 {
   color: var(--section-text);
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 1.02rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.35;
 }
 
 .intro-benefits p {
   color: var(--section-muted);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.6;
 }
 
@@ -767,9 +771,9 @@
   margin: 0 0 10px;
   color: var(--section-text);
   font-family: var(--font-display);
-  font-size: 1.18rem;
-  font-weight: 900;
-  line-height: 1.06;
+  font-size: 1.14rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
   letter-spacing: 0;
   text-transform: uppercase;
 }
@@ -777,13 +781,15 @@
 .program-content p {
   margin: 0;
   color: var(--section-muted);
-  font-size: 0.88rem;
-  line-height: 1.58;
+  font-size: 0.9rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.62;
 }
 
 .program-content ul {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 8px;
   margin: 16px 0 18px;
   padding: 0;
@@ -795,9 +801,10 @@
   border: 1px solid var(--section-line);
   border-radius: 0;
   color: var(--ink-muted);
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-size: 0.72rem;
+  font-weight: var(--font-weight-medium);
   line-height: 1.2;
+  text-align: center;
 }
 
 .program-actions {
@@ -810,7 +817,7 @@
   width: 100%;
   min-height: 42px;
   padding: 0 12px;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
 }
 
 .faq-layout {
@@ -833,7 +840,8 @@
   max-width: 680px;
   margin: 0;
   color: var(--section-muted);
-  font-size: 1.08rem;
+  font-size: 1.02rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.65;
 }
 
@@ -868,7 +876,8 @@
   padding: 20px 54px 20px 20px;
   color: var(--section-text);
   cursor: pointer;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
   line-height: 1.45;
   list-style: none;
 }
@@ -891,7 +900,7 @@
   color: var(--ink);
   content: '+';
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   line-height: 1;
 }
 
@@ -903,6 +912,8 @@
   margin: 0;
   padding: 0 20px 20px;
   color: var(--section-muted);
+  font-size: 0.96rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.7;
 }
 
@@ -967,8 +978,8 @@
   margin: 0;
   color: var(--section-text);
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1.18rem;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 0;
   line-height: 1.18;
 }
@@ -977,7 +988,8 @@
   display: block;
   margin-top: 7px;
   color: var(--section-muted);
-  font-size: 0.88rem;
+  font-size: 0.92rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.6;
 }
 
@@ -1050,6 +1062,7 @@
 .contact-socials strong {
   color: var(--section-text);
   font-size: 0.8rem;
+  font-weight: var(--font-weight-medium);
   letter-spacing: 0;
   line-height: 1.4;
   text-transform: uppercase;
@@ -1075,7 +1088,7 @@
   color: var(--section-muted);
   font-size: 0.95rem;
   font-style: normal;
-  font-weight: 700;
+  font-weight: var(--font-weight-regular);
   line-height: 1.65;
 }
 
@@ -1132,7 +1145,8 @@
 .footer-copy p {
   margin: 0;
   color: rgba(255, 255, 255, 0.62);
-  font-size: 0.72rem;
+  font-size: 0.74rem;
+  font-weight: var(--font-weight-regular);
   line-height: 1.55;
 }
 
@@ -1149,12 +1163,6 @@
   --button-border: var(--bg);
   --button-hover-border: var(--bg);
   --button-hover-text: var(--bg);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .logo-link:hover {
-    opacity: 0.9;
-  }
 }
 
 @media (max-width: 980px) {
@@ -1201,7 +1209,7 @@
     padding: var(--mobile-nav-padding-y) var(--mobile-nav-padding-x);
   }
 
-  .logo-link {
+  .logo-mark {
     grid-column: 2;
     width: var(--mobile-nav-logo-width);
     height: var(--mobile-nav-logo-height);
@@ -1261,7 +1269,7 @@
     animation: mobile-menu-fade 180ms ease-out both;
   }
 
-  .site-header.is-menu-open .logo-link {
+  .site-header.is-menu-open .logo-mark {
     grid-column: 2;
     grid-row: 1;
     align-self: center;
@@ -1281,7 +1289,7 @@
     color: #ffffff;
   }
 
-  .site-header.is-menu-open .logo-link,
+  .site-header.is-menu-open .logo-mark,
   .site-header.is-menu-open .header-actions {
     position: relative;
     z-index: 41;
@@ -1320,8 +1328,8 @@
     padding: 22px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     color: rgba(255, 255, 255, 0.9);
-    font-size: 1.24rem;
-    font-weight: 800;
+    font-size: 1.18rem;
+    font-weight: var(--font-weight-medium);
     line-height: 1.2;
     letter-spacing: 0;
     text-decoration: none;
@@ -1398,13 +1406,13 @@
 
   .hero-content h1 {
     margin-bottom: 12px;
-    font-size: 2.62rem;
-    line-height: 1.05;
+    font-size: 2.48rem;
+    line-height: 1.08;
   }
 
   .hero-content p {
     margin-bottom: 22px;
-    font-size: 0.98rem;
+    font-size: 0.96rem;
   }
 
   .hero-scroll-indicator {
@@ -1437,14 +1445,15 @@
 
   .section-kicker {
     margin-bottom: 18px;
-    font-size: 2rem;
-    line-height: 1;
+    font-size: 1.92rem;
+    line-height: 1.08;
   }
 
   .section-heading p:last-child,
   .store-intro,
   .text-stack-large p {
-    font-size: 1.08rem;
+    font-size: 1.04rem;
+    line-height: 1.62;
   }
 
   .leadership-caption {
@@ -1452,11 +1461,11 @@
   }
 
   .leadership-caption p {
-    font-size: 0.62rem;
+    font-size: 0.68rem;
   }
 
   .leadership-caption h3 {
-    font-size: 1.08rem;
+    font-size: 1.12rem;
   }
 
   .intro-benefits article {
@@ -1475,7 +1484,7 @@
 
   .faq-intro {
     margin-top: 16px;
-    font-size: 1rem;
+    font-size: 0.98rem;
   }
 
   .faq-list {
@@ -1520,7 +1529,7 @@
   }
 
   .program-content h3 {
-    font-size: 1.16rem;
+    font-size: 1.12rem;
   }
 
   .store-video-wrap video {
@@ -1569,7 +1578,7 @@
   }
 
   .program-content h3 {
-    font-size: 1.28rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -1592,7 +1601,7 @@
     font-size: 0.86rem;
   }
 
-  .logo-link {
+  .logo-mark {
     width: var(--mobile-nav-logo-width);
     height: var(--mobile-nav-logo-height);
   }
@@ -1602,7 +1611,7 @@
     height: var(--mobile-nav-toggle-size);
   }
 
-  .site-header.is-menu-open .logo-link {
+  .site-header.is-menu-open .logo-mark {
     width: var(--mobile-nav-logo-width);
     height: var(--mobile-nav-logo-height);
   }
@@ -1612,15 +1621,15 @@
   }
 
   .section-kicker {
-    font-size: 1.72rem;
+    font-size: 1.68rem;
   }
 
   .hero-content h1 {
-    font-size: 2.2rem;
+    font-size: 2.08rem;
   }
 
   .button-primary {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
   }
 
 }
@@ -1641,7 +1650,6 @@
 
   .button:hover,
   .header-social-link:hover,
-  .logo-link:hover,
   .mobile-menu-nav a:hover,
   .mobile-menu-social-link:hover {
     transform: none;

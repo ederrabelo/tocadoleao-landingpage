@@ -105,7 +105,7 @@ const programs = [
     image: kidsProgram,
     description:
       'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu.',
-    highlights: ['Coordenação motora', 'Convivência e respeito'],
+    highlights: ['Coordenação motora', 'Disciplina'],
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
@@ -832,14 +832,9 @@ function App() {
   return (
     <div className="site-shell">
       <header className={`site-header${isMobileMenuOpen ? ' is-menu-open' : ''}`}>
-        <TrackedLink
-          className="logo-link"
-          href="#inicio"
-          event="navigation_click"
-          source="logo_cabecalho"
-        >
+        <div className="logo-mark">
           <img src={logoImage} alt="Toca do Leão" />
-        </TrackedLink>
+        </div>
 
         <nav className="main-nav" aria-label="Menu principal">
           {navLinks.map((link) => (

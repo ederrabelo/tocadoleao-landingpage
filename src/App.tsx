@@ -377,6 +377,18 @@ const scheduleDays = [
   },
 ]
 
+const scheduleFilters = [
+  'Todos',
+  'Iniciantes',
+  'Avançados',
+  'Competição',
+  'Kids',
+  'Mulheres',
+  'Kimono',
+  'Sem kimono',
+  '5 a 12 anos',
+] as const
+
 const pricingPlans = [
   {
     name: '2x na semana',
@@ -1048,6 +1060,8 @@ function App() {
   const menuToggleRef = useRef<HTMLButtonElement>(null)
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [activeScheduleFilter, setActiveScheduleFilter] =
+    useState<(typeof scheduleFilters)[number]>('Todos')
 
   useEffect(() => {
     if (!isMobileMenuOpen) {
@@ -1400,9 +1414,32 @@ function App() {
               </p>
             </div>
 
+            <div className="schedule-filters" aria-label="Filtrar horários">
+              {scheduleFilters.map((filter) => (
+                <button
+                  className={`schedule-filter${activeScheduleFilter === filter ? ' is-active' : ''}`}
+                  type="button"
+                  aria-pressed={activeScheduleFilter === filter}
+                  key={filter}
+                  onClick={() => {
+                    setActiveScheduleFilter(filter)
+                    trackEvent('schedule_filter_click', filter)
+                  }}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+
             <div className="schedule-grid">
               {scheduleDays.map((day) => {
                 const isToday = day.weekday === currentWeekday
+                const filteredSlots = day.slots.filter(
+                  (slot) =>
+                    activeScheduleFilter === 'Todos' ||
+                    slot.title === activeScheduleFilter ||
+                    slot.tags.some((tag) => tag.label === activeScheduleFilter),
+                )
 
                 return (
                   <article
@@ -1414,26 +1451,30 @@ function App() {
                       <h3>{day.day}</h3>
                     </header>
                     <div className="schedule-slots">
-                      {day.slots.map((slot) => (
-                        <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
-                          <time>{slot.time}</time>
-                          <div>
-                            <div className="schedule-slot-title">
-                              <strong>{slot.title}</strong>
-                              <div className="schedule-tags">
-                                {slot.tags.map((tag) => (
-                                  <span
-                                    className={`schedule-tag schedule-tag-${tag.tone}`}
-                                    key={tag.label}
-                                  >
-                                    {tag.label}
-                                  </span>
-                                ))}
+                      {filteredSlots.length > 0 ? (
+                        filteredSlots.map((slot) => (
+                          <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
+                            <time>{slot.time}</time>
+                            <div>
+                              <div className="schedule-slot-title">
+                                <strong>{slot.title}</strong>
+                                <div className="schedule-tags">
+                                  {slot.tags.map((tag) => (
+                                    <span
+                                      className={`schedule-tag schedule-tag-${tag.tone}`}
+                                      key={tag.label}
+                                    >
+                                      {tag.label}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        <p className="schedule-empty">Sem treinos para este filtro.</p>
+                      )}
                     </div>
                   </article>
                 )

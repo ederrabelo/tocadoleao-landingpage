@@ -261,6 +261,7 @@
 .mobile-menu-nav a:focus-visible,
 .video-toggle:focus-visible,
 .hero-scroll-indicator:focus-visible,
+.schedule-filter:focus-visible,
 .faq-list summary:focus-visible {
   outline: 3px solid currentColor;
   outline-offset: 4px;
@@ -884,6 +885,41 @@
   margin-bottom: 30px;
 }
 
+.schedule-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -8px 0 28px;
+}
+
+.schedule-filter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  background: #eeeeee;
+  color: var(--ink-muted);
+  cursor: pointer;
+  font-size: 0.86rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    color 180ms ease;
+}
+
+.schedule-filter:hover,
+.schedule-filter:focus-visible,
+.schedule-filter.is-active {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #ffffff;
+}
+
 .schedule-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -977,6 +1013,15 @@
 
 .schedule-slot:first-child {
   border-top: 0;
+}
+
+.schedule-empty {
+  margin: 0;
+  padding: 18px 14px;
+  color: var(--ink-muted);
+  font-size: 0.84rem;
+  font-weight: var(--font-weight-regular);
+  line-height: 1.5;
 }
 
 .schedule-slot time {

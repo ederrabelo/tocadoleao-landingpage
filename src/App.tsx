@@ -1309,7 +1309,7 @@ function App() {
                 href={whatsappUrls.introduction}
                 source="aula_introdutoria"
               >
-                Quero conhecer a aula introdutória
+                Agendar aula introdutória
               </WhatsappLink>
             </div>
 
@@ -1376,18 +1376,19 @@ function App() {
                     </ul>
                     <div className="program-actions">
                       <WhatsappLink
-                        className="button button-card"
+                        className="button program-button-schedule"
                         href={program.scheduleHref}
                         source={`${program.source}_agendar`}
                       >
                         {program.scheduleLabel}
                       </WhatsappLink>
                       <WhatsappLink
-                        className="button button-outline-dark"
+                        className="button program-button-learn"
                         href={program.learnHref}
                         source={`${program.source}_saiba_mais`}
                       >
                         Saiba mais
+                        <ArrowRightIcon />
                       </WhatsappLink>
                     </div>
                   </div>

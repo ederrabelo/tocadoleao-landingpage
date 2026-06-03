@@ -18,6 +18,7 @@
   --brand-green-contrast: #ffffff;
   --brand-yellow: #ffd400;
   --brand-yellow-contrast: #171717;
+  --button-font-size: 0.94rem;
   --shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
   --shadow-light: 0 18px 46px rgba(0, 0, 0, 0.12);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -187,7 +188,7 @@
   border-radius: 0;
   background: var(--button-bg);
   color: var(--button-text);
-  font-size: 0.88rem;
+  font-size: var(--button-font-size);
   font-weight: var(--font-weight-medium);
   line-height: 1.2;
   text-align: center;
@@ -816,15 +817,41 @@
 
 .program-actions {
   display: grid;
-  gap: 8px;
+  gap: 9px;
   margin-top: auto;
 }
 
 .program-actions .button {
   width: 100%;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 12px;
-  font-size: 0.76rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.program-actions .button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.program-button-schedule {
+  --button-bg: var(--ink);
+  --button-text: #ffffff;
+  --button-border: var(--ink);
+  --button-hover-border: var(--ink);
+  --button-hover-text: var(--ink);
+
+  min-height: 46px;
+}
+
+.program-button-learn {
+  --button-bg: #ffffff;
+  --button-text: var(--ink);
+  --button-border: rgba(17, 17, 17, 0.22);
+  --button-hover-border: var(--ink);
+  --button-hover-text: var(--ink);
+
+  min-height: 40px;
+  font-weight: var(--font-weight-medium);
 }
 
 .schedule-section .section-heading,
@@ -1810,7 +1837,6 @@
     width: 100%;
     min-height: 52px;
     padding: 0 16px;
-    font-size: 0.84rem;
     text-align: center;
   }
 
@@ -2018,10 +2044,6 @@
 
   .hero-content h1 {
     font-size: 2.08rem;
-  }
-
-  .button-primary {
-    font-size: 0.82rem;
   }
 
 }

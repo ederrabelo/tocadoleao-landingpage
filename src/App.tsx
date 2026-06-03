@@ -53,6 +53,8 @@ const whatsappUrls = {
 const navLinks = [
   { label: 'Quem somos', href: '#quem-somos' },
   { label: 'Programas', href: '#programas' },
+  { label: 'Horários', href: '#horarios' },
+  { label: 'Planos', href: '#planos' },
   { label: 'Loja', href: '#loja' },
   { label: 'Dúvidas', href: '#duvidas' },
   { label: 'Contato', href: '#contato' },
@@ -109,7 +111,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
-    scheduleLabel: 'Agendar aula kids',
+    scheduleLabel: 'Agendar',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Kids.',
     ),
@@ -124,7 +126,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula de Jiu-Jitsu para adultos.',
     ),
-    scheduleLabel: 'Agendar aula adultos',
+    scheduleLabel: 'Agendar',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Adultos.',
     ),
@@ -139,7 +141,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula de No-gi.',
     ),
-    scheduleLabel: 'Agendar No-Gi',
+    scheduleLabel: 'Agendar',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa No-gi.',
     ),
@@ -154,7 +156,7 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula na turma feminina.',
     ),
-    scheduleLabel: 'Agendar turma feminina',
+    scheduleLabel: 'Agendar',
     learnHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Mulheres.',
     ),
@@ -162,9 +164,271 @@ const programs = [
   },
 ]
 
+const scheduleDays = [
+  {
+    day: 'Segunda',
+    weekday: 1,
+    slots: [
+      {
+        time: '06:00',
+        title: 'Iniciantes',
+        detail: 'Fundamentos, base e movimentação',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '07:00',
+        title: 'No-gi',
+        detail: 'Controle, passagens e finalizações',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
+      },
+      {
+        time: '11:00',
+        title: 'Competição',
+        detail: 'Estratégia, intensidade e simulações',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '18:00',
+        title: 'Kids',
+        detail: 'Turma infantil com dinâmica lúdica',
+        tags: [{ label: '5 a 12 anos', tone: 'kids' }],
+      },
+      {
+        time: '19:00',
+        title: 'Avançados',
+        detail: 'Técnica, situações e rolas',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '20:00',
+        title: 'Mulheres',
+        detail: 'Turma exclusiva para mulheres',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+    ],
+  },
+  {
+    day: 'Terça',
+    weekday: 2,
+    slots: [
+      {
+        time: '06:00',
+        title: 'Iniciantes',
+        detail: 'Base, defesa pessoal e movimentação',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '07:00',
+        title: 'Avançados',
+        detail: 'Sequências técnicas e rounds',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '11:00',
+        title: 'Competição',
+        detail: 'Rolas dirigidos e preparação',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '18:00',
+        title: 'Kids',
+        detail: 'Coordenação, disciplina e técnica',
+        tags: [{ label: '5 a 12 anos', tone: 'kids' }],
+      },
+      {
+        time: '19:00',
+        title: 'No-gi',
+        detail: 'Quedas, controle e transições',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
+      },
+      {
+        time: '20:00',
+        title: 'Iniciantes',
+        detail: 'Aula progressiva de fundamentos',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+    ],
+  },
+  {
+    day: 'Quarta',
+    weekday: 3,
+    slots: [
+      {
+        time: '06:00',
+        title: 'No-gi',
+        detail: 'Mobilidade, ataques e defesa',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
+      },
+      {
+        time: '07:00',
+        title: 'Iniciantes',
+        detail: 'Aula progressiva de fundamentos',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '11:00',
+        title: 'Competição',
+        detail: 'Estratégia, intensidade e simulações',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '18:00',
+        title: 'Kids',
+        detail: 'Fundamentos, jogos e respeito',
+        tags: [{ label: '5 a 12 anos', tone: 'kids' }],
+      },
+      {
+        time: '19:00',
+        title: 'Mulheres',
+        detail: 'Defesa pessoal e Jiu-Jitsu',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '20:00',
+        title: 'Avançados',
+        detail: 'Treino técnico e específico',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+    ],
+  },
+  {
+    day: 'Quinta',
+    weekday: 4,
+    slots: [
+      {
+        time: '06:00',
+        title: 'Avançados',
+        detail: 'Sequências técnicas e rounds',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '07:00',
+        title: 'No-gi',
+        detail: 'Transições, quedas e controle',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
+      },
+      {
+        time: '11:00',
+        title: 'Competição',
+        detail: 'Rolas dirigidos e preparação',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '18:00',
+        title: 'Kids',
+        detail: 'Aula infantil por faixa etária',
+        tags: [{ label: '5 a 12 anos', tone: 'kids' }],
+      },
+      {
+        time: '19:00',
+        title: 'Iniciantes',
+        detail: 'Fundamentos, base e defesa pessoal',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '20:00',
+        title: 'Mulheres',
+        detail: 'Turma exclusiva para mulheres',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+    ],
+  },
+  {
+    day: 'Sexta',
+    weekday: 5,
+    slots: [
+      {
+        time: '06:00',
+        title: 'Iniciantes',
+        detail: 'Revisão da semana e fundamentos',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '07:00',
+        title: 'Avançados',
+        detail: 'Treino técnico e específico',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '11:00',
+        title: 'Competição',
+        detail: 'Ritmo, pressão e simulações',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+      {
+        time: '18:00',
+        title: 'Kids',
+        detail: 'Fundamentos, jogos e respeito',
+        tags: [{ label: '5 a 12 anos', tone: 'kids' }],
+      },
+      {
+        time: '19:00',
+        title: 'No-gi',
+        detail: 'Ritmo, scramble e controle',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
+      },
+      {
+        time: '20:00',
+        title: 'Avançados',
+        detail: 'Treino aberto orientado',
+        tags: [{ label: 'Kimono', tone: 'kimono' }],
+      },
+    ],
+  },
+]
+
+const pricingPlans = [
+  {
+    name: '2x na semana',
+    price: 'R$ 189',
+    period: '/mês',
+    description: 'Ideal para começar com consistência e encaixar o Jiu-Jitsu na rotina.',
+    features: [
+      '2 treinos por semana',
+      'Acesso às turmas de fundamentos',
+      'Reposição mediante disponibilidade',
+    ],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o plano 2x na semana.',
+    ),
+    source: 'plano_2x',
+  },
+  {
+    name: '3x na semana',
+    price: 'R$ 229',
+    period: '/mês',
+    description: 'O melhor equilíbrio para evoluir técnica, condicionamento e confiança.',
+    features: [
+      '3 treinos por semana',
+      'Acesso a turmas com kimono e no-gi',
+      'Ritmo recomendado para evolução',
+    ],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o plano 3x na semana.',
+    ),
+    source: 'plano_3x',
+    featured: true,
+  },
+  {
+    name: '5x na semana',
+    price: 'R$ 289',
+    period: '/mês',
+    description: 'Para quem quer treinar com alta frequência e aproveitar a grade completa.',
+    features: [
+      'Até 5 treinos por semana',
+      'Acesso à grade completa disponível',
+      'Inclui treinos avançados e competição',
+    ],
+    href: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o plano 5x na semana.',
+    ),
+    source: 'plano_5x',
+  },
+]
+
 const leaders = [
   {
-    name: 'Lukas David',
+    name: 'Lukas Andrade',
     image: lukasLeadership,
     role: 'Faixa-preta de Jiu-Jitsu',
   },
@@ -550,6 +814,32 @@ function ArrowRightIcon() {
   )
 }
 
+function CheckIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="m5 12.5 4.2 4.2L19 6.8"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="3.1"
+      />
+    </svg>
+  )
+}
+
+function TrophyIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M7 4h10v2h3a1 1 0 0 1 1 1v1.1a4.9 4.9 0 0 1-4.4 4.9A5.6 5.6 0 0 1 13 16.9V19h3.2a1 1 0 0 1 1 1v1H6.8v-1a1 1 0 0 1 1-1H11v-2.1A5.6 5.6 0 0 1 7.4 13 4.9 4.9 0 0 1 3 8.1V7a1 1 0 0 1 1-1h3zm0 4H5v.1A2.9 2.9 0 0 0 7.1 11 7.5 7.5 0 0 1 7 9.8zm12 0h-2v1.8c0 .4 0 .8-.1 1.2A2.9 2.9 0 0 0 19 8.1z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
 function usePrefersReducedMotion() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -753,6 +1043,7 @@ function LazyStoreVideo() {
 
 function App() {
   const currentYear = new Date().getFullYear()
+  const currentWeekday = new Date().getDay()
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
   const firstMobileLinkRef = useRef<HTMLAnchorElement>(null)
@@ -1102,6 +1393,113 @@ function App() {
                   </div>
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="horarios" className="section section-white schedule-section">
+          <div className="section-inner">
+            <div className="section-heading">
+              <h2 className="section-kicker">Horários</h2>
+              <p>
+                Confira nossa grade de treinos e encontre o melhor horário para você.
+              </p>
+            </div>
+
+            <div className="schedule-grid">
+              {scheduleDays.map((day) => {
+                const isToday = day.weekday === currentWeekday
+
+                return (
+                  <article
+                    className={`schedule-day-card${isToday ? ' is-today' : ''}`}
+                    key={day.day}
+                  >
+                    {isToday && <span className="schedule-today-badge">Hoje</span>}
+                    <header className="schedule-day-header">
+                      <h3>{day.day}</h3>
+                    </header>
+                    <div className="schedule-slots">
+                      {day.slots.map((slot) => (
+                        <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
+                          <time>{slot.time}</time>
+                          <div>
+                            <div className="schedule-slot-title">
+                              <strong>{slot.title}</strong>
+                              <div className="schedule-tags">
+                                {slot.tags.map((tag) => (
+                                  <span
+                                    className={`schedule-tag schedule-tag-${tag.tone}`}
+                                    key={tag.label}
+                                  >
+                                    {tag.label}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+
+            <div className="schedule-note">
+              <p>Horários no fuso de Cuiabá. A grade pode ser ajustada em feriados, eventos especiais ou necessidades internas da academia.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="planos" className="section section-light pricing-section">
+          <div className="section-inner">
+            <div className="section-heading">
+              <h2 className="section-kicker">Planos</h2>
+              <p>
+                Escolha o plano ideal para o seu objetivo.
+              </p>
+            </div>
+
+            <div className="pricing-grid">
+              {pricingPlans.map((plan) => (
+                <article
+                  className={`pricing-card${plan.featured ? ' is-featured' : ''}`}
+                  key={plan.name}
+                >
+                  {plan.featured && (
+                    <span className="pricing-badge">
+                      <TrophyIcon />
+                      Mais escolhido
+                    </span>
+                  )}
+                  <h3>{plan.name}</h3>
+                  <p className="pricing-description">{plan.description}</p>
+                  <div className="pricing-price">
+                    <strong>{plan.price}</strong>
+                    <span>{plan.period}</span>
+                  </div>
+                  <ul className="pricing-features">
+                    {plan.features.map((feature) => (
+                      <li key={feature}>
+                        <CheckIcon />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <WhatsappLink
+                    className={`button pricing-button${plan.featured ? ' button-card' : ' button-secondary'}`}
+                    href={plan.href}
+                    source={`${plan.source}_whatsapp`}
+                  >
+                    Escolher plano
+                  </WhatsappLink>
+                </article>
+              ))}
+            </div>
+
+            <div className="pricing-note">
+              <p>Planos e valores podem variar conforme campanhas, promoções ou condições vigentes.</p>
             </div>
           </div>
         </section>

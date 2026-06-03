@@ -8,16 +8,13 @@ import heroTabletPoster from './assets/hero-tablet-frameinicial.webp'
 import heroDesktopVideo from './assets/hero-desktop.webm'
 import heroMobileVideo from './assets/hero-mobile.webm'
 import heroTabletVideo from './assets/hero-tablet.webm'
-import logoImage from './assets/logo-amarela-fundotransparente-semtexto.png'
-import footerLogoImage from './assets/logo-amarela-fundotransparente.png'
+import logoImage from './assets/logo.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
 import mosaicThree from './assets/foto-mosaico-3.webp'
 import mosaicFour from './assets/foto-mosaico-4.webp'
+import mosaicFive from './assets/foto-mosaico-5.webp'
 import storePhoto from './assets/foto-loja.webp'
-import mosaicSix from './assets/foto-mosaico-6.webp'
-import mosaicSeven from './assets/foto-mosaico-7.webp'
-import mosaicEight from './assets/foto-mosaico-8.webp'
 import lukasLeadership from './assets/lideranca-lukas.webp'
 import yannLeadership from './assets/lideranca-yann.webp'
 import adultProgram from './assets/programa-adultos.webp'
@@ -49,15 +46,12 @@ const whatsappUrls = {
   introduction: createWhatsappUrl(
     'Olá, vim pelo site e gostaria de saber mais sobre a aula introdutória individualizada para iniciantes.',
   ),
-  visit: createWhatsappUrl(
-    'Olá, vim pelo site, já treino Jiu-Jitsu e gostaria de conhecer a Toca do Leão.',
-  ),
   contact: createWhatsappUrl('Olá, vim pelo site e gostaria de mais informações.'),
   store: createWhatsappUrl('Olá, vim pelo site e gostaria de saber mais sobre os produtos da Toca Store.'),
 }
 
 const navLinks = [
-  { label: 'Sobre', href: '#sobre' },
+  { label: 'Quem somos', href: '#quem-somos' },
   { label: 'Programas', href: '#programas' },
   { label: 'Loja', href: '#loja' },
   { label: 'Dúvidas', href: '#duvidas' },
@@ -89,35 +83,20 @@ const galleryImages = {
     width: 1080,
     height: 1246,
   },
-  giTraining: {
-    image: mosaicSix,
-    alt: 'Praticantes treinando Jiu-Jitsu com kimono',
-    width: 1080,
-    height: 1080,
-  },
-  kimono: {
-    image: mosaicSeven,
-    alt: 'Detalhe do kimono da Toca do Leão',
+  nogi: {
+    image: mosaicFive,
+    alt: 'Praticantes durante treino de No-gi',
     width: 1080,
     height: 1440,
   },
-  nogi: {
-    image: mosaicEight,
-    alt: 'Praticantes durante treino de No-gi',
-    width: 1080,
-    height: 1350,
-  },
 }
 
-const desktopGalleryRows = [
-  [galleryImages.training, galleryImages.kimono, galleryImages.nogi],
-  [galleryImages.womenTraining, galleryImages.kids, galleryImages.women, galleryImages.giTraining],
-]
-
-const mobileGalleryRows = [
-  [galleryImages.training, galleryImages.kimono],
-  [galleryImages.nogi, galleryImages.giTraining],
-  [galleryImages.womenTraining, galleryImages.kids, galleryImages.women],
+const mosaicImages = [
+  galleryImages.training,
+  galleryImages.womenTraining,
+  galleryImages.kids,
+  galleryImages.women,
+  galleryImages.nogi,
 ]
 
 const programs = [
@@ -127,10 +106,13 @@ const programs = [
     description:
       'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu.',
     highlights: ['Coordenação motora', 'Convivência e respeito'],
-    href: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu Kids.',
+    scheduleHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
-    ctaLabel: 'Quero agendar uma aula Kids',
+    scheduleLabel: 'Agendar aula Kids',
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Kids.',
+    ),
     source: 'programa_kids',
   },
   {
@@ -139,10 +121,13 @@ const programs = [
     description:
       'Turmas separadas para iniciantes e avançados, com orientação adequada ao momento de cada aluno.',
     highlights: ['Evolução técnica', 'Treino consistente'],
-    href: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu para adultos.',
+    scheduleHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de agendar uma aula de Jiu-Jitsu para adultos.',
     ),
-    ctaLabel: 'Quero treinar com a equipe',
+    scheduleLabel: 'Agendar aula adultos',
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Adultos.',
+    ),
     source: 'programa_adultos',
   },
   {
@@ -151,10 +136,13 @@ const programs = [
     description:
       'Explore uma leitura diferente do Jiu-Jitsu em treinos dinâmicos sem kimono.',
     highlights: ['Mobilidade', 'Controle corporal'],
-    href: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de No-gi.',
+    scheduleHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de agendar uma aula de No-gi.',
     ),
-    ctaLabel: 'Quero treinar No-gi',
+    scheduleLabel: 'Agendar No-gi',
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa No-gi.',
+    ),
     source: 'programa_nogi',
   },
   {
@@ -163,10 +151,13 @@ const programs = [
     description:
       'Uma turma exclusiva para mulheres aprenderem Jiu-Jitsu com confiança, técnica e tranquilidade.',
     highlights: ['Turma 100% feminina', 'Defesa pessoal'],
-    href: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre as aulas de Jiu-Jitsu para mulheres.',
+    scheduleHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de agendar uma aula na turma feminina.',
     ),
-    ctaLabel: 'Quero conhecer a turma feminina',
+    scheduleLabel: 'Agendar turma feminina',
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Mulheres.',
+    ),
     source: 'programa_mulheres',
   },
 ]
@@ -204,9 +195,9 @@ const storeCategories = [
 
 const faqs = [
   {
-    question: 'Como consultar horários e valores?',
+    question: 'Estou de passagem por Cuiabá. Posso fazer um treino?',
     answer:
-      'Chame a nossa equipe no WhatsApp. Assim conseguimos indicar a turma adequada para o seu perfil e informar os horários disponíveis.',
+      'Sim. Alunos visitantes são bem-vindos para treinar com a equipe. Basta chamar a recepção no WhatsApp para verificar o melhor horário e agendar sua visita ao tatame.',
   },
   {
     question: 'Preciso de kimono na primeira aula?',
@@ -224,14 +215,14 @@ const faqs = [
       'Depende da condição. Avise nossa equipe antes da aula e informe o professor. Em alguns casos, a orientação médica é recomendada antes de iniciar.',
   },
   {
-    question: 'Os responsáveis podem acompanhar a aula Kids?',
-    answer:
-      'Sim. Os responsáveis podem acompanhar a aula dos filhos à beira do tatame.',
-  },
-  {
     question: 'Preciso competir para treinar Jiu-Jitsu?',
     answer:
       'Não. Você pode treinar para melhorar o condicionamento, aprender defesa pessoal e praticar uma atividade física. A competição é uma possibilidade, não uma obrigação.',
+  },
+  {
+    question: 'Os responsáveis podem acompanhar a aula Kids?',
+    answer:
+      'Sim. Os responsáveis podem acompanhar a aula dos filhos à beira do tatame.',
   },
 ]
 
@@ -306,29 +297,22 @@ function TrackedLink({
 }
 
 function PhotoGallery({
-  className,
-  rows,
+  images,
 }: {
-  className: string
-  rows: Array<Array<(typeof galleryImages)[keyof typeof galleryImages]>>
+  images: Array<(typeof galleryImages)[keyof typeof galleryImages]>
 }) {
   return (
-    <div className={`photo-gallery ${className}`}>
-      {rows.map((row, index) => (
-        <div className="photo-gallery-row" key={`gallery-row-${index}`}>
-          {row.map(({ alt, height, image, width }) => (
-            <img
-              key={image}
-              src={image}
-              alt={alt}
-              width={width}
-              height={height}
-              loading="lazy"
-              decoding="async"
-              style={{ aspectRatio: `${width} / ${height}`, flexGrow: width / height }}
-            />
-          ))}
-        </div>
+    <div className="photo-gallery">
+      {images.map(({ alt, height, image, width }) => (
+        <img
+          key={image}
+          src={image}
+          alt={alt}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
+        />
       ))}
     </div>
   )
@@ -547,6 +531,21 @@ function ChevronDownIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
       <path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+    </svg>
+  )
+}
+
+function ArrowRightIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M5 12h13m-5-5 5 5-5 5"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
     </svg>
   )
 }
@@ -832,7 +831,7 @@ function App() {
 
   return (
     <div className="site-shell">
-      <header className="site-header">
+      <header className={`site-header${isMobileMenuOpen ? ' is-menu-open' : ''}`}>
         <TrackedLink
           className="logo-link"
           href="#inicio"
@@ -912,10 +911,32 @@ function App() {
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span>{link.label}</span>
-                  <span aria-hidden="true">&gt;</span>
+                  <ArrowRightIcon />
                 </TrackedLink>
               ))}
             </nav>
+            <div className="mobile-menu-socials" aria-label="Redes sociais">
+              <TrackedLink
+                className="mobile-menu-social-link"
+                href={instagramUrl}
+                event="instagram_click"
+                newTab
+                source="instagram_menu_mobile"
+              >
+                <InstagramIcon />
+                <span className="sr-only">Instagram da Toca do Leão</span>
+              </TrackedLink>
+              <TrackedLink
+                className="mobile-menu-social-link"
+                href={youtubeUrl}
+                event="youtube_click"
+                newTab
+                source="youtube_menu_mobile"
+              >
+                <YouTubeIcon />
+                <span className="sr-only">YouTube da Toca do Leão</span>
+              </TrackedLink>
+            </div>
           </div>
         )}
       </header>
@@ -935,49 +956,49 @@ function App() {
               Agendar aula experimental grátis
             </WhatsappLink>
           </div>
-          <a className="hero-scroll-indicator" href="#sobre">
+          <a className="hero-scroll-indicator" href="#quem-somos">
             <span>Conheça a Toca</span>
             <ChevronDownIcon />
           </a>
         </section>
 
-        <section id="sobre" className="section section-white about-section">
-          <div className="section-inner about-layout">
-            <div className="about-copy">
-              <p className="eyebrow">Sobre nós</p>
-              <h2 className="section-kicker">Nossa academia</h2>
-              <p className="about-lead">
-                A Toca do Leão é uma escola de Jiu-Jitsu e defesa pessoal em Cuiabá, preparada para
-                receber diferentes idades e níveis de experiência.
-              </p>
-              <div className="text-stack">
-                <p>
-                  Crianças, adultos, iniciantes e graduados encontram orientação técnica, respeito
-                  e uma comunidade presente dentro e fora do tatame.
+        <section id="quem-somos" className="section section-white who-we-are-section">
+          <div className="section-inner who-we-are-layout">
+            <div className="who-we-are-copy">
+              <h2 className="section-kicker">Quem somos</h2>
+              <div className="who-we-are-text">
+                <p className="who-we-are-lead">
+                  A Toca do Leão é uma escola de Jiu-Jitsu e defesa pessoal em Cuiabá, preparada
+                  para receber diferentes idades e níveis de experiência.
                 </p>
                 <p>
-                  Praticantes e visitantes de passagem pela cidade também são bem-vindos para
-                  treinar com a equipe.
+                  Crianças, adultos, iniciantes e graduados encontram uma rotina de treino com
+                  orientação técnica, respeito e uma comunidade presente dentro e fora do tatame.
                 </p>
               </div>
-
+              <TrackedLink
+                className="button button-outline-dark who-we-are-button"
+                href="/historia"
+                event="navigation_click"
+                source="historia_quem_somos"
+              >
+                Conheça nossa história
+              </TrackedLink>
             </div>
 
-            <section className="leadership-feature" aria-label="Liderança da academia">
-              <div className="leadership-note">
-                <p className="eyebrow">Liderança de campeões</p>
-                <p>
-                  À frente da academia, Lukas David e Yann Cathalat conduzem um trabalho baseado em
-                  técnica, respeito e consistência.
-                </p>
-              </div>
-
+            <section className="leadership-feature" aria-label="Professores da academia">
+              <h3 className="leadership-subtitle">Liderança de referências no tatame</h3>
+              <p className="leadership-description">
+                Conheça quem conduz o dia a dia dos treinos na nossa academia.
+              </p>
               <div className="leadership-grid">
                 {leaders.map((leader) => (
                   <article className="leadership-card" key={leader.name}>
-                    <img src={leader.image} alt={leader.name} loading="lazy" decoding="async" />
-                    <div>
-                      <p>{leader.role}</p>
+                    <div className="leadership-photo">
+                      <img src={leader.image} alt={leader.name} loading="lazy" decoding="async" />
+                    </div>
+                    <div className="leadership-card-body">
+                      <p className="leadership-role">{leader.role}</p>
                       <h3>{leader.name}</h3>
                     </div>
                   </article>
@@ -989,8 +1010,7 @@ function App() {
 
         <section className="section section-dark intro-section">
           <div className="section-inner intro-layout">
-            <div>
-              <p className="eyebrow">Primeiros passos</p>
+            <div className="intro-copy">
               <h2 className="section-kicker">Comece no seu ritmo</h2>
               <div className="text-stack text-stack-large">
                 <p>
@@ -1005,22 +1025,6 @@ function App() {
               >
                 Quero conhecer a aula introdutória
               </WhatsappLink>
-              <div className="experienced-callout">
-                <p className="eyebrow">Já pratica Jiu-Jitsu?</p>
-                <h3>Venha fazer um treino com a equipe</h3>
-                <p>
-                  Se você já treina ou está de passagem por Cuiabá, a Toca também está aberta para
-                  receber você.
-                </p>
-                <WhatsappLink
-                  className="button button-secondary experienced-button"
-                  href={whatsappUrls.visit}
-                  source="visitante_experiente"
-                >
-                  <WhatsAppIcon />
-                  Agendar um treino com a equipe
-                </WhatsappLink>
-              </div>
             </div>
 
             <section className="intro-benefits" aria-label="Benefícios da aula introdutória">
@@ -1057,16 +1061,14 @@ function App() {
 
         <section className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
           <div className="section-inner">
-            <PhotoGallery className="photo-gallery-desktop" rows={desktopGalleryRows} />
-            <PhotoGallery className="photo-gallery-mobile" rows={mobileGalleryRows} />
+            <PhotoGallery images={mosaicImages} />
           </div>
         </section>
 
         <section id="programas" className="section section-light">
           <div className="section-inner">
             <div className="section-heading">
-              <p className="eyebrow">Encontre a turma ideal</p>
-              <h2 className="section-kicker">Programas</h2>
+              <h2 className="section-kicker">Nossos Programas</h2>
               <p>
                 Escolha o programa ideal de acordo com a sua necessidade.
               </p>
@@ -1086,13 +1088,22 @@ function App() {
                         <li key={highlight}>{highlight}</li>
                       ))}
                     </ul>
-                    <WhatsappLink
-                      className="button button-card"
-                      href={program.href}
-                      source={program.source}
-                    >
-                      {program.ctaLabel}
-                    </WhatsappLink>
+                    <div className="program-actions">
+                      <WhatsappLink
+                        className="button button-card"
+                        href={program.scheduleHref}
+                        source={`${program.source}_agendar`}
+                      >
+                        {program.scheduleLabel}
+                      </WhatsappLink>
+                      <WhatsappLink
+                        className="button button-outline-dark"
+                        href={program.learnHref}
+                        source={`${program.source}_saiba_mais`}
+                      >
+                        Saiba mais
+                      </WhatsappLink>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -1130,7 +1141,7 @@ function App() {
                 source="toca_store"
               >
                 <ShopIcon />
-                Consultar produtos no WhatsApp
+                Consultar produtos
               </WhatsappLink>
             </div>
 
@@ -1142,7 +1153,6 @@ function App() {
           <div className="section-inner faq-layout">
             <div className="faq-heading">
               <div>
-                <p className="eyebrow">Informações úteis</p>
                 <h2 className="section-kicker">Dúvidas frequentes</h2>
               </div>
               <p className="faq-intro">
@@ -1175,7 +1185,6 @@ function App() {
         <section id="contato" className="section section-light contact-section">
           <div className="section-inner contact-layout">
             <div className="contact-copy">
-              <p className="eyebrow">Visite a academia</p>
               <h2 className="section-kicker">Entre em contato</h2>
               <div className="text-stack text-stack-large">
                 <p>
@@ -1254,7 +1263,7 @@ function App() {
         <div className="footer-inner">
           <img
             className="footer-logo"
-            src={footerLogoImage}
+            src={logoImage}
             alt="Toca do Leão Lifestyle Jiu-Jitsu"
             loading="lazy"
             decoding="async"

@@ -279,9 +279,9 @@ const scheduleDays = [
       },
       {
         time: '19:00',
-        title: 'Mulheres',
-        detail: 'Defesa pessoal e Jiu-Jitsu',
-        tags: [{ label: 'Kimono', tone: 'kimono' }],
+        title: 'No-gi',
+        detail: 'Controle, transições e finalizações',
+        tags: [{ label: 'Sem kimono', tone: 'nogi' }],
       },
       {
         time: '20:00',
@@ -1432,27 +1432,31 @@ function App() {
             </div>
 
             <div className="schedule-grid">
-              {scheduleDays.map((day) => {
-                const isToday = day.weekday === currentWeekday
-                const filteredSlots = day.slots.filter(
-                  (slot) =>
-                    activeScheduleFilter === 'Todos' ||
-                    slot.title === activeScheduleFilter ||
-                    slot.tags.some((tag) => tag.label === activeScheduleFilter),
-                )
+              {scheduleDays
+                .map((day) => ({
+                  day,
+                  filteredSlots: day.slots.filter(
+                    (slot) =>
+                      activeScheduleFilter === 'Todos' ||
+                      slot.title === activeScheduleFilter ||
+                      slot.tags.some((tag) => tag.label === activeScheduleFilter),
+                  ),
+                }))
+                .filter(({ filteredSlots }) => filteredSlots.length > 0)
+                .map(({ day, filteredSlots }) => {
+                  const isToday = day.weekday === currentWeekday
 
-                return (
-                  <article
-                    className={`schedule-day-card${isToday ? ' is-today' : ''}`}
-                    key={day.day}
-                  >
-                    {isToday && <span className="schedule-today-badge">Hoje</span>}
-                    <header className="schedule-day-header">
-                      <h3>{day.day}</h3>
-                    </header>
-                    <div className="schedule-slots">
-                      {filteredSlots.length > 0 ? (
-                        filteredSlots.map((slot) => (
+                  return (
+                    <article
+                      className={`schedule-day-card${isToday ? ' is-today' : ''}`}
+                      key={day.day}
+                    >
+                      {isToday && <span className="schedule-today-badge">Hoje</span>}
+                      <header className="schedule-day-header">
+                        <h3>{day.day}</h3>
+                      </header>
+                      <div className="schedule-slots">
+                        {filteredSlots.map((slot) => (
                           <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
                             <time>{slot.time}</time>
                             <div>
@@ -1471,14 +1475,11 @@ function App() {
                               </div>
                             </div>
                           </div>
-                        ))
-                      ) : (
-                        <p className="schedule-empty">Sem treinos para este filtro.</p>
-                      )}
-                    </div>
-                  </article>
-                )
-              })}
+                        ))}
+                      </div>
+                    </article>
+                  )
+                })}
             </div>
 
             <div className="schedule-note">

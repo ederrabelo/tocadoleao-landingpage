@@ -922,9 +922,9 @@
 
 .schedule-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 12px;
-  align-items: stretch;
+  align-items: start;
   padding-top: 14px;
 }
 
@@ -1013,15 +1013,6 @@
 
 .schedule-slot:first-child {
   border-top: 0;
-}
-
-.schedule-empty {
-  margin: 0;
-  padding: 18px 14px;
-  color: var(--ink-muted);
-  font-size: 0.84rem;
-  font-weight: var(--font-weight-regular);
-  line-height: 1.5;
 }
 
 .schedule-slot time {

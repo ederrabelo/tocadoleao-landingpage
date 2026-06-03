@@ -453,7 +453,7 @@
 
 .who-we-are-layout {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(520px, 1.05fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(500px, 0.95fr);
   gap: 58px;
   align-items: center;
 }
@@ -518,6 +518,30 @@
   gap: 16px;
 }
 
+.story-panel {
+  position: relative;
+  gap: 18px;
+  padding: 28px;
+  border: 1px solid var(--section-line);
+  background: #f4f4f4;
+}
+
+.story-panel::before {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  left: -1px;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--brand-green) 0 33.333%,
+    var(--brand-yellow) 33.333% 66.666%,
+    var(--brand-red) 66.666% 100%
+  );
+  opacity: 0.72;
+  content: '';
+}
+
 .who-we-are-text p {
   margin: 0;
   color: var(--section-muted);
@@ -532,9 +556,10 @@
   line-height: 1.62;
 }
 
-.who-we-are-button {
-  align-self: flex-start;
-  margin-top: 28px;
+.story-panel .who-we-are-lead {
+  color: var(--section-text);
+  font-size: 1.18rem;
+  line-height: 1.62;
 }
 
 .leadership-feature {
@@ -1593,6 +1618,10 @@
   .who-we-are-copy {
     max-width: 760px;
     padding: 0;
+  }
+
+  .story-panel {
+    padding: 22px;
   }
 
   .store-video-column {

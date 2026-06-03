@@ -1252,24 +1252,17 @@ function App() {
           <div className="section-inner who-we-are-layout">
             <div className="who-we-are-copy">
               <h2 className="section-kicker">Quem somos</h2>
-              <div className="who-we-are-text">
+              <div className="who-we-are-text story-panel">
                 <p className="who-we-are-lead">
-                  A Toca do Leão é uma escola de Jiu-Jitsu e defesa pessoal em Cuiabá, preparada
-                  para receber diferentes idades e níveis de experiência.
+                  A Toca do Leão nasceu em Cuiabá durante a pandemia, a partir da vontade de manter viva a prática do Jiu-Jitsu e criar um espaço de treino com identidade própria, disciplina e espírito de equipe.
                 </p>
                 <p>
-                  Crianças, adultos, iniciantes e graduados encontram uma rotina de treino com
-                  orientação técnica, respeito e uma comunidade presente dentro e fora do tatame.
+                  O que começou como um projeto de treino, disciplina e conexão entre pessoas foi crescendo até se tornar uma escola de Jiu-Jitsu e defesa pessoal preparada para receber crianças, adultos, iniciantes e graduados.
+                </p>
+                <p>
+                  Mais do que um espaço de treino, a Toca carrega uma cultura de respeito, evolução constante e comunidade. Aqui, cada aluno encontra orientação técnica, acolhimento e um ambiente para crescer dentro e fora do tatame.
                 </p>
               </div>
-              <TrackedLink
-                className="button button-outline-dark who-we-are-button"
-                href="/historia"
-                event="navigation_click"
-                source="historia_quem_somos"
-              >
-                Conheça nossa história
-              </TrackedLink>
             </div>
 
             <section className="leadership-feature" aria-label="Professores da academia">

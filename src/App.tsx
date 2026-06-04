@@ -1016,6 +1016,10 @@ function LazyStoreVideo() {
       return
     }
 
+    video.defaultMuted = true
+    video.muted = true
+    video.loop = true
+
     void video.play().catch(() => setIsPaused(true))
   }, [prefersReducedMotion, shouldLoad])
 
@@ -1042,12 +1046,13 @@ function LazyStoreVideo() {
     <div className="store-video-column">
       <div className="store-video-wrap" ref={videoWrapRef}>
         <video
+          key={storeVideo}
           ref={videoRef}
           src={shouldLoad && !prefersReducedMotion ? storeVideo : undefined}
           poster={storeVideoPoster}
           autoPlay={!prefersReducedMotion}
           muted
-          loop={!prefersReducedMotion}
+          loop
           playsInline
           preload="none"
           aria-hidden="true"

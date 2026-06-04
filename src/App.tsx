@@ -1301,7 +1301,60 @@ function App() {
           </div>
         </section>
 
-        <section className="section section-dark intro-section">
+        <section id="programas" className="section section-light">
+          <div className="section-inner">
+            <div className="section-heading">
+              <h2 className="section-kicker">Nossos Programas</h2>
+              <p>
+                Escolha o programa ideal de acordo com a sua necessidade.
+              </p>
+            </div>
+
+            <div className="program-grid">
+              {programs.map((program) => (
+                <article className="program-card" key={program.title}>
+                  <div className="program-media">
+                    <img src={program.image} alt={program.title} loading="lazy" decoding="async" />
+                  </div>
+                  <div className="program-content">
+                    <h3>{program.title}</h3>
+                    <p>{program.description}</p>
+                    <ul>
+                      {program.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
+                    <div className="program-actions">
+                      <WhatsappLink
+                        className="button program-button-schedule"
+                        href={program.scheduleHref}
+                        source={`${program.source}_agendar`}
+                      >
+                        {program.scheduleLabel}
+                      </WhatsappLink>
+                      <WhatsappLink
+                        className="button program-button-learn"
+                        href={program.learnHref}
+                        source={`${program.source}_saiba_mais`}
+                      >
+                        Saiba mais
+                        <ArrowRightIcon />
+                      </WhatsappLink>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
+          <div className="section-inner">
+            <PhotoGallery images={mosaicImages} />
+          </div>
+        </section>
+
+        <section id="primeiro-passo" className="section section-dark intro-section">
           <div className="section-inner intro-layout">
             <div className="intro-copy">
               <h2 className="section-kicker">Comece no seu ritmo</h2>
@@ -1349,59 +1402,6 @@ function App() {
                 </div>
               </article>
             </section>
-          </div>
-        </section>
-
-        <section className="photo-gallery-wrap" aria-label="Fotos dos treinos na Toca do Leão">
-          <div className="section-inner">
-            <PhotoGallery images={mosaicImages} />
-          </div>
-        </section>
-
-        <section id="programas" className="section section-light">
-          <div className="section-inner">
-            <div className="section-heading">
-              <h2 className="section-kicker">Nossos Programas</h2>
-              <p>
-                Escolha o programa ideal de acordo com a sua necessidade.
-              </p>
-            </div>
-
-            <div className="program-grid">
-              {programs.map((program) => (
-                <article className="program-card" key={program.title}>
-                  <div className="program-media">
-                    <img src={program.image} alt={program.title} loading="lazy" decoding="async" />
-                  </div>
-                  <div className="program-content">
-                    <h3>{program.title}</h3>
-                    <p>{program.description}</p>
-                    <ul>
-                      {program.highlights.map((highlight) => (
-                        <li key={highlight}>{highlight}</li>
-                      ))}
-                    </ul>
-                    <div className="program-actions">
-                      <WhatsappLink
-                        className="button program-button-schedule"
-                        href={program.scheduleHref}
-                        source={`${program.source}_agendar`}
-                      >
-                        {program.scheduleLabel}
-                      </WhatsappLink>
-                      <WhatsappLink
-                        className="button program-button-learn"
-                        href={program.learnHref}
-                        source={`${program.source}_saiba_mais`}
-                      >
-                        Saiba mais
-                        <ArrowRightIcon />
-                      </WhatsappLink>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
           </div>
         </section>
 

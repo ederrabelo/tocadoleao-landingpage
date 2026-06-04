@@ -4,10 +4,8 @@ import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
 
 import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
 import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
-import heroTabletPoster from './assets/hero-tablet-frameinicial.webp'
 import heroDesktopVideo from './assets/hero-desktop.webm'
 import heroMobileVideo from './assets/hero-mobile.webm'
-import heroTabletVideo from './assets/hero-tablet.webm'
 import logoImage from './assets/logo.png'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
@@ -927,9 +925,8 @@ function HeroMedia() {
   return (
     <>
       <picture className="hero-poster" aria-hidden="true">
-        <source srcSet={heroMobilePoster} media="(max-width: 760px)" />
-        <source srcSet={heroTabletPoster} media="(max-width: 980px)" />
-        <img src={heroDesktopPoster} alt="" fetchPriority="high" />
+        <source srcSet={heroDesktopPoster} media="(min-width: 768px)" />
+        <img src={heroMobilePoster} alt="" fetchPriority="high" />
       </picture>
 
       {!prefersReducedMotion && (
@@ -950,9 +947,8 @@ function HeroMedia() {
             onPause={() => setIsPaused(true)}
             onPlay={() => setIsPaused(false)}
           >
-            <source src={heroMobileVideo} type="video/webm" media="(max-width: 760px)" />
-            <source src={heroTabletVideo} type="video/webm" media="(max-width: 980px)" />
-            <source src={heroDesktopVideo} type="video/webm" />
+            <source src={heroDesktopVideo} type="video/webm" media="(min-width: 768px)" />
+            <source src={heroMobileVideo} type="video/webm" />
           </video>
           <VideoToggleButton
             className="hero-video-toggle"

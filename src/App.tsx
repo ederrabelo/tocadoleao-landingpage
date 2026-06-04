@@ -1,6 +1,13 @@
 import './App.css'
 
-import { useEffect, useRef, useState, type ReactNode, type Ref } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+  type Ref,
+} from 'react'
 
 import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
 import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
@@ -33,6 +40,8 @@ const youtubeUrl = 'https://www.youtube.com/@Tocabjjschool'
 const whatsappNumber = '556592799166'
 const fullAddress = 'R. Padre Gerônimo Botelho, 392 - Dom Aquino, Cuiabá - MT, 78015-115'
 const mapsRouteUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress)}&travelmode=driving`
+const mapsIosAppUrl = `comgooglemaps://?daddr=${encodeURIComponent(fullAddress)}&directionsmode=driving`
+const mapsAndroidAppUrl = `intent://maps.google.com/maps?daddr=${encodeURIComponent(fullAddress)}&directionsmode=driving#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(mapsRouteUrl)};end`
 
 const createWhatsappUrl = (message: string) =>
   `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`
@@ -508,6 +517,54 @@ function trackEvent(event: string, source: string) {
   window.dataLayer.push({ event, source })
 }
 
+function isMobileOrTabletBrowser() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+    return false
+  }
+
+  const userAgent = navigator.userAgent.toLowerCase()
+  const hasMobileOrTabletAgent =
+    /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/.test(
+      userAgent,
+    )
+  const isIpadInDesktopMode = userAgent.includes('macintosh') && navigator.maxTouchPoints > 1
+
+  return hasMobileOrTabletAgent || isIpadInDesktopMode
+}
+
+function openMapsRoute(event: MouseEvent<HTMLAnchorElement>) {
+  if (!isMobileOrTabletBrowser()) {
+    return
+  }
+
+  event.preventDefault()
+
+  if (/android/i.test(navigator.userAgent)) {
+    window.location.href = mapsAndroidAppUrl
+    return
+  }
+
+  const fallbackTimeout = window.setTimeout(() => {
+    window.location.href = mapsRouteUrl
+  }, 900)
+
+  const clearFallback = () => {
+    window.clearTimeout(fallbackTimeout)
+    window.removeEventListener('pagehide', clearFallback)
+    document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }
+
+  const handleVisibilityChange = () => {
+    if (document.hidden) {
+      clearFallback()
+    }
+  }
+
+  window.addEventListener('pagehide', clearFallback, { once: true })
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  window.location.href = mapsIosAppUrl
+}
+
 function WhatsappLink({
   children,
   className,
@@ -549,7 +606,7 @@ function TrackedLink({
   href: string
   innerRef?: Ref<HTMLAnchorElement>
   newTab?: boolean
-  onClick?: () => void
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
   source: string
 }) {
   return (
@@ -560,9 +617,9 @@ function TrackedLink({
       target={newTab ? '_blank' : undefined}
       rel={newTab ? 'noreferrer' : undefined}
       data-cta-source={source}
-      onClick={() => {
+      onClick={(clickEvent) => {
         trackEvent(event, source)
-        onClick?.()
+        onClick?.(clickEvent)
       }}
     >
       {children}
@@ -1472,12 +1529,13 @@ function App() {
 
                   return (
                     <article
-                      className={`schedule-day-card${isToday ? ' is-today' : ''}`}
+                      className="schedule-day-card"
+                      aria-current={isToday ? 'date' : undefined}
                       key={day.day}
                     >
-                      {isToday && <span className="schedule-today-badge">Hoje</span>}
                       <header className="schedule-day-header">
                         <h3>{day.day}</h3>
+                        {isToday && <span className="schedule-today-label">Hoje</span>}
                       </header>
                       <div className="schedule-slots">
                         {filteredSlots.map((slot) => (
@@ -1661,6 +1719,7 @@ function App() {
                   href={mapsRouteUrl}
                   event="route_click"
                   newTab
+                  onClick={openMapsRoute}
                   source="contato_como_chegar"
                 >
                   <LocationIcon />

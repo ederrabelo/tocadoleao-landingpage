@@ -445,6 +445,29 @@ const pricingPlans = [
   },
 ]
 
+const reviews = [
+  {
+    author: 'Felix Keunecke',
+    rating: 5,
+    text: 'Melhor academia de Jiu-Jitsu de Mato Grosso, ambiente muito acolhedor e os professores mais capacitados do estado.',
+  },
+  {
+    author: 'Camilly Schaustz',
+    rating: 5,
+    text: 'As aulas são excelentes! Sinto-me muito confortável em todas as aulas, o ambiente é respeitoso e todos estão dispostos a ajudar. Nota mil!!!',
+  },
+  {
+    author: 'Lucas De La Cruz Mota',
+    rating: 5,
+    text: 'Academia top de BJJ, didática excelente e nível altíssimo!',
+  },
+  {
+    author: 'Gabriel Tavares',
+    rating: 5,
+    text: 'Ótima academia, bons professores, nível de treino bom e ambiente agradável.',
+  },
+]
+
 const leaders = [
   {
     name: 'Lukas Andrade',
@@ -895,6 +918,41 @@ function PlusIcon() {
   )
 }
 
+function StarIcon({ isFilled = true }: { isFilled?: boolean }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="m12 3.7 2.5 5.1 5.6.8-4.1 4 1 5.6-5-2.7-5 2.7 1-5.6-4.1-4 5.6-.8z"
+        fill={isFilled ? 'currentColor' : 'none'}
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.7"
+      />
+    </svg>
+  )
+}
+
+function RatingStars({
+  className,
+  rating,
+}: {
+  className?: string
+  rating: number
+}) {
+  const filledStars = Math.max(0, Math.min(5, Math.round(rating)))
+
+  return (
+    <span
+      className={`rating-stars${className ? ` ${className}` : ''}`}
+      aria-label={`${rating} de 5 estrelas`}
+    >
+      {Array.from({ length: 5 }, (_, index) => (
+        <StarIcon isFilled={index < filledStars} key={index} />
+      ))}
+    </span>
+  )
+}
+
 function CheckIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
@@ -907,6 +965,83 @@ function CheckIcon() {
         strokeWidth="3.1"
       />
     </svg>
+  )
+}
+
+function ReviewsSection() {
+  const reviewsTrackRef = useRef<HTMLDivElement>(null)
+  const [activeReviewIndex, setActiveReviewIndex] = useState(0)
+
+  const updateActiveReview = () => {
+    const reviewsTrack = reviewsTrackRef.current
+
+    if (!reviewsTrack) {
+      return
+    }
+
+    const reviewCards = Array.from(
+      reviewsTrack.querySelectorAll<HTMLElement>('.review-card'),
+    )
+    const closestReview = reviewCards.reduce(
+      (closest, reviewCard, index) => {
+        const distance = Math.abs(reviewCard.offsetLeft - reviewsTrack.scrollLeft)
+
+        return distance < closest.distance ? { distance, index } : closest
+      },
+      { distance: Number.POSITIVE_INFINITY, index: 0 },
+    )
+
+    setActiveReviewIndex(closestReview.index)
+  }
+
+  const goToReview = (index: number) => {
+    const reviewsTrack = reviewsTrackRef.current
+    const reviewCard = reviewsTrack?.querySelectorAll<HTMLElement>('.review-card')[index]
+
+    reviewCard?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'start',
+    })
+    setActiveReviewIndex(index)
+  }
+
+  return (
+    <section className="section section-light reviews-section" aria-labelledby="reviews-title">
+      <div className="section-inner">
+        <div className="reviews-track-wrap">
+          <h2 className="sr-only" id="reviews-title">Avaliações de alunos</h2>
+          <div
+            ref={reviewsTrackRef}
+            className="reviews-track"
+            aria-label="Avaliações de alunos"
+            onScroll={updateActiveReview}
+          >
+            {reviews.map((review) => (
+              <article className="review-card" key={review.author}>
+                <RatingStars className="review-card-stars" rating={review.rating} />
+                <blockquote>{review.text}</blockquote>
+                <footer>
+                  <strong>{review.author}</strong>
+                </footer>
+              </article>
+            ))}
+          </div>
+          <div className="reviews-pagination" aria-label="Selecionar avaliação">
+            {reviews.map((review, index) => (
+              <button
+                className={`reviews-pagination-dot${activeReviewIndex === index ? ' is-active' : ''}`}
+                type="button"
+                aria-label={`Ver avaliação de ${review.author}`}
+                aria-current={activeReviewIndex === index ? 'true' : undefined}
+                key={review.author}
+                onClick={() => goToReview(index)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -1693,7 +1828,9 @@ function App() {
           </div>
         </section>
 
-        <section id="contato" className="section section-light contact-section">
+        <ReviewsSection />
+
+        <section id="contato" className="section section-white contact-section">
           <div className="section-inner contact-layout">
             <div className="contact-copy">
               <h2 className="section-kicker">Entre em contato</h2>

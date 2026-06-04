@@ -6,7 +6,6 @@ import {
   useState,
   type MouseEvent,
   type ReactNode,
-  type Ref,
 } from 'react'
 
 import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
@@ -54,7 +53,6 @@ const whatsappUrls = {
     'Olá, vim pelo site e gostaria de saber mais sobre a aula introdutória individualizada para iniciantes.',
   ),
   contact: createWhatsappUrl('Olá, vim pelo site e gostaria de mais informações.'),
-  store: createWhatsappUrl('Olá, vim pelo site e gostaria de saber mais sobre os produtos da Toca Store.'),
 }
 
 const navLinks = [
@@ -119,9 +117,6 @@ const programs = [
       'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
     scheduleLabel: 'Agendar',
-    learnHref: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Kids.',
-    ),
     source: 'programa_kids',
   },
   {
@@ -134,9 +129,6 @@ const programs = [
       'Olá, vim pelo site e gostaria de agendar uma aula de Jiu-Jitsu para adultos.',
     ),
     scheduleLabel: 'Agendar',
-    learnHref: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Adultos.',
-    ),
     source: 'programa_adultos',
   },
   {
@@ -149,9 +141,6 @@ const programs = [
       'Olá, vim pelo site e gostaria de agendar uma aula de No-gi.',
     ),
     scheduleLabel: 'Agendar',
-    learnHref: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa No-gi.',
-    ),
     source: 'programa_nogi',
   },
   {
@@ -164,9 +153,6 @@ const programs = [
       'Olá, vim pelo site e gostaria de agendar uma aula na turma feminina.',
     ),
     scheduleLabel: 'Agendar',
-    learnHref: createWhatsappUrl(
-      'Olá, vim pelo site e gostaria de saber mais sobre a metodologia do programa Mulheres.',
-    ),
     source: 'programa_mulheres',
   },
 ]
@@ -174,7 +160,6 @@ const programs = [
 const scheduleDays = [
   {
     day: 'Segunda',
-    weekday: 1,
     slots: [
       {
         time: '06:00',
@@ -216,7 +201,6 @@ const scheduleDays = [
   },
   {
     day: 'Terça',
-    weekday: 2,
     slots: [
       {
         time: '06:00',
@@ -258,7 +242,6 @@ const scheduleDays = [
   },
   {
     day: 'Quarta',
-    weekday: 3,
     slots: [
       {
         time: '06:00',
@@ -300,7 +283,6 @@ const scheduleDays = [
   },
   {
     day: 'Quinta',
-    weekday: 4,
     slots: [
       {
         time: '06:00',
@@ -342,7 +324,6 @@ const scheduleDays = [
   },
   {
     day: 'Sexta',
-    weekday: 5,
     slots: [
       {
         time: '06:00',
@@ -618,7 +599,6 @@ function TrackedLink({
   className,
   event,
   href,
-  innerRef,
   newTab = false,
   onClick,
   source,
@@ -627,14 +607,12 @@ function TrackedLink({
   className?: string
   event: string
   href: string
-  innerRef?: Ref<HTMLAnchorElement>
   newTab?: boolean
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
   source: string
 }) {
   return (
     <a
-      ref={innerRef}
       className={className}
       href={href}
       target={newTab ? '_blank' : undefined}
@@ -828,20 +806,6 @@ function CapIcon() {
         fill="none"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
-      />
-    </svg>
-  )
-}
-
-function ShopIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-      <path
-        d="M5 8h14l1 12H4zm4 0V6a3 3 0 0 1 6 0v2"
-        fill="none"
-        stroke="currentColor"
         strokeLinejoin="round"
         strokeWidth="1.8"
       />
@@ -1262,10 +1226,8 @@ function LazyStoreVideo() {
 
 function App() {
   const currentYear = new Date().getFullYear()
-  const currentWeekday = new Date().getDay()
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
-  const firstMobileLinkRef = useRef<HTMLAnchorElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeScheduleFilter, setActiveScheduleFilter] =
     useState<(typeof scheduleFilters)[number]>('Todos')
@@ -1318,7 +1280,6 @@ function App() {
 
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleModalKeyboard)
-    firstMobileLinkRef.current?.focus()
 
     return () => {
       document.body.style.overflow = previousOverflow
@@ -1408,9 +1369,8 @@ function App() {
             aria-label="Menu de navegação"
           >
             <nav className="mobile-menu-nav" aria-label="Menu principal mobile">
-              {navLinks.map((link, index) => (
+              {navLinks.map((link) => (
                 <TrackedLink
-                  innerRef={index === 0 ? firstMobileLinkRef : undefined}
                   key={link.href}
                   href={link.href}
                   event="navigation_click"
@@ -1485,9 +1445,10 @@ function App() {
                 </p>
                 <TrackedLink
                   className="button button-secondary story-read-more"
-                  href="#quem-somos"
+                  href="#"
                   event="story_read_more_click"
                   source="quem_somos_ler_mais"
+                  onClick={(event) => event.preventDefault()}
                 >
                   <PlusIcon />
                   Ler mais
@@ -1661,44 +1622,35 @@ function App() {
                   ),
                 }))
                 .filter(({ filteredSlots }) => filteredSlots.length > 0)
-                .map(({ day, filteredSlots }) => {
-                  const isToday = day.weekday === currentWeekday
-
-                  return (
-                    <article
-                      className="schedule-day-card"
-                      aria-current={isToday ? 'date' : undefined}
-                      key={day.day}
-                    >
-                      <header className="schedule-day-header">
-                        <h3>{day.day}</h3>
-                        {isToday && <span className="schedule-today-label">Hoje</span>}
-                      </header>
-                      <div className="schedule-slots">
-                        {filteredSlots.map((slot) => (
-                          <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
-                            <time>{slot.time}</time>
-                            <div>
-                              <div className="schedule-slot-title">
-                                <strong>{slot.title}</strong>
-                                <div className="schedule-tags">
-                                  {slot.tags.map((tag) => (
-                                    <span
-                                      className={`schedule-tag schedule-tag-${tag.tone}`}
-                                      key={tag.label}
-                                    >
-                                      {tag.label}
-                                    </span>
-                                  ))}
-                                </div>
+                .map(({ day, filteredSlots }) => (
+                  <article className="schedule-day-card" key={day.day}>
+                    <header className="schedule-day-header">
+                      <h3>{day.day}</h3>
+                    </header>
+                    <div className="schedule-slots">
+                      {filteredSlots.map((slot) => (
+                        <div className="schedule-slot" key={`${day.day}-${slot.time}-${slot.title}`}>
+                          <time>{slot.time}</time>
+                          <div>
+                            <div className="schedule-slot-title">
+                              <strong>{slot.title}</strong>
+                              <div className="schedule-tags">
+                                {slot.tags.map((tag) => (
+                                  <span
+                                    className={`schedule-tag schedule-tag-${tag.tone}`}
+                                    key={tag.label}
+                                  >
+                                    {tag.label}
+                                  </span>
+                                ))}
                               </div>
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    </article>
-                  )
-                })}
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
             </div>
 
             <div className="schedule-note">
@@ -1747,7 +1699,7 @@ function App() {
                     href={plan.href}
                     source={`${plan.source}_whatsapp`}
                   >
-                    Escolher plano
+                    Quero este plano
                   </WhatsappLink>
                 </article>
               ))}
@@ -1782,15 +1734,6 @@ function App() {
                   </article>
                 ))}
               </div>
-
-              <WhatsappLink
-                className="button button-primary store-button"
-                href={whatsappUrls.store}
-                source="toca_store"
-              >
-                <ShopIcon />
-                Consultar produtos
-              </WhatsappLink>
             </div>
 
             <LazyStoreVideo />
@@ -1851,7 +1794,7 @@ function App() {
                   source="contato_whatsapp"
                 >
                   <WhatsAppIcon />
-                  Falar com a recepção no WhatsApp
+                  Chamar recepção no WhatsApp
                 </WhatsappLink>
                 <TrackedLink
                   className="button button-outline-dark"
@@ -1862,7 +1805,7 @@ function App() {
                   source="contato_como_chegar"
                 >
                   <LocationIcon />
-                  Como chegar
+                  Traçar rota
                 </TrackedLink>
               </div>
 

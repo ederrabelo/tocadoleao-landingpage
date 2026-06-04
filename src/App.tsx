@@ -1548,14 +1548,16 @@ function App() {
                       >
                         {program.scheduleLabel}
                       </WhatsappLink>
-                      <WhatsappLink
+                      <TrackedLink
                         className="button program-button-learn"
-                        href={program.learnHref}
+                        href="#"
+                        event="program_learn_more_click"
                         source={`${program.source}_saiba_mais`}
+                        onClick={(event) => event.preventDefault()}
                       >
                         Saiba mais
                         <ArrowRightIcon />
-                      </WhatsappLink>
+                      </TrackedLink>
                     </div>
                   </div>
                 </article>

@@ -8,9 +8,6 @@
   --ink-muted: #5b5b5b;
   --line: rgba(255, 255, 255, 0.16);
   --line-light: rgba(17, 17, 17, 0.13);
-  --accent: #f5f5f5;
-  --accent-soft: #dedede;
-  --accent-dark: #3a3a3a;
   --brand-red: #e1192d;
   --brand-red-rgb: 225, 25, 45;
   --brand-red-contrast: #ffffff;
@@ -90,10 +87,6 @@
   justify-content: center;
   gap: 30px;
   justify-self: center;
-}
-
-.main-nav a {
-  color: inherit;
 }
 
 .main-nav a {
@@ -962,7 +955,6 @@
 }
 
 .schedule-day-header {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -974,7 +966,6 @@
 }
 
 .schedule-day-header h3 {
-  max-width: calc(100% - 48px);
   margin: 0;
   color: #ffffff;
   font-family: var(--font-display);
@@ -983,20 +974,6 @@
   letter-spacing: 0;
   line-height: 1.1;
   text-transform: uppercase;
-}
-
-.schedule-today-label {
-  position: absolute;
-  top: 50%;
-  right: 16px;
-  transform: translateY(-50%);
-  color: rgba(255, 255, 255, 0.64);
-  font-size: 0.7rem;
-  font-weight: var(--font-weight-regular);
-  letter-spacing: 0;
-  line-height: 1.1;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
 
 .schedule-slots {
@@ -1586,10 +1563,6 @@
   line-height: 1.6;
 }
 
-.store-button {
-  margin-top: 22px;
-}
-
 .store-video-column {
   position: sticky;
   top: 100px;
@@ -1801,6 +1774,8 @@
 
   .pricing-grid {
     grid-template-columns: 1fr;
+    gap: 34px;
+    padding-top: 18px;
   }
 
   .schedule-grid {
@@ -1896,6 +1871,7 @@
     align-items: center;
     min-height: 100vh;
     min-height: 100svh;
+    min-height: 100dvh;
     padding: var(--mobile-nav-padding-y) var(--mobile-nav-padding-x) 36px;
     background: var(--bg);
     animation: mobile-menu-fade 180ms ease-out both;
@@ -1940,16 +1916,18 @@
     align-self: stretch;
     background: transparent;
     color: #ffffff;
+    overscroll-behavior: contain;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-menu-nav {
     display: flex;
-    flex: 1;
+    flex: 0 0 auto;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 0;
-    padding: 0 4px 30px;
+    padding: 12px 4px 0;
   }
 
   .mobile-menu-nav a {
@@ -1957,7 +1935,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    padding: 22px 0;
+    padding: 18px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.14);
     color: rgba(255, 255, 255, 0.9);
     font-size: 1.18rem;
@@ -1978,7 +1956,11 @@
   }
 
   .mobile-menu-nav a:first-child {
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-top: 0;
+  }
+
+  .mobile-menu-nav a:last-child {
+    border-bottom: 0;
   }
 
   .mobile-menu-nav a:hover {
@@ -1994,8 +1976,7 @@
     display: flex;
     justify-content: center;
     gap: 14px;
-    padding: 22px 0 2px;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 8px 4px 2px;
   }
 
   .mobile-menu-social-link {
@@ -2230,37 +2211,6 @@
     --mobile-nav-logo-width: 98px;
     --mobile-nav-logo-height: 116px;
     --mobile-nav-toggle-size: 40px;
-  }
-
-  .header-actions {
-    gap: 0;
-  }
-
-  .main-nav {
-    gap: 14px;
-  }
-
-  .main-nav a {
-    font-size: 0.86rem;
-  }
-
-  .logo-mark {
-    width: var(--mobile-nav-logo-width);
-    height: var(--mobile-nav-logo-height);
-  }
-
-  .mobile-menu-toggle {
-    width: var(--mobile-nav-toggle-size);
-    height: var(--mobile-nav-toggle-size);
-  }
-
-  .site-header.is-menu-open .logo-mark {
-    width: var(--mobile-nav-logo-width);
-    height: var(--mobile-nav-logo-height);
-  }
-
-  .contact-social-links {
-    display: flex;
   }
 
   .section-kicker {

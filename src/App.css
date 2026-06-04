@@ -567,6 +567,11 @@
   line-height: 1.62;
 }
 
+.story-read-more {
+  width: fit-content;
+  margin-top: 8px;
+}
+
 .leadership-feature {
   min-width: 0;
 }
@@ -932,9 +937,10 @@
 
 .schedule-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, 224px);
   gap: 12px;
   align-items: start;
+  justify-content: start;
   padding-top: 14px;
 }
 

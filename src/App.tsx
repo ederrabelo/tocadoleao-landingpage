@@ -826,6 +826,20 @@ function ArrowRightIcon() {
   )
 }
 
+function PlusIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M12 5v14M5 12h14"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2.2"
+      />
+    </svg>
+  )
+}
+
 function CheckIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
@@ -1276,6 +1290,15 @@ function App() {
                 <p>
                   Mais do que um espaço de treino, a Toca carrega uma cultura de respeito, evolução constante e comunidade. Aqui, cada aluno encontra orientação técnica, acolhimento e um ambiente para crescer dentro e fora do tatame.
                 </p>
+                <TrackedLink
+                  className="button button-secondary story-read-more"
+                  href="#quem-somos"
+                  event="story_read_more_click"
+                  source="quem_somos_ler_mais"
+                >
+                  <PlusIcon />
+                  Ler mais
+                </TrackedLink>
               </div>
             </div>
 

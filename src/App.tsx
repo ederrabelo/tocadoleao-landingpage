@@ -11,6 +11,7 @@ import {
 import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
 import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
 import heroDesktopVideo from './assets/hero-desktop.webm'
+import heroMobileVideo from './assets/hero-mobile-lite.webm'
 import logoImage from './assets/logo.webp'
 import logoCompactImage from './assets/logo-compact.webp'
 import mosaicOne from './assets/foto-mosaico-1.webp'
@@ -1084,6 +1085,41 @@ function useIsDesktopViewport() {
   return isDesktopViewport
 }
 
+function useDeferredMobileHeroVideo(
+  isDesktopViewport: boolean,
+  prefersReducedMotion: boolean,
+) {
+  const [shouldLoadMobileVideo, setShouldLoadMobileVideo] = useState(false)
+
+  useEffect(() => {
+    if (isDesktopViewport || prefersReducedMotion) {
+      return
+    }
+
+    let timeoutId: number | undefined
+
+    const scheduleVideoLoad = () => {
+      timeoutId = window.setTimeout(() => setShouldLoadMobileVideo(true), 2200)
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleVideoLoad()
+    } else {
+      window.addEventListener('load', scheduleVideoLoad, { once: true })
+    }
+
+    return () => {
+      window.removeEventListener('load', scheduleVideoLoad)
+
+      if (timeoutId) {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  }, [isDesktopViewport, prefersReducedMotion])
+
+  return shouldLoadMobileVideo
+}
+
 function VideoToggleButton({
   className,
   isPaused,
@@ -1109,9 +1145,15 @@ function HeroMedia() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
   const isDesktopViewport = useIsDesktopViewport()
+  const shouldLoadMobileVideo = useDeferredMobileHeroVideo(
+    isDesktopViewport,
+    prefersReducedMotion,
+  )
   const [isPaused, setIsPaused] = useState(false)
   const [isVideoReady, setIsVideoReady] = useState(false)
-  const shouldUseVideo = isDesktopViewport && !prefersReducedMotion
+  const shouldUseVideo =
+    !prefersReducedMotion && (isDesktopViewport || shouldLoadMobileVideo)
+  const videoSource = isDesktopViewport ? heroDesktopVideo : heroMobileVideo
 
   const togglePlayback = () => {
     const video = videoRef.current
@@ -1143,6 +1185,7 @@ function HeroMedia() {
       {shouldUseVideo && (
         <>
           <video
+            key={videoSource}
             ref={videoRef}
             className={`hero-media${isVideoReady ? ' is-ready' : ''}`}
             autoPlay
@@ -1151,6 +1194,10 @@ function HeroMedia() {
             playsInline
             preload="none"
             aria-hidden="true"
+            onLoadStart={() => {
+              setIsVideoReady(false)
+              setIsPaused(false)
+            }}
             onLoadedData={() => {
               setIsVideoReady(true)
               setIsPaused(videoRef.current?.paused ?? false)
@@ -1158,7 +1205,7 @@ function HeroMedia() {
             onPause={() => setIsPaused(true)}
             onPlay={() => setIsPaused(false)}
           >
-            <source src={heroDesktopVideo} type="video/webm" />
+            <source src={videoSource} type="video/webm" />
           </video>
           <VideoToggleButton
             className="hero-video-toggle"
@@ -1285,6 +1332,30 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeScheduleFilter, setActiveScheduleFilter] =
     useState<(typeof scheduleFilters)[number]>('Todos')
+
+  useEffect(() => {
+    let firstFrameId = 0
+    let secondFrameId = 0
+    let removeShellTimeoutId = 0
+
+    firstFrameId = window.requestAnimationFrame(() => {
+      secondFrameId = window.requestAnimationFrame(() => {
+        document.body.classList.add('app-ready')
+        removeShellTimeoutId = window.setTimeout(() => {
+          document.getElementById('initial-shell')?.remove()
+        }, 240)
+      })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(firstFrameId)
+      window.cancelAnimationFrame(secondFrameId)
+
+      if (removeShellTimeoutId) {
+        window.clearTimeout(removeShellTimeoutId)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (!isMobileMenuOpen) {

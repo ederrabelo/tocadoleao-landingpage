@@ -1600,7 +1600,7 @@ function App() {
                         src={leader.image}
                         srcSet={
                           'mobileImage' in leader
-                            ? `${leader.mobileImage} 656w, ${leader.image} ${leader.width}w`
+                            ? `${leader.mobileImage} 680w, ${leader.image} ${leader.width}w`
                             : undefined
                         }
                         sizes={leaderImageSizes}

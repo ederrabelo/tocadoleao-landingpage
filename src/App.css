@@ -65,6 +65,7 @@
   border-bottom: 0;
   background: transparent;
   box-shadow: none;
+  pointer-events: none;
 }
 
 .logo-mark {
@@ -80,6 +81,14 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.logo-mark,
+.main-nav a,
+.header-social-link,
+.mobile-menu-toggle,
+.mobile-menu {
+  pointer-events: auto;
 }
 
 .main-nav {
@@ -1894,6 +1903,7 @@
     padding: var(--mobile-nav-padding-y) var(--mobile-nav-padding-x) 36px;
     background: var(--bg);
     animation: mobile-menu-fade 180ms ease-out both;
+    pointer-events: auto;
   }
 
   .site-header.is-menu-open .logo-mark {

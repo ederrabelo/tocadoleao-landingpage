@@ -12,6 +12,7 @@ import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
 import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
 import heroDesktopVideo from './assets/hero-desktop.webm'
 import logoImage from './assets/logo.webp'
+import logoCompactImage from './assets/logo-compact.webp'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
 import mosaicThree from './assets/foto-mosaico-3.webp'
@@ -19,9 +20,11 @@ import mosaicFour from './assets/foto-mosaico-4.webp'
 import mosaicFive from './assets/foto-mosaico-5.webp'
 import storePhoto from './assets/foto-loja.webp'
 import lukasLeadership from './assets/lideranca-lukas.webp'
+import lukasLeadershipMobile from './assets/lideranca-lukas-mobile.webp'
 import yannLeadership from './assets/lideranca-yann.webp'
 import adultProgram from './assets/programa-adultos.webp'
 import kidsProgram from './assets/programa-kids.webp'
+import kidsProgramMobile from './assets/programa-kids-mobile.webp'
 import womenProgram from './assets/programa-mulheres.webp'
 import nogiProgram from './assets/programa-nogi.webp'
 import storeVideoPoster from './assets/loja-frameinicial.webp'
@@ -109,6 +112,7 @@ const programs = [
   {
     title: 'Kids',
     image: kidsProgram,
+    mobileImage: kidsProgramMobile,
     width: 1080,
     height: 1913,
     description:
@@ -472,6 +476,7 @@ const leaders = [
   {
     name: 'Lukas Andrade',
     image: lukasLeadership,
+    mobileImage: lukasLeadershipMobile,
     width: 760,
     height: 950,
     role: 'Faixa-preta de Jiu-Jitsu',
@@ -484,6 +489,14 @@ const leaders = [
     role: 'Faixa-preta de Jiu-Jitsu',
   },
 ]
+
+const logoSrcSet = `${logoCompactImage} 192w, ${logoImage} 320w`
+const logoSizes =
+  '(max-width: 420px) 98px, (max-width: 980px) 108px, (max-width: 1120px) 112px, 128px'
+const leaderImageSizes =
+  '(max-width: 640px) calc(100vw - 36px), (max-width: 980px) calc((100vw - 50px) / 2), 280px'
+const programImageSizes =
+  '(max-width: 640px) calc(100vw - 36px), (max-width: 980px) calc((100vw - 50px) / 2), 280px'
 
 const storeCategories = [
   {
@@ -1347,7 +1360,14 @@ function App() {
     <div className="site-shell">
       <header className={`site-header${isMobileMenuOpen ? ' is-menu-open' : ''}`}>
         <div className="logo-mark">
-          <img src={logoImage} alt="Toca do Leão" width="320" height="374" />
+          <img
+            src={logoCompactImage}
+            srcSet={logoSrcSet}
+            sizes={logoSizes}
+            alt="Toca do Leão"
+            width="320"
+            height="374"
+          />
         </div>
 
         <nav className="main-nav" aria-label="Menu principal">
@@ -1507,6 +1527,12 @@ function App() {
                     <div className="leadership-photo">
                       <img
                         src={leader.image}
+                        srcSet={
+                          'mobileImage' in leader
+                            ? `${leader.mobileImage} 656w, ${leader.image} ${leader.width}w`
+                            : undefined
+                        }
+                        sizes={leaderImageSizes}
                         alt={leader.name}
                         width={leader.width}
                         height={leader.height}
@@ -1540,6 +1566,12 @@ function App() {
                   <div className="program-media">
                     <img
                       src={program.image}
+                      srcSet={
+                        'mobileImage' in program
+                          ? `${program.mobileImage} 720w, ${program.image} ${program.width}w`
+                          : undefined
+                      }
+                      sizes={programImageSizes}
                       alt={program.title}
                       width={program.width}
                       height={program.height}
@@ -1920,7 +1952,9 @@ function App() {
         <div className="footer-inner">
           <img
             className="footer-logo"
-            src={logoImage}
+            src={logoCompactImage}
+            srcSet={logoSrcSet}
+            sizes="148px"
             alt="Toca do Leão Lifestyle Jiu-Jitsu"
             width="320"
             height="374"

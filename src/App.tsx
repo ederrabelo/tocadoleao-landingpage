@@ -11,8 +11,7 @@ import {
 import heroDesktopPoster from './assets/hero-desktop-frameinicial.webp'
 import heroMobilePoster from './assets/hero-mobile-frameinicial.webp'
 import heroDesktopVideo from './assets/hero-desktop.webm'
-import heroMobileVideo from './assets/hero-mobile.webm'
-import logoImage from './assets/logo.png'
+import logoImage from './assets/logo.webp'
 import mosaicOne from './assets/foto-mosaico-1.webp'
 import mosaicTwo from './assets/foto-mosaico-2.webp'
 import mosaicThree from './assets/foto-mosaico-3.webp'
@@ -110,6 +109,8 @@ const programs = [
   {
     title: 'Kids',
     image: kidsProgram,
+    width: 1080,
+    height: 1913,
     description:
       'Aulas lúdicas e progressivas para apresentar os fundamentos do Jiu-Jitsu.',
     highlights: ['Coordenação motora', 'Disciplina'],
@@ -125,6 +126,8 @@ const programs = [
   {
     title: 'Adultos',
     image: adultProgram,
+    width: 640,
+    height: 1136,
     description:
       'Turmas separadas para iniciantes e avançados, com orientação adequada ao momento de cada aluno.',
     highlights: ['Evolução técnica', 'Treino consistente'],
@@ -140,6 +143,8 @@ const programs = [
   {
     title: 'No-gi',
     image: nogiProgram,
+    width: 1080,
+    height: 1325,
     description:
       'Explore uma leitura diferente do Jiu-Jitsu em treinos dinâmicos sem kimono.',
     highlights: ['Mobilidade', 'Controle corporal'],
@@ -155,6 +160,8 @@ const programs = [
   {
     title: 'Mulheres',
     image: womenProgram,
+    width: 1080,
+    height: 1080,
     description:
       'Uma turma exclusiva para mulheres aprenderem Jiu-Jitsu com confiança, técnica e tranquilidade.',
     highlights: ['Turma 100% feminina', 'Defesa pessoal'],
@@ -465,11 +472,15 @@ const leaders = [
   {
     name: 'Lukas Andrade',
     image: lukasLeadership,
+    width: 760,
+    height: 950,
     role: 'Faixa-preta de Jiu-Jitsu',
   },
   {
     name: 'Yann Cathalat',
     image: yannLeadership,
+    width: 1080,
+    height: 844,
     role: 'Faixa-preta de Jiu-Jitsu',
   },
 ]
@@ -912,6 +923,7 @@ function RatingStars({
   return (
     <span
       className={`rating-stars${className ? ` ${className}` : ''}`}
+      role="img"
       aria-label={`${rating} de 5 estrelas`}
     >
       {Array.from({ length: 5 }, (_, index) => (
@@ -1041,6 +1053,24 @@ function usePrefersReducedMotion() {
   return prefersReducedMotion
 }
 
+function useIsDesktopViewport() {
+  const [isDesktopViewport, setIsDesktopViewport] = useState(
+    () => window.matchMedia('(min-width: 768px)').matches,
+  )
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 768px)')
+    const updateViewport = () => setIsDesktopViewport(desktopQuery.matches)
+
+    updateViewport()
+    desktopQuery.addEventListener('change', updateViewport)
+
+    return () => desktopQuery.removeEventListener('change', updateViewport)
+  }, [])
+
+  return isDesktopViewport
+}
+
 function VideoToggleButton({
   className,
   isPaused,
@@ -1065,8 +1095,10 @@ function VideoToggleButton({
 function HeroMedia() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const prefersReducedMotion = usePrefersReducedMotion()
+  const isDesktopViewport = useIsDesktopViewport()
   const [isPaused, setIsPaused] = useState(false)
   const [isVideoReady, setIsVideoReady] = useState(false)
+  const shouldUseVideo = isDesktopViewport && !prefersReducedMotion
 
   const togglePlayback = () => {
     const video = videoRef.current
@@ -1086,10 +1118,16 @@ function HeroMedia() {
     <>
       <picture className="hero-poster" aria-hidden="true">
         <source srcSet={heroDesktopPoster} media="(min-width: 768px)" />
-        <img src={heroMobilePoster} alt="" fetchPriority="high" />
+        <img
+          src={heroMobilePoster}
+          alt=""
+          width="607"
+          height="1079"
+          fetchPriority="high"
+        />
       </picture>
 
-      {!prefersReducedMotion && (
+      {shouldUseVideo && (
         <>
           <video
             ref={videoRef}
@@ -1098,7 +1136,7 @@ function HeroMedia() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
             onLoadedData={() => {
               setIsVideoReady(true)
@@ -1107,8 +1145,7 @@ function HeroMedia() {
             onPause={() => setIsPaused(true)}
             onPlay={() => setIsPaused(false)}
           >
-            <source src={heroDesktopVideo} type="video/webm" media="(min-width: 768px)" />
-            <source src={heroMobileVideo} type="video/webm" />
+            <source src={heroDesktopVideo} type="video/webm" />
           </video>
           <VideoToggleButton
             className="hero-video-toggle"
@@ -1205,7 +1242,7 @@ function LazyStoreVideo() {
           key={storeVideo}
           ref={videoRef}
           src={shouldLoad && !prefersReducedMotion ? storeVideo : undefined}
-          poster={storeVideoPoster}
+          poster={shouldLoad ? storeVideoPoster : undefined}
           autoPlay={!prefersReducedMotion}
           muted
           loop
@@ -1310,7 +1347,7 @@ function App() {
     <div className="site-shell">
       <header className={`site-header${isMobileMenuOpen ? ' is-menu-open' : ''}`}>
         <div className="logo-mark">
-          <img src={logoImage} alt="Toca do Leão" />
+          <img src={logoImage} alt="Toca do Leão" width="320" height="374" />
         </div>
 
         <nav className="main-nav" aria-label="Menu principal">
@@ -1452,7 +1489,6 @@ function App() {
                   href="#programas"
                   event="story_read_more_click"
                   source="quem_somos_ler_mais"
-                  ariaLabel="Conhecer os programas de Jiu-Jitsu da Toca do Leão"
                 >
                   Conhecer programas
                   <ArrowRightIcon />
@@ -1469,7 +1505,14 @@ function App() {
                 {leaders.map((leader) => (
                   <article className="leadership-card" key={leader.name}>
                     <div className="leadership-photo">
-                      <img src={leader.image} alt={leader.name} loading="lazy" decoding="async" />
+                      <img
+                        src={leader.image}
+                        alt={leader.name}
+                        width={leader.width}
+                        height={leader.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <div className="leadership-caption">
                         <h3>{leader.name}</h3>
                         <p>{leader.role}</p>
@@ -1495,7 +1538,14 @@ function App() {
               {programs.map((program) => (
                 <article className="program-card" key={program.title}>
                   <div className="program-media">
-                    <img src={program.image} alt={program.title} loading="lazy" decoding="async" />
+                    <img
+                      src={program.image}
+                      alt={program.title}
+                      width={program.width}
+                      height={program.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                   <div className="program-content">
                     <h3>{program.title}</h3>
@@ -1704,7 +1754,6 @@ function App() {
                     className={`button pricing-button${plan.featured ? ' button-card' : ' button-secondary'}`}
                     href={plan.href}
                     source={`${plan.source}_whatsapp`}
-                    ariaLabel={`Quero saber mais sobre o plano ${plan.name} pelo WhatsApp`}
                   >
                     Quero este plano
                   </WhatsappLink>
@@ -1727,7 +1776,14 @@ function App() {
               </p>
 
               <div className="store-product-photo">
-                <img src={storePhoto} alt="Boné da Toca Jiu-Jitsu" loading="lazy" decoding="async" />
+                <img
+                  src={storePhoto}
+                  alt="Boné da Toca Jiu-Jitsu"
+                  width="1080"
+                  height="1919"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
 
               <div className="store-categories">
@@ -1866,6 +1922,8 @@ function App() {
             className="footer-logo"
             src={logoImage}
             alt="Toca do Leão Lifestyle Jiu-Jitsu"
+            width="320"
+            height="374"
             loading="lazy"
             decoding="async"
           />

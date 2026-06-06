@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tocadoleao-landingpage.pages.dev/sitemap.xml

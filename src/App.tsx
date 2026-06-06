@@ -116,6 +116,9 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula Kids.',
     ),
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o programa Kids.',
+    ),
     scheduleLabel: 'Agendar',
     source: 'programa_kids',
   },
@@ -127,6 +130,9 @@ const programs = [
     highlights: ['Evolução técnica', 'Treino consistente'],
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula de Jiu-Jitsu para adultos.',
+    ),
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o programa Adultos.',
     ),
     scheduleLabel: 'Agendar',
     source: 'programa_adultos',
@@ -140,6 +146,9 @@ const programs = [
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula de No-gi.',
     ),
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o programa No-gi.',
+    ),
     scheduleLabel: 'Agendar',
     source: 'programa_nogi',
   },
@@ -151,6 +160,9 @@ const programs = [
     highlights: ['Turma 100% feminina', 'Defesa pessoal'],
     scheduleHref: createWhatsappUrl(
       'Olá, vim pelo site e gostaria de agendar uma aula na turma feminina.',
+    ),
+    learnHref: createWhatsappUrl(
+      'Olá, vim pelo site e gostaria de saber mais sobre o programa Mulheres.',
     ),
     scheduleLabel: 'Agendar',
     source: 'programa_mulheres',
@@ -570,11 +582,13 @@ function openMapsRoute(event: MouseEvent<HTMLAnchorElement>) {
 }
 
 function WhatsappLink({
+  ariaLabel,
   children,
   className,
   href,
   source,
 }: {
+  ariaLabel?: string
   children: ReactNode
   className: string
   href: string
@@ -586,6 +600,7 @@ function WhatsappLink({
       href={href}
       target="_blank"
       rel="noreferrer"
+      aria-label={ariaLabel}
       data-cta-source={source}
       onClick={() => trackEvent('whatsapp_click', source)}
     >
@@ -595,6 +610,7 @@ function WhatsappLink({
 }
 
 function TrackedLink({
+  ariaLabel,
   children,
   className,
   event,
@@ -603,6 +619,7 @@ function TrackedLink({
   onClick,
   source,
 }: {
+  ariaLabel?: string
   children: ReactNode
   className?: string
   event: string
@@ -617,6 +634,7 @@ function TrackedLink({
       href={href}
       target={newTab ? '_blank' : undefined}
       rel={newTab ? 'noreferrer' : undefined}
+      aria-label={ariaLabel}
       data-cta-source={source}
       onClick={(clickEvent) => {
         trackEvent(event, source)
@@ -863,20 +881,6 @@ function ArrowRightIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
-      />
-    </svg>
-  )
-}
-
-function PlusIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-      <path
-        d="M12 5v14M5 12h14"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeWidth="2.2"
       />
     </svg>
   )
@@ -1445,13 +1449,13 @@ function App() {
                 </p>
                 <TrackedLink
                   className="button button-secondary story-read-more"
-                  href="#"
+                  href="#programas"
                   event="story_read_more_click"
                   source="quem_somos_ler_mais"
-                  onClick={(event) => event.preventDefault()}
+                  ariaLabel="Conhecer os programas de Jiu-Jitsu da Toca do Leão"
                 >
-                  <PlusIcon />
-                  Ler mais
+                  Conhecer programas
+                  <ArrowRightIcon />
                 </TrackedLink>
               </div>
             </div>
@@ -1506,15 +1510,17 @@ function App() {
                         className="button program-button-schedule"
                         href={program.scheduleHref}
                         source={`${program.source}_agendar`}
+                        ariaLabel={`Agendar aula do programa ${program.title} pelo WhatsApp`}
                       >
                         {program.scheduleLabel}
                       </WhatsappLink>
                       <TrackedLink
                         className="button program-button-learn"
-                        href="#"
+                        href={program.learnHref}
                         event="program_learn_more_click"
+                        newTab
                         source={`${program.source}_saiba_mais`}
-                        onClick={(event) => event.preventDefault()}
+                        ariaLabel={`Saiba mais sobre o programa ${program.title} pelo WhatsApp`}
                       >
                         Saiba mais
                         <ArrowRightIcon />
@@ -1698,6 +1704,7 @@ function App() {
                     className={`button pricing-button${plan.featured ? ' button-card' : ' button-secondary'}`}
                     href={plan.href}
                     source={`${plan.source}_whatsapp`}
+                    ariaLabel={`Quero saber mais sobre o plano ${plan.name} pelo WhatsApp`}
                   >
                     Quero este plano
                   </WhatsappLink>

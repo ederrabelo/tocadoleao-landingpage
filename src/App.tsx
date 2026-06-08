@@ -1334,30 +1334,6 @@ function App() {
     useState<(typeof scheduleFilters)[number]>('Todos')
 
   useEffect(() => {
-    let firstFrameId = 0
-    let secondFrameId = 0
-    let removeShellTimeoutId = 0
-
-    firstFrameId = window.requestAnimationFrame(() => {
-      secondFrameId = window.requestAnimationFrame(() => {
-        document.body.classList.add('app-ready')
-        removeShellTimeoutId = window.setTimeout(() => {
-          document.getElementById('initial-shell')?.remove()
-        }, 240)
-      })
-    })
-
-    return () => {
-      window.cancelAnimationFrame(firstFrameId)
-      window.cancelAnimationFrame(secondFrameId)
-
-      if (removeShellTimeoutId) {
-        window.clearTimeout(removeShellTimeoutId)
-      }
-    }
-  }, [])
-
-  useEffect(() => {
     if (!isMobileMenuOpen) {
       return
     }

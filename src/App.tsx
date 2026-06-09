@@ -911,6 +911,21 @@ function ArrowRightIcon() {
   )
 }
 
+function ArrowLeftIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M19 12H6m5 5-5-5 5-5"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+    </svg>
+  )
+}
+
 function StarIcon({ isFilled = true }: { isFilled?: boolean }) {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
@@ -1325,13 +1340,37 @@ function LazyStoreVideo() {
   )
 }
 
-function App() {
-  const currentYear = new Date().getFullYear()
+function getNavHref(href: string, useHomeAnchors: boolean) {
+  if (useHomeAnchors && href.startsWith('#')) {
+    return `/${href}`
+  }
+
+  return href
+}
+
+function getNavSource(href: string) {
+  const source = href.replace(/^\/?#?/, '').replace(/[^a-z0-9]+/gi, '_')
+
+  return source || 'inicio'
+}
+
+function SiteHeader({
+  useHomeAnchors = false,
+  variant = 'transparent',
+}: {
+  useHomeAnchors?: boolean
+  variant?: 'transparent' | 'dark'
+}) {
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const menuToggleRef = useRef<HTMLButtonElement>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeScheduleFilter, setActiveScheduleFilter] =
-    useState<(typeof scheduleFilters)[number]>('Todos')
+  const headerClassName = [
+    'site-header',
+    variant === 'dark' ? 'site-header-dark' : '',
+    isMobileMenuOpen ? 'is-menu-open' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   useEffect(() => {
     if (!isMobileMenuOpen) {
@@ -1404,117 +1443,301 @@ function App() {
   }, [])
 
   return (
-    <div className="site-shell">
-      <header className={`site-header${isMobileMenuOpen ? ' is-menu-open' : ''}`}>
-        <div className="logo-mark">
-          <img
-            src={logoCompactImage}
-            srcSet={logoSrcSet}
-            sizes={logoSizes}
-            alt="Toca do Leão"
-            width="320"
-            height="374"
-          />
-        </div>
+    <header className={headerClassName}>
+      <div className="logo-mark">
+        <img
+          src={logoCompactImage}
+          srcSet={logoSrcSet}
+          sizes={logoSizes}
+          alt="Toca do Leão"
+          width="320"
+          height="374"
+        />
+      </div>
 
-        <nav className="main-nav" aria-label="Menu principal">
-          {navLinks.map((link) => (
+      <nav className="main-nav" aria-label="Menu principal">
+        {navLinks.map((link) => {
+          const href = getNavHref(link.href, useHomeAnchors)
+          const source = getNavSource(link.href)
+
+          return (
             <TrackedLink
               key={link.href}
-              href={link.href}
+              href={href}
               event="navigation_click"
-              source={`nav_desktop_${link.href.slice(1)}`}
+              source={`nav_desktop_${source}`}
             >
               {link.label}
             </TrackedLink>
-          ))}
-        </nav>
+          )
+        })}
+      </nav>
 
-        <div className="header-actions">
-          <TrackedLink
-            className="header-social-link"
-            href={instagramUrl}
-            event="instagram_click"
-            newTab
-            source="instagram_cabecalho"
-          >
-            <InstagramIcon />
-            <span className="sr-only">Instagram da Toca do Leão</span>
-          </TrackedLink>
-          <TrackedLink
-            className="header-social-link"
-            href={youtubeUrl}
-            event="youtube_click"
-            newTab
-            source="youtube_cabecalho"
-          >
-            <YouTubeIcon />
-            <span className="sr-only">YouTube da Toca do Leão</span>
-          </TrackedLink>
-          <button
-            ref={menuToggleRef}
-            className="mobile-menu-toggle"
-            type="button"
-            aria-controls="mobile-menu"
-            aria-expanded={isMobileMenuOpen}
-            aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
-            onClick={() => {
-              trackEvent('menu_toggle', isMobileMenuOpen ? 'fechar_menu' : 'abrir_menu')
-              setIsMobileMenuOpen((isOpen) => !isOpen)
-            }}
-          >
-            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
+      <div className="header-actions">
+        <TrackedLink
+          className="header-social-link"
+          href={instagramUrl}
+          event="instagram_click"
+          newTab
+          source="instagram_cabecalho"
+        >
+          <InstagramIcon />
+          <span className="sr-only">Instagram da Toca do Leão</span>
+        </TrackedLink>
+        <TrackedLink
+          className="header-social-link"
+          href={youtubeUrl}
+          event="youtube_click"
+          newTab
+          source="youtube_cabecalho"
+        >
+          <YouTubeIcon />
+          <span className="sr-only">YouTube da Toca do Leão</span>
+        </TrackedLink>
+        <button
+          ref={menuToggleRef}
+          className="mobile-menu-toggle"
+          type="button"
+          aria-controls="mobile-menu"
+          aria-expanded={isMobileMenuOpen}
+          aria-label={isMobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+          onClick={() => {
+            trackEvent('menu_toggle', isMobileMenuOpen ? 'fechar_menu' : 'abrir_menu')
+            setIsMobileMenuOpen((isOpen) => !isOpen)
+          }}
+        >
+          {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+        </button>
+      </div>
 
-        {isMobileMenuOpen && (
-          <div
-            ref={mobileMenuRef}
-            className="mobile-menu"
-            id="mobile-menu"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Menu de navegação"
-          >
-            <nav className="mobile-menu-nav" aria-label="Menu principal mobile">
-              {navLinks.map((link) => (
+      {isMobileMenuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="mobile-menu"
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+        >
+          <nav className="mobile-menu-nav" aria-label="Menu principal mobile">
+            {navLinks.map((link) => {
+              const href = getNavHref(link.href, useHomeAnchors)
+              const source = getNavSource(link.href)
+
+              return (
                 <TrackedLink
                   key={link.href}
-                  href={link.href}
+                  href={href}
                   event="navigation_click"
-                  source={`nav_mobile_${link.href.slice(1)}`}
+                  source={`nav_mobile_${source}`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <span>{link.label}</span>
                   <ArrowRightIcon />
                 </TrackedLink>
-              ))}
-            </nav>
-            <div className="mobile-menu-socials" aria-label="Redes sociais">
+              )
+            })}
+          </nav>
+          <div className="mobile-menu-socials" aria-label="Redes sociais">
+            <TrackedLink
+              className="mobile-menu-social-link"
+              href={instagramUrl}
+              event="instagram_click"
+              newTab
+              source="instagram_menu_mobile"
+            >
+              <InstagramIcon />
+              <span className="sr-only">Instagram da Toca do Leão</span>
+            </TrackedLink>
+            <TrackedLink
+              className="mobile-menu-social-link"
+              href={youtubeUrl}
+              event="youtube_click"
+              newTab
+              source="youtube_menu_mobile"
+            >
+              <YouTubeIcon />
+              <span className="sr-only">YouTube da Toca do Leão</span>
+            </TrackedLink>
+          </div>
+        </div>
+      )}
+    </header>
+  )
+}
+
+function SiteFooter() {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="site-footer">
+      <div className="footer-inner">
+        <img
+          className="footer-logo"
+          src={logoCompactImage}
+          srcSet={logoSrcSet}
+          sizes="148px"
+          alt="Toca do Leão Lifestyle Jiu-Jitsu"
+          width="320"
+          height="374"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="footer-copy">
+          <p>© {currentYear}. Todos os direitos reservados.</p>
+          <p>Desenvolvido por Éder Rabelo</p>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+function PlaceholderPhoto({ label }: { label: string }) {
+  return (
+    <figure className="history-photo-placeholder">
+      <div className="history-photo-frame" aria-label={label} role="img">
+        <PhotoIcon />
+        <span>{label}</span>
+      </div>
+      <figcaption>{label}</figcaption>
+    </figure>
+  )
+}
+
+function PhotoIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+      <path
+        d="M4.8 6.2h14.4c.9 0 1.6.7 1.6 1.6v8.4c0 .9-.7 1.6-1.6 1.6H4.8c-.9 0-1.6-.7-1.6-1.6V7.8c0-.9.7-1.6 1.6-1.6z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <path
+        d="m7 15 3.1-3.1 2.3 2.3 1.5-1.5 3.2 3.3"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+      <circle cx="15.9" cy="9.7" r="1.2" fill="currentColor" />
+    </svg>
+  )
+}
+
+function HistoryPage() {
+  useEffect(() => {
+    document.title = 'História da academia | Toca do Leão'
+  }, [])
+
+  return (
+    <div className="site-shell history-shell">
+      <SiteHeader variant="dark" useHomeAnchors />
+
+      <main className="history-main">
+        <article className="history-article">
+          <section className="history-article-section history-article-section-first section section-white">
+            <div className="section-inner history-report-row">
+              <div className="history-report-copy">
+                <h2>O começo</h2>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  finibus, augue vitae vulputate tristique, sapien magna luctus
+                  urna, et gravida lectus sem non sem. Aliquam erat volutpat.
+                </p>
+                <p>
+                  Nulla facilisi. Etiam in lectus sollicitudin, faucibus nisl
+                  eget, tincidunt lacus. Praesent vel elit vel turpis dictum
+                  hendrerit. Morbi ultricies turpis eu purus consectetur.
+                </p>
+                <p>
+                  Vestibulum ante ipsum primis in faucibus orci luctus et
+                  ultrices posuere cubilia curae. Curabitur vitae magna vel
+                  lorem dignissim ullamcorper.
+                </p>
+              </div>
+              <PlaceholderPhoto label="Foto 1" />
+            </div>
+          </section>
+
+          <section className="history-article-section section section-white">
+            <div className="section-inner history-report-row history-report-row-reverse">
+              <div className="history-report-copy">
+                <h2>A construção da identidade</h2>
+                <p>
+                  Phasellus tincidunt, nibh at bibendum facilisis, urna lectus
+                  pellentesque mauris, non efficitur nibh ipsum ac risus.
+                  Integer in orci gravida, tempor odio nec, luctus arcu.
+                </p>
+                <p>
+                  Cras suscipit orci ac velit rhoncus, vel laoreet massa
+                  aliquet. Proin dictum lacus id sem viverra, at porta sapien
+                  posuere. Duis mattis interdum nulla.
+                </p>
+                <p>
+                  Curabitur et urna id magna hendrerit consequat sit amet nec
+                  lectus. Suspendisse potenti. Donec non augue sit amet nibh
+                  gravida convallis.
+                </p>
+              </div>
+              <PlaceholderPhoto label="Foto 2" />
+            </div>
+          </section>
+
+          <section className="history-article-section section section-white">
+            <div className="section-inner history-report-row">
+              <div className="history-report-copy">
+                <h2>O presente e os próximos passos</h2>
+                <p>
+                  Maecenas viverra erat id purus dictum, quis placerat mi
+                  pulvinar. Vestibulum ac ipsum non est luctus efficitur sit
+                  amet sed nibh.
+                </p>
+                <p>
+                  Nunc varius, nisl sed dignissim faucibus, magna arcu porta
+                  tellus, vitae tempor ligula sem ut eros. Sed feugiat mi at
+                  libero interdum, a luctus lacus pulvinar.
+                </p>
+                <p>
+                  Aenean aliquam felis nec neque imperdiet, sit amet porta nibh
+                  finibus. Donec facilisis ligula et mauris elementum, vitae
+                  ultricies dui vulputate.
+                </p>
+              </div>
+              <PlaceholderPhoto label="Foto 3" />
+            </div>
+          </section>
+
+          <footer className="history-report-footer section section-white">
+            <div className="section-inner history-report-footer-inner">
               <TrackedLink
-                className="mobile-menu-social-link"
-                href={instagramUrl}
-                event="instagram_click"
-                newTab
-                source="instagram_menu_mobile"
+                className="button button-outline-dark history-home-link"
+                href="/"
+                event="history_home_click"
+                source="historia_final"
               >
-                <InstagramIcon />
-                <span className="sr-only">Instagram da Toca do Leão</span>
-              </TrackedLink>
-              <TrackedLink
-                className="mobile-menu-social-link"
-                href={youtubeUrl}
-                event="youtube_click"
-                newTab
-                source="youtube_menu_mobile"
-              >
-                <YouTubeIcon />
-                <span className="sr-only">YouTube da Toca do Leão</span>
+                <ArrowLeftIcon />
+                Voltar para home
               </TrackedLink>
             </div>
-          </div>
-        )}
-      </header>
+          </footer>
+        </article>
+      </main>
+
+      <SiteFooter />
+    </div>
+  )
+}
+
+function LandingPage() {
+  const [activeScheduleFilter, setActiveScheduleFilter] =
+    useState<(typeof scheduleFilters)[number]>('Todos')
+
+  return (
+    <div className="site-shell">
+      <SiteHeader />
 
       <main>
         <section id="inicio" className="hero-section" aria-label="Banner principal">
@@ -1553,11 +1776,11 @@ function App() {
                 </p>
                 <TrackedLink
                   className="button button-secondary story-read-more"
-                  href="#programas"
+                  href="/historia"
                   event="story_read_more_click"
-                  source="quem_somos_ler_mais"
+                  source="quem_somos_historia"
                 >
-                  Conhecer programas
+                  Nossa história
                   <ArrowRightIcon />
                 </TrackedLink>
               </div>
@@ -1995,27 +2218,19 @@ function App() {
 
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <img
-            className="footer-logo"
-            src={logoCompactImage}
-            srcSet={logoSrcSet}
-            sizes="148px"
-            alt="Toca do Leão Lifestyle Jiu-Jitsu"
-            width="320"
-            height="374"
-            loading="lazy"
-            decoding="async"
-          />
-          <div className="footer-copy">
-            <p>© {currentYear}. Todos os direitos reservados.</p>
-            <p>Desenvolvido por Éder Rabelo</p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   )
+}
+
+function App() {
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+
+  if (pathname === '/historia') {
+    return <HistoryPage />
+  }
+
+  return <LandingPage />
 }
 
 export default App

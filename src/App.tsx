@@ -1627,7 +1627,21 @@ function PhotoIcon() {
   )
 }
 
-function HistoryPage() {
+function scrollToCurrentHash() {
+  const hash = window.location.hash
+
+  if (!hash) {
+    return
+  }
+
+  window.requestAnimationFrame(() => {
+    const targetId = decodeURIComponent(hash.slice(1))
+
+    document.getElementById(targetId)?.scrollIntoView()
+  })
+}
+
+export function HistoryPage() {
   useEffect(() => {
     document.title = 'História da academia | Toca do Leão'
   }, [])
@@ -1731,9 +1745,14 @@ function HistoryPage() {
   )
 }
 
-function LandingPage() {
+export function LandingPage() {
   const [activeScheduleFilter, setActiveScheduleFilter] =
     useState<(typeof scheduleFilters)[number]>('Todos')
+
+  useEffect(() => {
+    document.title = 'Toca do Leão | Jiu-Jitsu em Cuiabá'
+    scrollToCurrentHash()
+  }, [])
 
   return (
     <div className="site-shell">
@@ -1776,7 +1795,7 @@ function LandingPage() {
                 </p>
                 <TrackedLink
                   className="button button-secondary story-read-more"
-                  href="/historia"
+                  href="/historia/"
                   event="story_read_more_click"
                   source="quem_somos_historia"
                 >
@@ -2222,15 +2241,3 @@ function LandingPage() {
     </div>
   )
 }
-
-function App() {
-  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
-
-  if (pathname === '/historia') {
-    return <HistoryPage />
-  }
-
-  return <LandingPage />
-}
-
-export default App
